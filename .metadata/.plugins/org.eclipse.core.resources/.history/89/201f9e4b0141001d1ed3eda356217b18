@@ -1,0 +1,56 @@
+package Conexao.Dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+
+public class ClienteDao {
+
+	private ConectaBancoDao conectabancodao = new ConectaBancoDao();
+	
+	public void inserirClientes(String nome_cliente, String cpf_cliente, String rg_cliente, String email_cliente,
+			String telefone_cliente, String endereco_cliente, String bairro_cliente, String cidade_cliente,
+			String uf_cliente, String cep_cliente) {
+		try {
+
+			String query = "insert into clientes values(null, '" + nome_cliente + "','" + cpf_cliente + "','"
+					+ rg_cliente + "','" + email_cliente + "','" + telefone_cliente + "','" + endereco_cliente + "','"
+					+ bairro_cliente + "','" + cidade_cliente + "','" + uf_cliente + "','" + cep_cliente + "');";
+			System.out.println(query);
+			conectabancodao.getStatement().execute(query);
+
+		} catch (Exception e) {
+			System.out.println("ERRO: " + e.getMessage());
+		}
+
+	}
+}
+
+//	private Connection connection = null;
+//	private java.sql.Statement statement = null;
+//
+//	public void conectar() {
+//
+//		String servidor = "jdbc:mysql://localhost/drogariaaraujo";
+//		String usuario = "root";
+//		String senha = "mysql";
+//		String driver = "com.mysql.cj.jdbc.Driver";
+//
+//		try {
+//			Class.forName(driver);
+//			this.connection = DriverManager.getConnection(servidor, usuario, senha);
+//			this.statement = this.connection.createStatement();
+//		} catch (Exception e) {
+//			System.out.println("ERRO" + e.getMessage());
+//		}
+//
+//	}
+//
+//	public boolean estaConectado() {
+//		if (this.connection != null) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//
+//	}

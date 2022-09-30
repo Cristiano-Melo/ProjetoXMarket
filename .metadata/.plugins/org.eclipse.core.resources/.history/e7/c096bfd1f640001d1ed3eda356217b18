@@ -1,0 +1,10 @@
+package Classes;
+
+public class produtos {
+	String nome_produto;
+	String quantidade_produto;
+	String valor_produtos;
+	String descricao_produto;
+
+	
+}

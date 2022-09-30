@@ -1,0 +1,5 @@
+package Conexao.Dao;
+
+public class ConectaBanco {
+
+}

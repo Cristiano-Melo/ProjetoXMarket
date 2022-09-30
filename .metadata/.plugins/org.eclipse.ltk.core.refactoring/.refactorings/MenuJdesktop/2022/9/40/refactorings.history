@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;Conexao.Dao.ConectaBanco&apos; to &apos;ConectaBancoDao&apos;&#x0D;&#x0A;- Original project: &apos;MenuJdesktop&apos;&#x0D;&#x0A;- Original element: &apos;Conexao.Dao.ConectaBanco&apos;&#x0D;&#x0A;- Renamed element: &apos;Conexao.Dao.ConectaBancoDao&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;ConectaBanco&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;Conexao.Dao{ConectaBanco.java[ConectaBanco" matchStrategy="1" name="ConectaBancoDao" qualified="false" references="true" similarDeclarations="false" stamp="1664568597181" textual="false" version="1.0"/>
+</session>

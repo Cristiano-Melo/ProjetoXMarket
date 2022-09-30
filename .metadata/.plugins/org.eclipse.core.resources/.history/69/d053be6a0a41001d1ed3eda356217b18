@@ -1,0 +1,54 @@
+package Conexao.Dao;
+
+import Models.Cliente;
+
+public class ClienteDao {
+
+	private ConectaBancoDao conectabancodao = new ConectaBancoDao();
+
+	public void inserirCliente(Cliente cliente) {
+		try {
+
+			String query = "insert into clientes values(null, '" + cliente.getNome_cliente() + "','"
+					+ cliente.getCpf_cliente() + "','" + cliente.getRg_cliente() + "','" + cliente.getEmail_cliente()
+					+ "','" + cliente.getTelefone_cliente() + "','" + cliente.getEndereco_cliente() + "','"
+					+ cliente.getBairro_cliente() + "','" + cliente.getCidade_cliente() + "','"
+					+ cliente.getUf_cliente() + "','" + cliente.getCep_cliente() + "');";
+			System.out.println(query);
+			conectabancodao.getStatement().execute(query);
+
+		} catch (Exception e) {
+			System.out.println("ERRO: " + e.getMessage());
+		}
+
+	}
+}
+
+//	private Connection connection = null;
+//	private java.sql.Statement statement = null;
+//
+//	public void conectar() {
+//
+//		String servidor = "jdbc:mysql://localhost/drogariaaraujo";
+//		String usuario = "root";
+//		String senha = "mysql";
+//		String driver = "com.mysql.cj.jdbc.Driver";
+//
+//		try {
+//			Class.forName(driver);
+//			this.connection = DriverManager.getConnection(servidor, usuario, senha);
+//			this.statement = this.connection.createStatement();
+//		} catch (Exception e) {
+//			System.out.println("ERRO" + e.getMessage());
+//		}
+//
+//	}
+//
+//	public boolean estaConectado() {
+//		if (this.connection != null) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//
+//	}
