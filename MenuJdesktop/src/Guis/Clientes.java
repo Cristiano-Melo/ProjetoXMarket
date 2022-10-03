@@ -26,7 +26,7 @@ import Models.Cliente;
 
 public class Clientes extends JInternalFrame {
 	private JTextField textFieldCodCliente;
-	private JTextField textFieldNome;
+	private static JTextField textFieldNome;
 	private JTextField textFieldCpf;
 	private JTextField textFieldEndereco;
 	private JTextField textFieldRg;
@@ -47,6 +47,7 @@ public class Clientes extends JInternalFrame {
 				try {
 					Clientes frame = new Clientes();
 					frame.setVisible(true);
+					textFieldNome.requestFocus();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -98,7 +99,7 @@ public class Clientes extends JInternalFrame {
 		textFieldNome.setBackground(new Color(225, 225, 225));
 		panel.add(textFieldNome);
 		
-		JLabel lblCpf = new JLabel("Cpf:");
+		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setBounds(525, 25, 89, 18);
 		lblCpf.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblCpf);
@@ -159,7 +160,7 @@ public class Clientes extends JInternalFrame {
 		textFieldCep.setBackground(new Color(225, 225, 225));
 		panel.add(textFieldCep);
 		
-		JLabel lblCep = new JLabel("Cep:");
+		JLabel lblCep = new JLabel("CEP:");
 		lblCep.setBounds(10, 124, 104, 20);
 		lblCep.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblCep);
@@ -187,6 +188,15 @@ public class Clientes extends JInternalFrame {
 		JButton btnGravar = new JButton("Gravar");
 		btnGravar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				System.out.println("Cliquei no botão!");
+				
+				if(validaCampos() == false) {
+					return;
+				}
+				
+				
+				
 				
 				Cliente cliente = new Cliente();
 				ClienteDao clienteDao = new ClienteDao();
@@ -238,7 +248,7 @@ public class Clientes extends JInternalFrame {
 	}
 	
 	public boolean validaCampos() {
-		String validaEmail="/^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/";
+		//String validaEmail="/^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/";
 		String nome=textFieldNome.getText();
 		String cpf=textFieldCpf.getText();
 		cpf=cpf.replace(".", "");
@@ -371,28 +381,51 @@ public class Clientes extends JInternalFrame {
 			return(false);
 		}
 		
-		if(cep.length()>8) {
-			JOptionPane.showInternalMessageDialog(null,	"Campo CEP máximo 8 posições.");
+		if(ValidaEntrada.temLetra(cep)) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo Telefone só números.");
+			textFieldCep.setText("");
 			textFieldCep.requestFocus();
 			return(false);
 		}
 		
+		if(cep.length()!=8) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo CEP deve ter 8 posições.");
+			textFieldCep.requestFocus();
+			return(false);
+		}
+		
+			
 		//Valida telefone
 		if(telefone.equals("")) {
 			JOptionPane.showInternalMessageDialog(null,	"Campo Telefone preenchimento obrigatório.");
 			textFieldTelefone.requestFocus();
 			return(false);
 		}
+		
+		if(ValidaEntrada.temLetra(telefone)) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo Telefone só números.");
+			textFieldTelefone.requestFocus();
+			return(false);
+		}
 					
-		if(telefone.length()>11) {
-			JOptionPane.showInternalMessageDialog(null,	"Campo Telefone máximo 11 números.");
+		if((telefone.length()<10)||(telefone.length()>11)) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo Telefone mínimo 10 e máximo 11 números.");
 			textFieldTelefone.requestFocus();
 			return(false);
 		}
 		
+	
+		
 		//Valida email
 		if(email.equals("")) {
 			JOptionPane.showInternalMessageDialog(null,	"Campo Email preenchimento obrigatório.");
+			textFieldEmail.requestFocus();
+			return(false);
+		}
+		
+		if(email.length()<5) {
+			JOptionPane.showInternalMessageDialog(null, "Campo Email mínimo 10 caracteres.");
+			textFieldEmail.setText("");
 			textFieldEmail.requestFocus();
 			return(false);
 		}
@@ -403,14 +436,10 @@ public class Clientes extends JInternalFrame {
 			textFieldEmail.requestFocus();
 			return(false);
 		}
-				
-		if(!email.matches(validaEmail)) {
-			JOptionPane.showInternalMessageDialog(null, "Formato Email fora do padrão(nome@provedor.xxx.xx)");
-			textFieldEmail.setText("");
-			textFieldEmail.requestFocus();
-			return(false);
-		}
-
+		
+		
+		//Validar email válido		
+		
 		
 		
 		
