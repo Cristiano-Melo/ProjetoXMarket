@@ -1,28 +1,28 @@
 package Guis;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JInternalFrame;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 
 import Conexao.Dao.ClienteDao;
 import Models.Cliente;
-
-import javax.swing.JTextField;
-import java.awt.Color;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import javax.swing.JScrollBar;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Clientes extends JInternalFrame {
 	private JTextField textFieldCodCliente;
@@ -36,6 +36,7 @@ public class Clientes extends JInternalFrame {
 	private JTable table;
 	private JTextField textFieldEmail;
 	private JTextField textFieldCidade;
+	private JComboBox comboBox_Uf = new JComboBox();
 
 	/**
 	 * Launch the application.
@@ -163,7 +164,7 @@ public class Clientes extends JInternalFrame {
 		lblCep.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblCep);
 		
-		JComboBox comboBox_Uf = new JComboBox();
+		
 		comboBox_Uf.setModel(new DefaultComboBoxModel(new String[] {"", "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"}));
 		comboBox_Uf.setBounds(599, 92, 126, 22);
 		panel.add(comboBox_Uf);
@@ -235,4 +236,187 @@ public class Clientes extends JInternalFrame {
 		panel.add(textFieldCidade);
 
 	}
+	
+	public boolean validaCampos() {
+		String validaEmail="/^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/";
+		String nome=textFieldNome.getText();
+		String cpf=textFieldCpf.getText();
+		cpf=cpf.replace(".", "");
+		cpf=cpf.replace("-", "");
+		String rg=textFieldRg.getText();
+		String email=textFieldEmail.getText();
+		String endereco=textFieldEndereco.getText();
+		String bairro=textFieldBairro.getText();
+		String cidade=textFieldCidade.getText();
+		String uf=comboBox_Uf.getSelectedItem().toString();
+		String cep;
+		cep=textFieldCep.getText().replace("-", "");
+		cep=cep.replace(".", "");
+		String telefone;
+		telefone=textFieldTelefone.getText().replace("-", "");
+		telefone=telefone.replace(".", "");
+		telefone=telefone.replace("(", "");
+		telefone=telefone.replace(")", "");
+		
+			
+		//Validação nome cliente
+		if(nome.equals("")) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo Nome preenchimento obrigatório.");
+			textFieldNome.requestFocus();
+			return(false);
+		}
+		
+		if(nome.length()>100) {
+			JOptionPane.showInternalMessageDialog(null,	"Nome do Cliente máximo de 100 posições.");
+			textFieldNome.requestFocus();
+			return(false);
+		}
+		
+		
+		//Validação cpf
+		if(cpf.equals("")) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo CPF preenchimento obrigatório.");
+			textFieldCpf.requestFocus();
+			return(false);
+		}
+		
+		if(ValidaEntrada.temLetra(cpf)) {
+			JOptionPane.showInternalMessageDialog(null, "Campo CPF somente números.");
+			textFieldCpf.setText("");
+			textFieldCpf.requestFocus();
+			return(false);
+		}
+		
+		if(cpf.length()>11) {
+			JOptionPane.showInternalMessageDialog(null, "Campo CPF máximo 11 dígitos.");
+			textFieldCpf.setText("");
+			textFieldCpf.requestFocus();
+			return(false);
+		}
+		
+		//Valida RG
+		if(rg.equals("")) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo RG preenchimento obrigatório.");
+			textFieldRg.requestFocus();
+			return(false);
+		}
+		
+		if(ValidaEntrada.temLetra(rg)) {
+			JOptionPane.showInternalMessageDialog(null, "Campo RG somente números.");
+			textFieldRg.setText("");
+			textFieldRg.requestFocus();
+			return(false);
+		}
+		
+		if(rg.length()>8) {
+			JOptionPane.showInternalMessageDialog(null, "Campo RG máximo 8 dígitos.");
+			textFieldRg.setText("");
+			textFieldRg.requestFocus();
+			return(false);
+		}
+		
+		
+		//Valida endereço
+		if(endereco.equals("")) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo Endereço preenchimento obrigatório.");
+			textFieldEndereco.requestFocus();
+			return(false);
+		}
+		
+		if(endereco.length()>255) {
+			JOptionPane.showInternalMessageDialog(null, "Campo Endereço máximo 255 caracteres.");
+			textFieldEndereco.setText("");
+			textFieldEndereco.requestFocus();
+			return(false);
+		}
+		
+		//Valida bairro
+		if(bairro.equals("")) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo Bairro preenchimento obrigatório.");
+			textFieldBairro.requestFocus();
+			return(false);
+		}
+		
+		if(bairro.length()>50) {
+			JOptionPane.showInternalMessageDialog(null, "Campo Bairro máximo 50 caracteres.");
+			textFieldBairro.setText("");
+			textFieldBairro.requestFocus();
+			return(false);
+		}
+		
+		//Valida cidade
+		if(cidade.equals("")) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo Cidade preenchimento obrigatório.");
+			textFieldCidade.requestFocus();
+			return(false);
+		}
+		
+		if(cidade.length()>50) {
+			JOptionPane.showInternalMessageDialog(null, "Campo Cidade máximo 50 caracteres.");
+			textFieldCidade.setText("");
+			textFieldCidade.requestFocus();
+			return(false);
+		}
+		
+		//Valida UF
+		if(uf.equals("")) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo UF preenchimento obrigatório.");
+			comboBox_Uf.requestFocus();
+			return(false);
+		}
+		
+		if(cep.equals("")) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo CEP preenchimento obrigatório.");
+			textFieldCep.requestFocus();
+			return(false);
+		}
+		
+		if(cep.length()>8) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo CEP máximo 8 posições.");
+			textFieldCep.requestFocus();
+			return(false);
+		}
+		
+		//Valida telefone
+		if(telefone.equals("")) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo Telefone preenchimento obrigatório.");
+			textFieldTelefone.requestFocus();
+			return(false);
+		}
+					
+		if(telefone.length()>11) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo Telefone máximo 11 números.");
+			textFieldTelefone.requestFocus();
+			return(false);
+		}
+		
+		//Valida email
+		if(email.equals("")) {
+			JOptionPane.showInternalMessageDialog(null,	"Campo Email preenchimento obrigatório.");
+			textFieldEmail.requestFocus();
+			return(false);
+		}
+		
+		if(email.length()>100) {
+			JOptionPane.showInternalMessageDialog(null, "Campo Email máximo 100 caracteres.");
+			textFieldEmail.setText("");
+			textFieldEmail.requestFocus();
+			return(false);
+		}
+				
+		if(!email.matches(validaEmail)) {
+			JOptionPane.showInternalMessageDialog(null, "Formato Email fora do padrão(nome@provedor.xxx.xx)");
+			textFieldEmail.setText("");
+			textFieldEmail.requestFocus();
+			return(false);
+		}
+
+		
+		
+		
+		return(true);
+		
+	}
+
+	
 }
