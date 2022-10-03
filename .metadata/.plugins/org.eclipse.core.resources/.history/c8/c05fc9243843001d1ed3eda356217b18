@@ -168,8 +168,7 @@ public class Produtos extends JInternalFrame {
 				
 				produto.setNome_produto(textFieldProduto.getText());
 				produto.setQuantidade_produto(textFieldQuantidade.getText());
-				produto.setValor_compra_produto(textFieldCompra.getText());
-				produto.setValor_venda_produto(textFieldVenda.getText());
+				produto.setValor_produto(textFieldVenda.getText());
 				produto.setDescricao_produto(textFieldDescricao.getText());
 				
 				produtoDao.inserirProduto(produto);		
