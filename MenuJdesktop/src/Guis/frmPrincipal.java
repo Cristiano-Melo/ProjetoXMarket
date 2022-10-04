@@ -117,6 +117,7 @@ public class frmPrincipal extends JFrame {
 		menuBar.add(mnProcessos);
 
 		JMenuItem mntmPedidos = new JMenuItem("Pedidos");
+		mntmPedidos.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/icons8-verificar-100.png")));
 		mntmPedidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carregarPedidos();
@@ -126,6 +127,7 @@ public class frmPrincipal extends JFrame {
 		mnProcessos.add(mntmPedidos);
 
 		JMenuItem mntmFaturamento = new JMenuItem("Faturamento");
+		mntmFaturamento.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
 		mntmFaturamento.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		mnProcessos.add(mntmFaturamento);
 
@@ -133,6 +135,18 @@ public class frmPrincipal extends JFrame {
 		mnConsultas.setForeground(new Color(0, 0, 0));
 		mnConsultas.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnConsultas);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Clientes");
+		mntmNewMenuItem_1.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/cliente.png")));
+		mnConsultas.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Produtos");
+		mntmNewMenuItem_2.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/produtos.png")));
+		mnConsultas.add(mntmNewMenuItem_2);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Pedidos");
+		mntmNewMenuItem_3.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/icons8-verificar-100.png")));
+		mnConsultas.add(mntmNewMenuItem_3);
 
 		JMenu mnRelatorio = new JMenu("Relatorios");
 		mnRelatorio.addActionListener(new ActionListener() {
@@ -142,6 +156,14 @@ public class frmPrincipal extends JFrame {
 		mnRelatorio.setForeground(new Color(0, 0, 0));
 		mnRelatorio.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnRelatorio);
+		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Vendas");
+		mntmNewMenuItem_4.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
+		mnRelatorio.add(mntmNewMenuItem_4);
+		
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Gerencial");
+		mntmNewMenuItem_5.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/icons8-verificar-100.png")));
+		mnRelatorio.add(mntmNewMenuItem_5);
 
 		JMenu mnNewMenu_4 = new JMenu("Ajuda");
 		mnNewMenu_4.setForeground(new Color(0, 0, 0));
@@ -163,8 +185,11 @@ public class frmPrincipal extends JFrame {
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(desktopPanePrincipal, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1309, Short.MAX_VALUE)
 				.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 1309, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(desktopPanePrincipal, GroupLayout.DEFAULT_SIZE, 1309, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -208,28 +233,40 @@ public class frmPrincipal extends JFrame {
 		toolBar.add(btnNewButton);
 		
 		JButton btnConsultas = new JButton("Consultas");
+		btnConsultas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
 		btnConsultas.setBackground(new Color(255, 255, 255));
 		btnConsultas.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/lupa.png")));
 		btnConsultas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnConsultas);
 		
 		JButton btnRelatorios = new JButton("Relatorios");
+		btnRelatorios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
 		btnRelatorios.setBackground(new Color(255, 255, 255));
 		btnRelatorios.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
 		btnRelatorios.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnRelatorios);
-		
-		JButton btnAjuda = new JButton("Ajuda");
-		btnAjuda.setBackground(new Color(255, 255, 255));
-		btnAjuda.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/chamada-de-ajuda.png")));
-		btnAjuda.setFont(new Font("Tahoma", Font.BOLD, 14));
-		toolBar.add(btnAjuda);
 		
 		JButton btnContatos = new JButton("Contatos");
 		btnContatos.setBackground(new Color(255, 255, 255));
 		btnContatos.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/contato.png")));
 		btnContatos.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnContatos);
+		
+		JButton btnAjuda = new JButton("Ajuda");
+		btnAjuda.setBackground(new Color(255, 255, 255));
+		btnAjuda.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/chamada-de-ajuda.png")));
+		btnAjuda.setFont(new Font("Tahoma", Font.BOLD, 14));
+		toolBar.add(btnAjuda);
 		contentPane.setLayout(gl_contentPane);
 
 	}
