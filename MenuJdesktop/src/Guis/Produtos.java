@@ -134,9 +134,11 @@ public class Produtos extends JInternalFrame {
 		lblCodMarca.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblCodMarca.setBounds(420, 60, 89, 20);
 		panel.add(lblCodMarca);
-		comboBox_CodMarca.setModel(
-				new DefaultComboBoxModel(new String[] {"", "001", "002", "003", "004", "005"}));
-		comboBox_CodMarca.setBounds(498, 60, 55, 22);
+
+		JComboBox comboBox_CodMarca = new JComboBox();
+		comboBox_CodMarca.setEditable(true);
+		comboBox_CodMarca.setModel(new DefaultComboBoxModel(new String[] {"", "1", "2", "3", "4", "4", "5", "6", "7", "8", "9", "10"}));
+		comboBox_CodMarca.setBounds(506, 60, 46, 22);
 		panel.add(comboBox_CodMarca);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -174,9 +176,10 @@ public class Produtos extends JInternalFrame {
 				produto.setValor_compra_produto(textFieldCompra.getText());
 				produto.setValor_venda_produto(textFieldVenda.getText());
 				produto.setDescricao_produto(textFieldDescricao.getText());
-
-				produtoDao.inserirProduto(produto);
-
+				produto.setCod_marca_pedidoString(comboBox_CodMarca.getSelectedItem().toString());
+				
+				produtoDao.inserirProduto(produto);		
+				
 			}
 		});
 		btnNewButton.setBounds(222, 287, 89, 23);

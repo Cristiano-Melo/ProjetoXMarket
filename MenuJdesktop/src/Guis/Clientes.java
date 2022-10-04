@@ -83,6 +83,7 @@ public class Clientes extends JInternalFrame {
 		panel.add(lblCodCliente);
 		
 		textFieldCodCliente = new JTextField();
+		textFieldCodCliente.setEditable(false);
 		textFieldCodCliente.setBounds(101, 25, 55, 20);
 		textFieldCodCliente.setColumns(10);
 		textFieldCodCliente.setBackground(new Color(225, 225, 225));
