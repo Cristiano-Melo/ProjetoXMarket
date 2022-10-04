@@ -12,5 +12,23 @@ public class ValidaEntrada {
 		}
 		return (false);
 	}
+	
+	public static boolean isFloat(String valor) {
+		try {
+			Float.parseFloat(valor);
+			return(true);
+		}catch(Exception e){
+			return(false);
+		}
+	}
+	
+	public static boolean isInt(String valor) {
+		try {
+			Integer.parseInt(valor);
+			return(true);
+		}catch(Exception e){
+			return(false);
+		}
+	}
 
 }

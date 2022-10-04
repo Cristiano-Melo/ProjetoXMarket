@@ -220,6 +220,20 @@ public class Clientes extends JInternalFrame {
 		panel.add(btnGravar);
 		
 		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldNome.setText("");
+				textFieldCpf.setText("");
+				textFieldRg.setText("");
+				textFieldEmail.setText("");
+				textFieldEndereco.setText("");
+				textFieldBairro.setText("");
+				textFieldCidade.setText("");
+				comboBox_Uf.setSelectedItem("");
+				textFieldCep.setText("");
+				textFieldTelefone.setText("");
+			}
+		});
 		btnLimpar.setBounds(407, 286, 89, 23);
 		panel.add(btnLimpar);
 		
@@ -375,6 +389,8 @@ public class Clientes extends JInternalFrame {
 			return(false);
 		}
 		
+		
+		//Valida cep
 		if(cep.equals("")) {
 			JOptionPane.showInternalMessageDialog(null,	"Campo CEP preenchimento obrigatório.");
 			textFieldCep.requestFocus();
@@ -423,20 +439,14 @@ public class Clientes extends JInternalFrame {
 			return(false);
 		}
 		
-		if(email.length()<5) {
-			JOptionPane.showInternalMessageDialog(null, "Campo Email mínimo 10 caracteres.");
+		if((email.length()<5)||(email.length()>100)) {
+			JOptionPane.showInternalMessageDialog(null, "Campo Email mínimo 10 e máximo 100 caracteres.");
 			textFieldEmail.setText("");
 			textFieldEmail.requestFocus();
 			return(false);
 		}
 		
-		if(email.length()>100) {
-			JOptionPane.showInternalMessageDialog(null, "Campo Email máximo 100 caracteres.");
-			textFieldEmail.setText("");
-			textFieldEmail.requestFocus();
-			return(false);
-		}
-		
+	
 		
 		//Validar email válido		
 		
