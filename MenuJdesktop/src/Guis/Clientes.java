@@ -453,8 +453,6 @@ public class Clientes extends JInternalFrame {
 		
 		//Teste de atualização GIT
 		
-		//Teste do André
-		
 		
 		return(true);
 		
