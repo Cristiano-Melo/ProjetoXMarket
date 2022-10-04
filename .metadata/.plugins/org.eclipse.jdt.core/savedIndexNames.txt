@@ -1,3 +1,0 @@
-INDEX VERSION 1.131+C:\Users\00787663\Desktop\ProjetoXMarket\.metadata\.plugins\org.eclipse.jdt.core
-1245835978.index
-1865797976.index
