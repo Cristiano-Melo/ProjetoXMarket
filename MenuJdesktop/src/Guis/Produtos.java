@@ -113,7 +113,6 @@ public class Produtos extends JInternalFrame {
 		panel.add(lblPrecoC);
 		
 		textFieldCompra = new JTextField();
-		textFieldCompra.setEditable(false);
 		textFieldCompra.setColumns(10);
 		textFieldCompra.setBackground(new Color(225, 225, 225));
 		textFieldCompra.setBounds(116, 60, 77, 20);
@@ -136,7 +135,7 @@ public class Produtos extends JInternalFrame {
 		panel.add(lblCodMarca);
 		
 		JComboBox comboBox_CodMarca = new JComboBox();
-		comboBox_CodMarca.setEnabled(false);
+		comboBox_CodMarca.setEditable(true);
 		comboBox_CodMarca.setModel(new DefaultComboBoxModel(new String[] {"", "1", "2", "3", "4", "4", "5", "6", "7", "8", "9", "10"}));
 		comboBox_CodMarca.setBounds(506, 60, 46, 22);
 		panel.add(comboBox_CodMarca);
@@ -171,6 +170,7 @@ public class Produtos extends JInternalFrame {
 				produto.setValor_compra_produto(textFieldCompra.getText());
 				produto.setValor_venda_produto(textFieldVenda.getText());
 				produto.setDescricao_produto(textFieldDescricao.getText());
+				produto.setCod_marca_pedidoString(comboBox_CodMarca.getSelectedItem().toString());
 				
 				produtoDao.inserirProduto(produto);		
 				

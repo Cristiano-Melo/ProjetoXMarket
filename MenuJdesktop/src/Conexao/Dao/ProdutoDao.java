@@ -11,7 +11,7 @@ public class ProdutoDao {
 
 			String query = "insert into produtos values(null, '" + produto.getNome_produto() + "','"
 					+ produto.getQuantidade_produto() + "','" + produto.getValor_compra_produto() + "','"
-					+ produto.getValor_venda_produto() + "','" + produto.getDescricao_produto() + "');";
+					+ produto.getValor_venda_produto() + "','" + produto.getDescricao_produto() + "','" + produto.getCod_marca_pedidoString() + "');";
 			System.out.println(query);
 			conectabancodao.getStatement().execute(query);
 
