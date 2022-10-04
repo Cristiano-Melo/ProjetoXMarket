@@ -22,4 +22,13 @@ public class ClienteDao {
 		}
 
 	}
+	
+	public void pesquisarTodosClientes() {
+		try {
+			String query = "select * from clientes;";
+			conectabancodao.getStatement().execute(query);
+		} catch (Exception e) {
+			System.out.println("ERRO: " + e.getMessage());
+		}
+	}
 }
