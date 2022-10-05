@@ -23,7 +23,6 @@ import javax.swing.border.BevelBorder;
 
 import Conexao.Dao.ClienteDao;
 import Models.Cliente;
-import Models.ValidaCampos;
 
 public class Clientes extends JInternalFrame {
 	private JTextField textFieldCodCliente;
@@ -84,7 +83,6 @@ public class Clientes extends JInternalFrame {
 		panel.add(lblCodCliente);
 		
 		textFieldCodCliente = new JTextField();
-		textFieldCodCliente.setEditable(false);
 		textFieldCodCliente.setBounds(101, 25, 55, 20);
 		textFieldCodCliente.setColumns(10);
 		textFieldCodCliente.setBackground(new Color(225, 225, 225));
@@ -196,16 +194,11 @@ public class Clientes extends JInternalFrame {
 				if(validaCampos() == false) {
 					return;
 				}
-				
-				
+								
 				Cliente cliente = new Cliente();
-				ClienteDao clienteDao = new ClienteDao();
-				ValidaCampos valida = new ValidaCampos(); 
+				ClienteDao clienteDao = new ClienteDao();				
 				
-				
-				valida.setNome_cliente(textFieldNome.getText());
-				valida.validaNome_cliente();
-				
+				cliente.setNome_cliente(textFieldNome.getText());
 				cliente.setCpf_cliente(textFieldCep.getText());
 				cliente.setRg_cliente(textFieldRg.getText());
 				cliente.setEmail_cliente(textFieldEmail.getText());
@@ -263,15 +256,22 @@ public class Clientes extends JInternalFrame {
 		textFieldCidade.setBounds(358, 92, 192, 20);
 		panel.add(textFieldCidade);
 		
-		JButton btnGravar_1 = new JButton("Gravar");
-		btnGravar_1.addActionListener(new ActionListener() {
+		JButton btnDeletar = new JButton("Deletar");
+		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ClienteDao clientedao = new ClienteDao();
+				Cliente cliente = new Cliente();				
+				cliente.setCod_cliente(textFieldCodCliente.getText());
 				
+				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					clientedao.deletarClientePorId(cliente);
+				}
 				
 			}
 		});
-		btnGravar_1.setBounds(190, 286, 89, 23);
-		panel.add(btnGravar_1);
+		btnDeletar.setBounds(190, 286, 89, 23);
+		panel.add(btnDeletar);
 
 	}
 	

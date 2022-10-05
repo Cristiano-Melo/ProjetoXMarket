@@ -1,6 +1,8 @@
 package Models;
 
 public class Cliente {
+	String cod_cliente;
+
 	String nome_cliente;
 	String cpf_cliente;
 	String rg_cliente;
@@ -31,6 +33,14 @@ public class Cliente {
 		
 	}
 
+	public String getCod_cliente() {
+		return cod_cliente;
+	}
+	
+	public void setCod_cliente(String cod_cliente) {
+		this.cod_cliente = cod_cliente;
+	}
+	
 	public String getNome_cliente() {
 		return nome_cliente;
 	}

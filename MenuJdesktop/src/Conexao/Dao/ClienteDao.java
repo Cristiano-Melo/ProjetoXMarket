@@ -34,7 +34,7 @@ public class ClienteDao {
 		}
 	}
 	
-	public void listarCliente(Cliente cliente) {
+	public void listarClientePorNome(Cliente cliente) {
 		try {
 			String query = "select * from clientes where nome_cliente like %'"+cliente.getNome_cliente()+"'%"; 
 			System.out.println(query);
@@ -44,5 +44,15 @@ public class ClienteDao {
 			}
 		}
 	
-	public void 
+	public void deletarClientePorId(Cliente cliente) {
+		try {
+			String query = "delete from clientes where cod_cliente = '"+cliente.getCod_cliente()+"';"; 
+			System.out.println(query);
+			conectabancodao.getStatement().execute(query);
+			
+		} catch (Exception e) {
+			System.out.println("ERRO: " + e.getMessage());
+		}
+	}
+	
 }
