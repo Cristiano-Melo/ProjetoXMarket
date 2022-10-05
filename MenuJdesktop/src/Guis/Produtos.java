@@ -135,9 +135,8 @@ public class Produtos extends JInternalFrame {
 		lblCodMarca.setBounds(420, 60, 89, 20);
 		panel.add(lblCodMarca);
 
-		JComboBox comboBox_CodMarca = new JComboBox();
-		comboBox_CodMarca.setEditable(true);
-		comboBox_CodMarca.setModel(new DefaultComboBoxModel(new String[] {"", "1", "2", "3", "4", "4", "5", "6", "7", "8", "9", "10"}));
+		
+		comboBox_CodMarca.setModel(new DefaultComboBoxModel(new String[] {"", "001", "002", "003", "004", "005", "006"}));
 		comboBox_CodMarca.setBounds(506, 60, 46, 22);
 		panel.add(comboBox_CodMarca);
 
@@ -163,6 +162,9 @@ public class Produtos extends JInternalFrame {
 		JButton btnNewButton = new JButton("Gravar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String xmarca=comboBox_CodMarca.getSelectedItem().toString();
+				
+				System.out.println("Conteudo do campo: ["+xmarca+"]\n");
 				
 				if(validaCampos() == false) {
 					return;

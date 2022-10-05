@@ -376,7 +376,6 @@ public class Clientes extends JInternalFrame {
 	}
 	
 	public boolean validaCampos() {
-		//String validaEmail="/^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/";
 		String nome=textFieldNome.getText();
 		String cpf=textFieldCpf.getText();
 		cpf=cpf.replace(".", "");
@@ -560,12 +559,13 @@ public class Clientes extends JInternalFrame {
 			return(false);
 		}
 		
-	
+		if(!email.matches("^[A-za-z0-9_]+@+[A-za-z0-9]+\\.[A-za-z]{3}$|^[A-za-z0-9_]+@+[A-za-z0-9]+\\.[A-za-z]{3}\\.[A-Za-z]{2}$")){
+			JOptionPane.showInternalMessageDialog(null, "Email inválido! Formatos: fulano@empresa.com ou fulano@empresa.com.br");
+			textFieldEmail.requestFocus();
+			return(false);
+		}
 		
-		//Validar email válido		
-		
-		//Teste de atualização GIT
-		
+
 		
 		return(true);
 		
