@@ -1,5 +1,7 @@
 package Conexao.Dao;
 
+import java.security.PublicKey;
+
 import Models.Cliente;
 
 public class ClienteDao {
@@ -20,6 +22,21 @@ public class ClienteDao {
 		} catch (Exception e) {
 			System.out.println("ERRO: " + e.getMessage());
 		}
-
 	}
+
+	public void listarTodosClientes() {
+		try {
+			String query = "select * from clientes;";
+			System.out.println(query);
+			conectabancodao.getStatement().execute(query);
+		} catch (Exception e) {
+			System.out.println("ERRO: " + e.getMessage());
+		}
+	}
+	
+	public void listarCliente() {
+		try {
+			String query = "select * from clientes where='" + cliente.get"' "
+			}
+		}
 }

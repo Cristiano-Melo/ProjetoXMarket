@@ -23,6 +23,7 @@ import javax.swing.border.BevelBorder;
 
 import Conexao.Dao.ClienteDao;
 import Models.Cliente;
+import Models.ValidaCampos;
 
 public class Clientes extends JInternalFrame {
 	private JTextField textFieldCodCliente;
@@ -197,12 +198,13 @@ public class Clientes extends JInternalFrame {
 				}
 				
 				
-				
-				
 				Cliente cliente = new Cliente();
 				ClienteDao clienteDao = new ClienteDao();
+				ValidaCampos valida = new ValidaCampos(); 
 				
-				cliente.setNome_cliente(textFieldNome.getText());
+				
+				valida.setNome_cliente(textFieldNome.getText());
+				valida.validaNome_cliente();
 				cliente.setCpf_cliente(textFieldCep.getText());
 				cliente.setRg_cliente(textFieldRg.getText());
 				cliente.setEmail_cliente(textFieldEmail.getText());
@@ -217,7 +219,7 @@ public class Clientes extends JInternalFrame {
 				
 			}
 		});
-		btnGravar.setBounds(227, 286, 89, 23);
+		btnGravar.setBounds(82, 286, 89, 23);
 		panel.add(btnGravar);
 		
 		JButton btnLimpar = new JButton("Limpar");
@@ -259,6 +261,16 @@ public class Clientes extends JInternalFrame {
 		textFieldCidade.setBackground(new Color(225, 225, 225));
 		textFieldCidade.setBounds(358, 92, 192, 20);
 		panel.add(textFieldCidade);
+		
+		JButton btnGravar_1 = new JButton("Gravar");
+		btnGravar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		btnGravar_1.setBounds(190, 286, 89, 23);
+		panel.add(btnGravar_1);
 
 	}
 	
@@ -457,6 +469,4 @@ public class Clientes extends JInternalFrame {
 		return(true);
 		
 	}
-
-	
 }
