@@ -2,11 +2,13 @@ package Conexao.Dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class ConectaBancoDao {
 	private Connection connection = null;
 	private java.sql.Statement statement = null;
+	private ResultSet resultset = null;
 	
 	public ConectaBancoDao() {
 		 conectar();
@@ -45,4 +47,14 @@ public class ConectaBancoDao {
 	public Statement getStatement() {
 		return this.statement;
 	}
-}
+	
+	public ResultSet getResultSet() {
+		return this.resultset;
+	}
+
+	public void setResultset(ResultSet resultset) {
+		this.resultset = resultset;
+	}
+
+	
+	}

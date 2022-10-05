@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -20,9 +23,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
+import javax.swing.table.DefaultTableModel;
 
 import Conexao.Dao.ClienteDao;
 import Models.Cliente;
+
 
 public class Clientes extends JInternalFrame {
 	private JTextField textFieldCodCliente;
@@ -38,6 +43,7 @@ public class Clientes extends JInternalFrame {
 	private JTextField textFieldCidade;
 	private JComboBox comboBox_Uf = new JComboBox();
 
+	DefaultTableModel model;
 	/**
 	 * Launch the application.
 	 */
@@ -181,6 +187,30 @@ public class Clientes extends JInternalFrame {
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				int contador = table.getSelectedRow();
+				textFieldCodCliente.setText(model.getValueAt(contador, 0).toString());
+				textFieldNome.setText(model.getValueAt(contador, 1).toString());
+				textFieldCpf.setText(model.getValueAt(contador, 2).toString());
+				textFieldRg.setText(model.getValueAt(contador, 3).toString());
+				textFieldEmail.setText(model.getValueAt(contador, 4).toString());
+				textFieldTelefone.setText(model.getValueAt(contador, 5).toString());
+				textFieldEndereco.setText(model.getValueAt(contador, 6).toString());
+				textFieldBairro.setText(model.getValueAt(contador, 7).toString());
+				textFieldCidade.setText(model.getValueAt(contador, 8).toString());
+//				comboBox_Uf.setSelectedItem().toString(model.getValueAt(contador, 9).toString()));
+				textFieldCep.setText(model.getValueAt(contador, 10).toString());
+			}
+		});
+		
+		model = new DefaultTableModel();
+		Object[] colunn = {"Codigo","Nome", "CPF", "RG","Email","Telefone", "Endereço", "Bairro","Cidade","UF","CEP"};
+		Object[] row = new Object[11];
+		model.setColumnIdentifiers(colunn);
+		table.setModel(model);
 		
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
@@ -213,7 +243,7 @@ public class Clientes extends JInternalFrame {
 				
 			}
 		});
-		btnGravar.setBounds(82, 286, 89, 23);
+		btnGravar.setBounds(12, 286, 89, 23);
 		panel.add(btnGravar);
 		
 		JButton btnLimpar = new JButton("Limpar");
@@ -231,7 +261,7 @@ public class Clientes extends JInternalFrame {
 				textFieldTelefone.setText("");
 			}
 		});
-		btnLimpar.setBounds(407, 286, 89, 23);
+		btnLimpar.setBounds(343, 286, 89, 23);
 		panel.add(btnLimpar);
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
@@ -270,8 +300,78 @@ public class Clientes extends JInternalFrame {
 				
 			}
 		});
-		btnDeletar.setBounds(190, 286, 89, 23);
+		btnDeletar.setBounds(233, 286, 89, 23);
 		panel.add(btnDeletar);
+		
+		JButton btnBuscar = new JButton("Buscar Todos");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ClienteDao clientedao = new ClienteDao();
+								
+				if (model.getRowCount() != 0) {
+					   model.setRowCount(0);
+				}
+				
+				clientedao.listarTodosClientes();
+				
+				ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+				listaDeClientes = clientedao.listarTodosClientes();
+				
+				for(Cliente contador:listaDeClientes) {
+					row[0] = contador.getCod_cliente(); ;
+					row[1] = contador.getNome_cliente();
+					row[2] = contador.getCpf_cliente();
+					row[3] = contador.getRg_cliente();
+					row[4] = contador.getEmail_cliente();
+					row[5] = contador.getTelefone_cliente();
+					row[6] = contador.getEndereco_cliente();
+					row[7] = contador.getBairro_cliente();
+					row[8] = contador.getCidade_cliente();
+					row[9] = contador.getUf_cliente();
+					row[10] = contador.getCep_cliente();
+					model.addRow(row);
+				}
+				
+			}
+		});
+		btnBuscar.setBounds(124, 286, 99, 23);
+		panel.add(btnBuscar);
+		
+		JButton btnPesquisa = new JButton("Pesquisar por Nome");
+		btnPesquisa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Cliente cliente = new Cliente();
+				ClienteDao clientedao = new ClienteDao();
+				
+				if (model.getRowCount() != 0) {
+					   model.setRowCount(0);
+				}
+				String nome = JOptionPane.showInputDialog("Informe o Nome: ");
+				
+				ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+				listaDeClientes = clientedao.listarClientePorNome(nome);
+				
+				for(Cliente contador:listaDeClientes) {
+					row[0] = contador.getCod_cliente();
+					row[1] = contador.getNome_cliente();
+					row[2] = contador.getCpf_cliente();
+					row[3] = contador.getRg_cliente();
+					row[4] = contador.getEmail_cliente();
+					row[5] = contador.getTelefone_cliente();
+					row[6] = contador.getEndereco_cliente();
+					row[7] = contador.getBairro_cliente();
+					row[8] = contador.getCidade_cliente();
+					row[9] = contador.getUf_cliente();
+					row[10] = contador.getCep_cliente();
+					model.addRow(row);
+				}
+				
+			}
+		});
+		btnPesquisa.setBounds(451, 286, 132, 23);
+		panel.add(btnPesquisa);
 
 	}
 	
