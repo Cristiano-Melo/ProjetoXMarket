@@ -18,15 +18,18 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
+import javax.swing.JRadioButton;
 
 public class Pedidos extends JInternalFrame {
-	private JTextField textFieldCod;
-	private JTextField textFieldProduto;
-	private JTextField textFieldQuantidade;
+	private JTextField textFieldCpf;
+	private JTextField textFieldNomeCliente;
+	private JTextField textFieldData;
 	private JTextField textFieldCompra;
-	private JTextField textFieldCompra_1;
 	private JTable table;
 	private JTextField textFieldViewMarca;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -60,10 +63,10 @@ public class Pedidos extends JInternalFrame {
 		setBounds(100, 100, 769, 417);
 		getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Pedidos");
+		JLabel lblNewLabel = new JLabel("Pedidos/Orçamentos");
 		lblNewLabel.setForeground(new Color(255, 0, 0));
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 24));
-		lblNewLabel.setBounds(302, 0, 154, 48);
+		lblNewLabel.setBounds(250, 0, 259, 48);
 		getContentPane().add(lblNewLabel);
 
 		JPanel panel = new JPanel();
@@ -72,76 +75,48 @@ public class Pedidos extends JInternalFrame {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
-		JLabel lblCodProduto = new JLabel("Cod:");
-		lblCodProduto.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCodProduto.setBounds(23, 15, 46, 20);
-		panel.add(lblCodProduto);
+		JLabel lblClienteCpf = new JLabel("Cliente CPF:");
+		lblClienteCpf.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblClienteCpf.setBounds(23, 41, 94, 20);
+		panel.add(lblClienteCpf);
 
-		textFieldCod = new JTextField();
-		textFieldCod.setBackground(new Color(225, 225, 225));
-		textFieldCod.setBounds(61, 15, 86, 20);
-		panel.add(textFieldCod);
-		textFieldCod.setColumns(10);
+		textFieldCpf = new JTextField();
+		textFieldCpf.setBackground(new Color(225, 225, 225));
+		textFieldCpf.setBounds(99, 41, 120, 20);
+		panel.add(textFieldCpf);
+		textFieldCpf.setColumns(10);
 
-		textFieldProduto = new JTextField();
-		textFieldProduto.setColumns(10);
-		textFieldProduto.setBackground(new Color(225, 225, 225));
-		textFieldProduto.setBounds(240, 13, 288, 20);
-		panel.add(textFieldProduto);
+		textFieldNomeCliente = new JTextField();
+		textFieldNomeCliente.setColumns(10);
+		textFieldNomeCliente.setBackground(new Color(225, 225, 225));
+		textFieldNomeCliente.setBounds(229, 41, 348, 20);
+		panel.add(textFieldNomeCliente);
 
-		JLabel lblProduto = new JLabel("Produto:");
-		lblProduto.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblProduto.setBounds(179, 15, 63, 20);
-		panel.add(lblProduto);
+		JLabel lblData = new JLabel("Data:");
+		lblData.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblData.setBounds(587, 42, 39, 18);
+		panel.add(lblData);
 
-		JLabel lblQuantidade = new JLabel("Quantidade:");
-		lblQuantidade.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblQuantidade.setBounds(538, 15, 89, 18);
-		panel.add(lblQuantidade);
-
-		textFieldQuantidade = new JTextField();
-		textFieldQuantidade.setColumns(10);
-		textFieldQuantidade.setBackground(new Color(225, 225, 225));
-		textFieldQuantidade.setBounds(627, 13, 89, 20);
-		panel.add(textFieldQuantidade);
-
-		JLabel lblPrecoC = new JLabel("Preço Compra:");
-		lblPrecoC.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblPrecoC.setBounds(23, 72, 104, 20);
-		panel.add(lblPrecoC);
+		textFieldData = new JTextField();
+		textFieldData.setColumns(10);
+		textFieldData.setBackground(new Color(225, 225, 225));
+		textFieldData.setBounds(627, 39, 89, 20);
+		panel.add(textFieldData);
 
 		textFieldCompra = new JTextField();
 		textFieldCompra.setEditable(false);
 		textFieldCompra.setColumns(10);
 		textFieldCompra.setBackground(new Color(225, 225, 225));
-		textFieldCompra.setBounds(116, 72, 77, 20);
+		textFieldCompra.setBounds(109, 72, 46, 20);
 		panel.add(textFieldCompra);
 
-		JLabel lblPrecoV = new JLabel("Preço Venda:");
-		lblPrecoV.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblPrecoV.setBounds(203, 72, 89, 20);
-		panel.add(lblPrecoV);
-
-		textFieldCompra_1 = new JTextField();
-		textFieldCompra_1.setEditable(false);
-		textFieldCompra_1.setColumns(10);
-		textFieldCompra_1.setBackground(new Color(225, 225, 225));
-		textFieldCompra_1.setBounds(290, 72, 77, 20);
-		panel.add(textFieldCompra_1);
-
-		JLabel lblCodMarca = new JLabel("Cod_Marca:");
+		JLabel lblCodMarca = new JLabel("Quantidade:");
 		lblCodMarca.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCodMarca.setBounds(420, 72, 89, 20);
+		lblCodMarca.setBounds(546, 72, 80, 20);
 		panel.add(lblCodMarca);
 
-		JComboBox comboBox_CodMarca = new JComboBox();
-		comboBox_CodMarca.setModel(
-				new DefaultComboBoxModel(new String[] { "", "1", "2", "3", "4", "4", "5", "6", "7", "8", "9", "10" }));
-		comboBox_CodMarca.setBounds(506, 72, 46, 22);
-		panel.add(comboBox_CodMarca);
-
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(23, 124, 693, 147);
+		scrollPane.setBounds(23, 101, 693, 142);
 		panel.add(scrollPane);
 
 		table = new JTable();
@@ -154,17 +129,59 @@ public class Pedidos extends JInternalFrame {
 
 		textFieldViewMarca = new JTextField();
 		textFieldViewMarca.setBackground(new Color(225, 225, 225));
-		textFieldViewMarca.setBounds(587, 73, 129, 20);
+		textFieldViewMarca.setBounds(627, 73, 89, 20);
 		panel.add(textFieldViewMarca);
 		textFieldViewMarca.setColumns(10);
 
 		JButton btnNewButton = new JButton("Gravar");
-		btnNewButton.setBounds(222, 287, 89, 23);
+		btnNewButton.setBounds(259, 287, 89, 23);
 		panel.add(btnNewButton);
 
 		JButton btnLimpar = new JButton("Limpar");
-		btnLimpar.setBounds(402, 287, 89, 23);
+		btnLimpar.setBounds(382, 287, 89, 23);
 		panel.add(btnLimpar);
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Pedido");
+		rdbtnNewRadioButton.setBounds(290, 7, 90, 23);
+		panel.add(rdbtnNewRadioButton);
+		
+		JRadioButton rdbtnOramento = new JRadioButton("Orçamento");
+		rdbtnOramento.setBounds(382, 7, 109, 23);
+		panel.add(rdbtnOramento);
+		
+		JLabel lblPeoduto = new JLabel("Produto Cod:");
+		lblPeoduto.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPeoduto.setBounds(23, 72, 94, 20);
+		panel.add(lblPeoduto);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBackground(new Color(225, 225, 225));
+		textField.setBounds(165, 72, 371, 20);
+		panel.add(textField);
+		
+		JLabel lblQtdItens = new JLabel("Qtd Itens:");
+		lblQtdItens.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblQtdItens.setBounds(23, 254, 94, 20);
+		panel.add(lblQtdItens);
+		
+		textField_1 = new JTextField();
+		textField_1.setEditable(false);
+		textField_1.setColumns(10);
+		textField_1.setBackground(new Color(225, 225, 225));
+		textField_1.setBounds(99, 254, 46, 20);
+		panel.add(textField_1);
+		
+		JLabel lblValorTotal = new JLabel("Valor Total:");
+		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblValorTotal.setBounds(546, 254, 80, 20);
+		panel.add(lblValorTotal);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBackground(new Color(225, 225, 225));
+		textField_2.setBounds(627, 255, 89, 20);
+		panel.add(textField_2);
 
 	}
 }

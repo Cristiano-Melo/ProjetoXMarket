@@ -34,9 +34,15 @@ public class ClienteDao {
 		}
 	}
 	
-	public void listarCliente() {
+	public void listarCliente(Cliente cliente) {
 		try {
-			String query = "select * from clientes where='" + cliente.get"' "
+			String query = "select * from clientes where nome_cliente like %'"+cliente.getNome_cliente()+"'%"; 
+			System.out.println(query);
+			conectabancodao.getStatement().execute(query);
+			}catch (Exception e) {
+				System.out.println("ERRO: " + e.getMessage());
 			}
 		}
+	
+	public void 
 }

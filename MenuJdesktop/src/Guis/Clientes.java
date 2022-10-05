@@ -205,6 +205,7 @@ public class Clientes extends JInternalFrame {
 				
 				valida.setNome_cliente(textFieldNome.getText());
 				valida.validaNome_cliente();
+				
 				cliente.setCpf_cliente(textFieldCep.getText());
 				cliente.setRg_cliente(textFieldRg.getText());
 				cliente.setEmail_cliente(textFieldEmail.getText());
