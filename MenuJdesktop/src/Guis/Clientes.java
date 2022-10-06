@@ -201,7 +201,7 @@ public class Clientes extends JInternalFrame {
 				textFieldEndereco.setText(model.getValueAt(contador, 6).toString());
 				textFieldBairro.setText(model.getValueAt(contador, 7).toString());
 				textFieldCidade.setText(model.getValueAt(contador, 8).toString());
-//				comboBox_Uf.setSelectedItem().toString(model.getValueAt(contador, 9).toString()));
+//				comboBox_Uf.setSelectedItem(aaHint).toString(model.getValueAt(contador, 9).toString());
 				textFieldCep.setText(model.getValueAt(contador, 10).toString());
 			}
 		});
@@ -372,6 +372,33 @@ public class Clientes extends JInternalFrame {
 		});
 		btnPesquisa.setBounds(451, 286, 132, 23);
 		panel.add(btnPesquisa);
+		
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ClienteDao clientedao = new ClienteDao();
+				Cliente cliente = new Cliente();				
+				cliente.setCod_cliente(textFieldCodCliente.getText());
+				cliente.setNome_cliente(textFieldNome.getText());
+				cliente.setCpf_cliente(textFieldCep.getText());
+				cliente.setRg_cliente(textFieldRg.getText());
+				cliente.setEmail_cliente(textFieldEmail.getText());
+				cliente.setTelefone_cliente(textFieldTelefone.getText());
+				cliente.setEndereco_cliente(textFieldEndereco.getText());
+				cliente.setBairro_cliente(textFieldBairro.getText());
+				cliente.setCidade_cliente(textFieldCidade.getText());
+				cliente.setUf_cliente(comboBox_Uf.getSelectedItem().toString());
+				cliente.setCep_cliente(textFieldCep.getText());
+				
+				if (JOptionPane.showConfirmDialog(null, "Tem certeza que deseja realizar esta alteração no cadastro?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					clientedao.alterarClientePorId(cliente);
+				}
+			}
+		});
+		btnAlterar.setBounds(593, 286, 89, 23);
+		panel.add(btnAlterar);
 
 	}
 	

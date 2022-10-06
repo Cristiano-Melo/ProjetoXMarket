@@ -1,4 +1,5 @@
 package Guis;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -19,17 +20,19 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Pedidos extends JInternalFrame {
 	private JTextField textFieldCpf;
 	private JTextField textFieldNomeCliente;
 	private JTextField textFieldData;
-	private JTextField textFieldCompra;
+	private JTextField textFieldProdutoCod;
 	private JTable table;
-	private JTextField textFieldViewMarca;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textFieldQuantidade;
+	private JTextField textFieldCampoDescricaoCod;
+	private JTextField textFieldQtdItens;
+	private JTextField textFieldValorTotal;
 
 	/**
 	 * Launch the application.
@@ -58,7 +61,7 @@ public class Pedidos extends JInternalFrame {
 			e.printStackTrace();
 		}
 		setClosable(true);
-		setFrameIcon(new ImageIcon(Pedidos.class.getResource("/Icones/produtos.png")));
+		setFrameIcon(new ImageIcon(Pedidos.class.getResource("/Icones/relatorio.png")));
 		setTitle("Gestão de Pedidos");
 		setBounds(100, 100, 769, 417);
 		getContentPane().setLayout(null);
@@ -103,17 +106,17 @@ public class Pedidos extends JInternalFrame {
 		textFieldData.setBounds(627, 39, 89, 20);
 		panel.add(textFieldData);
 
-		textFieldCompra = new JTextField();
-		textFieldCompra.setEditable(false);
-		textFieldCompra.setColumns(10);
-		textFieldCompra.setBackground(new Color(225, 225, 225));
-		textFieldCompra.setBounds(109, 72, 46, 20);
-		panel.add(textFieldCompra);
+		textFieldProdutoCod = new JTextField();
+		textFieldProdutoCod.setEditable(false);
+		textFieldProdutoCod.setColumns(10);
+		textFieldProdutoCod.setBackground(new Color(225, 225, 225));
+		textFieldProdutoCod.setBounds(109, 72, 46, 20);
+		panel.add(textFieldProdutoCod);
 
-		JLabel lblCodMarca = new JLabel("Quantidade:");
-		lblCodMarca.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCodMarca.setBounds(546, 72, 80, 20);
-		panel.add(lblCodMarca);
+		JLabel lblQuantidade = new JLabel("Quantidade:");
+		lblQuantidade.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblQuantidade.setBounds(546, 72, 80, 20);
+		panel.add(lblQuantidade);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(23, 101, 693, 142);
@@ -127,61 +130,74 @@ public class Pedidos extends JInternalFrame {
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
 
-		textFieldViewMarca = new JTextField();
-		textFieldViewMarca.setBackground(new Color(225, 225, 225));
-		textFieldViewMarca.setBounds(627, 73, 89, 20);
-		panel.add(textFieldViewMarca);
-		textFieldViewMarca.setColumns(10);
+		textFieldQuantidade = new JTextField();
+		textFieldQuantidade.setBackground(new Color(225, 225, 225));
+		textFieldQuantidade.setBounds(627, 73, 89, 20);
+		panel.add(textFieldQuantidade);
+		textFieldQuantidade.setColumns(10);
 
 		JButton btnNewButton = new JButton("Gravar");
 		btnNewButton.setBounds(259, 287, 89, 23);
 		panel.add(btnNewButton);
 
 		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldCpf.setText("");
+				textFieldNomeCliente.setText("");
+				textFieldData.setText("");
+				textFieldProdutoCod.setText("");
+				textFieldQuantidade.setText("");
+				textFieldCampoDescricaoCod.setText("");
+				textFieldQtdItens.setText("");
+				textFieldValorTotal.setText("");
+
+			}
+		});
 		btnLimpar.setBounds(382, 287, 89, 23);
 		panel.add(btnLimpar);
-		
+
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Pedido");
 		rdbtnNewRadioButton.setBounds(290, 7, 90, 23);
 		panel.add(rdbtnNewRadioButton);
-		
+
 		JRadioButton rdbtnOramento = new JRadioButton("Orçamento");
 		rdbtnOramento.setBounds(382, 7, 109, 23);
 		panel.add(rdbtnOramento);
-		
-		JLabel lblPeoduto = new JLabel("Produto Cod:");
-		lblPeoduto.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblPeoduto.setBounds(23, 72, 94, 20);
-		panel.add(lblPeoduto);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBackground(new Color(225, 225, 225));
-		textField.setBounds(165, 72, 371, 20);
-		panel.add(textField);
-		
+
+		JLabel lblProduto = new JLabel("Produto Cod:");
+		lblProduto.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblProduto.setBounds(23, 72, 94, 20);
+		panel.add(lblProduto);
+
+		textFieldCampoDescricaoCod = new JTextField();
+		textFieldCampoDescricaoCod.setColumns(10);
+		textFieldCampoDescricaoCod.setBackground(new Color(225, 225, 225));
+		textFieldCampoDescricaoCod.setBounds(165, 72, 371, 20);
+		panel.add(textFieldCampoDescricaoCod);
+
 		JLabel lblQtdItens = new JLabel("Qtd Itens:");
 		lblQtdItens.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblQtdItens.setBounds(23, 254, 94, 20);
 		panel.add(lblQtdItens);
-		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBackground(new Color(225, 225, 225));
-		textField_1.setBounds(99, 254, 46, 20);
-		panel.add(textField_1);
-		
+
+		textFieldQtdItens = new JTextField();
+		textFieldQtdItens.setEditable(false);
+		textFieldQtdItens.setColumns(10);
+		textFieldQtdItens.setBackground(new Color(225, 225, 225));
+		textFieldQtdItens.setBounds(99, 254, 46, 20);
+		panel.add(textFieldQtdItens);
+
 		JLabel lblValorTotal = new JLabel("Valor Total:");
 		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblValorTotal.setBounds(546, 254, 80, 20);
 		panel.add(lblValorTotal);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBackground(new Color(225, 225, 225));
-		textField_2.setBounds(627, 255, 89, 20);
-		panel.add(textField_2);
+
+		textFieldValorTotal = new JTextField();
+		textFieldValorTotal.setColumns(10);
+		textFieldValorTotal.setBackground(new Color(225, 225, 225));
+		textFieldValorTotal.setBounds(627, 255, 89, 20);
+		panel.add(textFieldValorTotal);
 
 	}
 }
