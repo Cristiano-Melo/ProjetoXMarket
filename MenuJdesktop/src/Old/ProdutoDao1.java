@@ -13,7 +13,7 @@ public class ProdutoDao {
 
 			String query = "insert into produtos values(null, '" + produto.getNome_produto() + "','"
 					+ produto.getQuantidade_produto() + "','" + produto.getValor_compra_produto() + "','"
-					+ produto.getValor_venda_produto() + "','" + produto.getDescricao_produto() + "','" + produto.getCod_marca_produto() + "');";
+					+ produto.getValor_venda_produto() + "','" + produto.getDescricao_produto() + "','" + produto.getCod_marca_pedido() + "');";
 			System.out.println(query);
 			conectabancodao.getStatement().execute(query);
 
@@ -42,7 +42,7 @@ public class ProdutoDao {
 				produto.setValor_compra_produto(conectabancodao.getResultSet().getString("valor_compra_produto"));
 				produto.setValor_venda_produto(conectabancodao.getResultSet().getString("valor_venda_produto"));
 				produto.setDescricao_produto(conectabancodao.getResultSet().getString("descricao_produto"));
-				produto.setCod_marca_produto(conectabancodao.getResultSet().getString("cod_marca_produto"));
+				produto.setCod_marca_pedido(conectabancodao.getResultSet().getString("cod_marca_produto"));
 
 				listaDeProdutos.add(produto);
 			}
@@ -71,7 +71,7 @@ public class ProdutoDao {
 				produto.setValor_compra_produto(conectabancodao.getResultSet().getString("valor_compra_produto"));
 				produto.setValor_venda_produto(conectabancodao.getResultSet().getString("valor_venda_produto"));
 				produto.setDescricao_produto(conectabancodao.getResultSet().getString("descricao_produto"));
-				produto.setCod_marca_produto(conectabancodao.getResultSet().getString("cod_marca_produto"));
+				produto.setCod_marca_pedido(conectabancodao.getResultSet().getString("cod_marca_produto"));
 
 				listaDeProdutos.add(produto); // por fim pegamos o objeto cliente criado acima e alocamos ele dentro de um Array para listar futuramente no Scroll Pane
 			}
@@ -101,8 +101,8 @@ public class ProdutoDao {
 					+ "',valor_compra_produto='" + produto.getValor_compra_produto() 
 					+ "',valor_venda_produto='"+ produto.getValor_venda_produto() 
 					+ "',descricao_produto='"+ produto.getDescricao_produto()
-					+ "',cod_marca_produto='" + produto.getCod_marca_produto()
-					+ "'  where cod_cliente= '" + produto.getId_produto() + "';";
+					+ "',cod_marca_produto='" + produto.getCod_marca_pedido()
+					+ "'  where cod_produto= '" + produto.getId_produto() + "';";
 			System.out.println(query);
 			conectabancodao.getStatement().execute(query);
 		} catch (Exception e) {

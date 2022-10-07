@@ -6,9 +6,6 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -24,11 +21,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
-import javax.swing.table.DefaultTableModel;
 
-import Conexao.Dao.ClienteDao;
 import Conexao.Dao.ProdutoDao;
-import Models.Cliente;
 import Models.Produto;
 
 public class Produtos extends JInternalFrame {
@@ -41,8 +35,6 @@ public class Produtos extends JInternalFrame {
 	private JTextField textFieldViewMarca;
 	private JTextField textFieldDescricao;
 	JComboBox comboBox_CodMarca = new JComboBox();;
-	
-	DefaultTableModel model;
 
 	/**
 	 * Launch the application.
@@ -154,24 +146,6 @@ public class Produtos extends JInternalFrame {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				int contador = table.getSelectedRow();
-				textFieldCod.setText(model.getValueAt(contador, 0).toString());
-				textFieldProduto.setText(model.getValueAt(contador, 1).toString());
-				
-			}
-		});
-		
-		model = new DefaultTableModel();
-		Object[] colunn = {"Codigo","Produto", "Quantidade", "Preço compra", "Preço venda", "Código marca", "Descrição"};
-		Object[] row = new Object[7];
-		model.setColumnIdentifiers(colunn);
-		table.setModel(model);
-		
 		table.setBackground(UIManager.getColor("Button.light"));
 		table.setForeground(SystemColor.activeCaption);
 
@@ -204,13 +178,13 @@ public class Produtos extends JInternalFrame {
 				produto.setValor_compra_produto(textFieldCompra.getText());
 				produto.setValor_venda_produto(textFieldVenda.getText());
 				produto.setDescricao_produto(textFieldDescricao.getText());
-				produto.setCod_marca_produto(comboBox_CodMarca.getSelectedItem().toString());
+				produto.setCod_marca_pedidoString(comboBox_CodMarca.getSelectedItem().toString());
 				
 				produtoDao.inserirProduto(produto);		
 				
 			}
 		});
-		btnNewButton.setBounds(23, 287, 89, 23);
+		btnNewButton.setBounds(222, 287, 89, 23);
 		panel.add(btnNewButton);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -223,12 +197,10 @@ public class Produtos extends JInternalFrame {
 				textFieldCompra.setText("");
 				textFieldVenda.setText("");
 				textFieldDescricao.setText("");
-				comboBox_CodMarca.setSelectedItem("");	
-				((DefaultTableModel) model).setRowCount(0);
-				
+				comboBox_CodMarca.setSelectedItem("");
 			}
 		});
-		btnLimpar.setBounds(138, 287, 89, 23);
+		btnLimpar.setBounds(402, 287, 89, 23);
 		panel.add(btnLimpar);
 
 		JLabel lblDescricao = new JLabel("Descrição:");
@@ -241,108 +213,6 @@ public class Produtos extends JInternalFrame {
 		textFieldDescricao.setBackground(new Color(225, 225, 225));
 		textFieldDescricao.setBounds(92, 93, 624, 20);
 		panel.add(textFieldDescricao);
-		
-		JButton btnListarTudo = new JButton("Listar Tudo");
-		btnListarTudo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				ProdutoDao produtodao = new ProdutoDao();
-				
-				if (model.getRowCount() != 0) {
-					   model.setRowCount(0);
-				}
-				
-				produtodao.listarTodosProdutos();
-				
-				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
-				listaDeProdutos = produtodao.listarTodosProdutos();
-				
-				for(Produto contador:listaDeProdutos) {
-					row[0] = contador.getId_produto(); 
-					row[1] = contador.getNome_produto();
-					row[2] = contador.getQuantidade_produto();
-					row[3] = contador.getValor_compra_produto();
-					row[4] = contador.getValor_venda_produto();
-					row[5] = contador.getCod_marca_produto();
-					row[6] = contador.getDescricao_produto();
-					
-					model.addRow(row);
-				}
-			}
-		});
-		btnListarTudo.setBounds(358, 287, 119, 23);
-		panel.add(btnListarTudo);
-		
-		JButton btnListarNome = new JButton("Listar por nome");
-		btnListarNome.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				Produto produto = new Produto();
-				ProdutoDao produtodao = new ProdutoDao();
-				
-				if (model.getRowCount() != 0) {
-					   model.setRowCount(0);
-				}
-				String nome = JOptionPane.showInputDialog("Informe o Nome: ");
-				
-				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
-				listaDeProdutos = produtodao.listarProdutoPorNome(nome);
-				
-				for(Produto contador:listaDeProdutos) {
-					row[0] = contador.getId_produto(); 
-					row[1] = contador.getNome_produto();
-					row[2] = contador.getQuantidade_produto();
-					row[3] = contador.getValor_compra_produto();
-					row[4] = contador.getValor_venda_produto();
-					row[5] = contador.getCod_marca_produto();
-					row[6] = contador.getDescricao_produto();
-					
-					model.addRow(row);
-				}
-			}
-		});
-		btnListarNome.setBounds(497, 287, 120, 23);
-		panel.add(btnListarNome);
-		
-		JButton btnAlterar = new JButton("Alterar");
-		btnAlterar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ProdutoDao produtodao = new ProdutoDao();
-				Produto produto = new Produto();				
-				
-				produto.setId_produto(textFieldCod.getText());
-				produto.setNome_produto(textFieldProduto.getText());
-				produto.setQuantidade_produto(textFieldQuantidade.getText());
-				produto.setValor_compra_produto(textFieldCompra.getText());
-				produto.setValor_venda_produto(textFieldVenda.getText());
-				produto.setDescricao_produto(textFieldDescricao.getText());
-				produto.setCod_marca_produto(comboBox_CodMarca.getSelectedItem().toString());
-				
-				
-				if (JOptionPane.showConfirmDialog(null, "Tem certeza que deseja realizar esta alteração no cadastro?", "SIM",
-						JOptionPane.YES_NO_OPTION) == 0) {
-					produtodao.alterarProdutoPorId(produto);
-				}
-			}
-		});
-		btnAlterar.setBounds(627, 287, 89, 23);
-		panel.add(btnAlterar);
-		
-		JButton btnDeletar = new JButton("Deletar");
-		btnDeletar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ProdutoDao produtodao = new ProdutoDao();
-				Produto produto = new Produto();				
-				produto.setId_produto(textFieldCod.getText());
-				
-				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
-						JOptionPane.YES_NO_OPTION) == 0) {
-					produtodao.deletarProdutoPorId(produto);
-				}
-			}
-		});
-		btnDeletar.setBounds(248, 287, 89, 23);
-		panel.add(btnDeletar);
 
 	}
 
@@ -452,4 +322,5 @@ public class Produtos extends JInternalFrame {
 		return (true);
 
 	}
+
 }

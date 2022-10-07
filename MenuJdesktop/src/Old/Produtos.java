@@ -204,13 +204,13 @@ public class Produtos extends JInternalFrame {
 				produto.setValor_compra_produto(textFieldCompra.getText());
 				produto.setValor_venda_produto(textFieldVenda.getText());
 				produto.setDescricao_produto(textFieldDescricao.getText());
-				produto.setCod_marca_produto(comboBox_CodMarca.getSelectedItem().toString());
+				produto.setCod_marca_pedido(comboBox_CodMarca.getSelectedItem().toString());
 				
 				produtoDao.inserirProduto(produto);		
 				
 			}
 		});
-		btnNewButton.setBounds(23, 287, 89, 23);
+		btnNewButton.setBounds(82, 287, 89, 23);
 		panel.add(btnNewButton);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -228,7 +228,7 @@ public class Produtos extends JInternalFrame {
 				
 			}
 		});
-		btnLimpar.setBounds(138, 287, 89, 23);
+		btnLimpar.setBounds(203, 287, 89, 23);
 		panel.add(btnLimpar);
 
 		JLabel lblDescricao = new JLabel("Descrição:");
@@ -263,14 +263,14 @@ public class Produtos extends JInternalFrame {
 					row[2] = contador.getQuantidade_produto();
 					row[3] = contador.getValor_compra_produto();
 					row[4] = contador.getValor_venda_produto();
-					row[5] = contador.getCod_marca_produto();
+					row[5] = contador.getCod_marca_pedido();
 					row[6] = contador.getDescricao_produto();
 					
 					model.addRow(row);
 				}
 			}
 		});
-		btnListarTudo.setBounds(358, 287, 119, 23);
+		btnListarTudo.setBounds(318, 287, 119, 23);
 		panel.add(btnListarTudo);
 		
 		JButton btnListarNome = new JButton("Listar por nome");
@@ -294,14 +294,14 @@ public class Produtos extends JInternalFrame {
 					row[2] = contador.getQuantidade_produto();
 					row[3] = contador.getValor_compra_produto();
 					row[4] = contador.getValor_venda_produto();
-					row[5] = contador.getCod_marca_produto();
+					row[5] = contador.getCod_marca_pedido();
 					row[6] = contador.getDescricao_produto();
 					
 					model.addRow(row);
 				}
 			}
 		});
-		btnListarNome.setBounds(497, 287, 120, 23);
+		btnListarNome.setBounds(455, 287, 120, 23);
 		panel.add(btnListarNome);
 		
 		JButton btnAlterar = new JButton("Alterar");
@@ -316,7 +316,7 @@ public class Produtos extends JInternalFrame {
 				produto.setValor_compra_produto(textFieldCompra.getText());
 				produto.setValor_venda_produto(textFieldVenda.getText());
 				produto.setDescricao_produto(textFieldDescricao.getText());
-				produto.setCod_marca_produto(comboBox_CodMarca.getSelectedItem().toString());
+				produto.setCod_marca_pedido(comboBox_CodMarca.getSelectedItem().toString());
 				
 				
 				if (JOptionPane.showConfirmDialog(null, "Tem certeza que deseja realizar esta alteração no cadastro?", "SIM",
@@ -325,24 +325,8 @@ public class Produtos extends JInternalFrame {
 				}
 			}
 		});
-		btnAlterar.setBounds(627, 287, 89, 23);
+		btnAlterar.setBounds(597, 287, 89, 23);
 		panel.add(btnAlterar);
-		
-		JButton btnDeletar = new JButton("Deletar");
-		btnDeletar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ProdutoDao produtodao = new ProdutoDao();
-				Produto produto = new Produto();				
-				produto.setId_produto(textFieldCod.getText());
-				
-				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
-						JOptionPane.YES_NO_OPTION) == 0) {
-					produtodao.deletarProdutoPorId(produto);
-				}
-			}
-		});
-		btnDeletar.setBounds(248, 287, 89, 23);
-		panel.add(btnDeletar);
 
 	}
 

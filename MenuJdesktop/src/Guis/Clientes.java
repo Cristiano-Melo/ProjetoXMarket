@@ -89,6 +89,7 @@ public class Clientes extends JInternalFrame {
 		panel.add(lblCodCliente);
 		
 		textFieldCodCliente = new JTextField();
+		textFieldCodCliente.setEditable(false);
 		textFieldCodCliente.setBounds(101, 25, 55, 20);
 		textFieldCodCliente.setColumns(10);
 		textFieldCodCliente.setBackground(new Color(225, 225, 225));
@@ -201,7 +202,7 @@ public class Clientes extends JInternalFrame {
 				textFieldEndereco.setText(model.getValueAt(contador, 6).toString());
 				textFieldBairro.setText(model.getValueAt(contador, 7).toString());
 				textFieldCidade.setText(model.getValueAt(contador, 8).toString());
-//				comboBox_Uf.setSelectedItem(aaHint).toString(model.getValueAt(contador, 9).toString());
+				comboBox_Uf.setSelectedItem(model.getValueAt(contador, 9).toString());
 				textFieldCep.setText(model.getValueAt(contador, 10).toString());
 			}
 		});
@@ -229,7 +230,7 @@ public class Clientes extends JInternalFrame {
 				ClienteDao clienteDao = new ClienteDao();				
 				
 				cliente.setNome_cliente(textFieldNome.getText());
-				cliente.setCpf_cliente(textFieldCep.getText());
+				cliente.setCpf_cliente(textFieldCpf.getText());
 				cliente.setRg_cliente(textFieldRg.getText());
 				cliente.setEmail_cliente(textFieldEmail.getText());
 				cliente.setTelefone_cliente(textFieldTelefone.getText());
@@ -240,6 +241,7 @@ public class Clientes extends JInternalFrame {
 				cliente.setCep_cliente(textFieldCep.getText());
 					
 				clienteDao.inserirCliente(cliente);
+				JOptionPane.showMessageDialog(btnGravar, "Cliente cadastrado com sucesso!");
 				
 			}
 		});
@@ -249,6 +251,8 @@ public class Clientes extends JInternalFrame {
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				((DefaultTableModel) model).setRowCount(0);
+				textFieldCodCliente.setText("");
 				textFieldNome.setText("");
 				textFieldCpf.setText("");
 				textFieldRg.setText("");
