@@ -2,7 +2,6 @@ package Conexao.Dao;
 
 import java.util.ArrayList;
 
-import Models.Cliente;
 import Models.ItemPedido;
 import Models.Pedido;
 
