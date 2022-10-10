@@ -36,11 +36,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.DropMode;
 
 public class Pedidos extends JInternalFrame {
 	private JTextField textFieldCpf;
 	private JTextField textFieldNomeCliente;
-	private JTextField textFieldData;
 	private JTextField textFieldProdutoCod;
 	private JTable table;
 	private JTextField textFieldQuantidade;
@@ -49,6 +49,7 @@ public class Pedidos extends JInternalFrame {
 	private JTextField textFieldValorTotal;
 
 	DefaultTableModel model;
+	private JTextField textFieldCodCliente;
 	
 	/**
 	 * Launch the application.
@@ -108,19 +109,8 @@ public class Pedidos extends JInternalFrame {
 		textFieldNomeCliente = new JTextField();
 		textFieldNomeCliente.setColumns(10);
 		textFieldNomeCliente.setBackground(new Color(225, 225, 225));
-		textFieldNomeCliente.setBounds(229, 41, 348, 20);
+		textFieldNomeCliente.setBounds(229, 41, 318, 20);
 		panel.add(textFieldNomeCliente);
-
-		JLabel lblData = new JLabel("Data:");
-		lblData.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblData.setBounds(587, 42, 39, 18);
-		panel.add(lblData);
-
-		textFieldData = new JTextField();
-		textFieldData.setColumns(10);
-		textFieldData.setBackground(new Color(225, 225, 225));
-		textFieldData.setBounds(627, 39, 89, 20);
-		panel.add(textFieldData);
 
 		textFieldProdutoCod = new JTextField();
 		textFieldProdutoCod.setColumns(10);
@@ -130,16 +120,17 @@ public class Pedidos extends JInternalFrame {
 		
 		JComboBox comboBoxCondicaoPagamento = new JComboBox();
 		comboBoxCondicaoPagamento.setModel(new DefaultComboBoxModel(new String[] {"", "Dinheiro", "Pix", "Débito", "Credito"}));
-		comboBoxCondicaoPagamento.setBounds(141, 8, 94, 22);
+		comboBoxCondicaoPagamento.setBounds(174, 7, 94, 22);
 		panel.add(comboBoxCondicaoPagamento);
 		
 		JLabel lblNewLabel_1 = new JLabel("Condição de Pagamento");
-		lblNewLabel_1.setBounds(20, 11, 125, 14);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1.setBounds(20, 11, 173, 14);
 		panel.add(lblNewLabel_1);
 
 		JLabel lblQuantidade = new JLabel("Quantidade:");
 		lblQuantidade.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblQuantidade.setBounds(493, 71, 80, 20);
+		lblQuantidade.setBounds(479, 71, 80, 20);
 		panel.add(lblQuantidade);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -173,7 +164,7 @@ public class Pedidos extends JInternalFrame {
 
 		textFieldQuantidade = new JTextField();
 		textFieldQuantidade.setBackground(new Color(225, 225, 225));
-		textFieldQuantidade.setBounds(574, 72, 89, 20);
+		textFieldQuantidade.setBounds(559, 72, 54, 20);
 		panel.add(textFieldQuantidade);
 		textFieldQuantidade.setColumns(10);
 
@@ -214,7 +205,6 @@ public class Pedidos extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				textFieldCpf.setText("");
 				textFieldNomeCliente.setText("");
-				textFieldData.setText("");
 				textFieldProdutoCod.setText("");
 				textFieldQuantidade.setText("");
 				textFieldCampoDescricaoCod.setText("");
@@ -242,7 +232,7 @@ public class Pedidos extends JInternalFrame {
 		textFieldCampoDescricaoCod = new JTextField();
 		textFieldCampoDescricaoCod.setColumns(10);
 		textFieldCampoDescricaoCod.setBackground(new Color(225, 225, 225));
-		textFieldCampoDescricaoCod.setBounds(165, 72, 318, 20);
+		textFieldCampoDescricaoCod.setBounds(165, 72, 312, 20);
 		panel.add(textFieldCampoDescricaoCod);
 
 		JLabel lblQtdItens = new JLabel("Qtd Itens:");
@@ -267,23 +257,49 @@ public class Pedidos extends JInternalFrame {
 		textFieldValorTotal.setBounds(627, 255, 89, 20);
 		panel.add(textFieldValorTotal);
 		
-		JButton btnInserir = new JButton("+");
-		btnInserir.addActionListener(new ActionListener() {
+		JLabel lblCodigo = new JLabel("Codigo:");
+		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCodigo.setBounds(557, 41, 54, 20);
+		panel.add(lblCodigo);
+		
+		textFieldCodCliente = new JTextField();
+		textFieldCodCliente.setColumns(10);
+		textFieldCodCliente.setBackground(new Color(225, 225, 225));
+		textFieldCodCliente.setBounds(608, 41, 46, 20);
+		panel.add(textFieldCodCliente);
+		
+		JButton btnPesquisaCliente = new JButton("Pesquisar Cliente");
+		btnPesquisaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				int contador = model.getRowCount()+1;
-				textFieldQtdItens.setText(String.valueOf(contador));
+				Cliente cliente = new Cliente();
+				ClienteDao clienteDao = new ClienteDao();
 				
-				row[0] = textFieldProdutoCod.getText();
-				row[1] = "AQUI ENTRA A CONSULTA DO BANCO";
-				row[2] = textFieldQuantidade.getText();
+				String cpf = JOptionPane.showInputDialog("Informe o CPF do Cliente: ");
+				cliente = clienteDao.listarClientePorCpf(cpf);
 				
-				model.addRow(row);
+				textFieldCodCliente.setText(cliente.getCod_cliente());
+				textFieldNomeCliente.setText(cliente.getNome_cliente());
+				textFieldCpf.setText(cliente.getCpf_cliente());				
 				
 			}
 		});
-		btnInserir.setBounds(673, 71, 46, 23);
-		panel.add(btnInserir);
+		btnPesquisaCliente.setBounds(672, 41, 46, 23);
+		panel.add(btnPesquisaCliente);
+		
+		JButton btnInserir_1 = new JButton("+");
+		btnInserir_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnInserir_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnInserir_1.setBounds(672, 72, 44, 23);
+		panel.add(btnInserir_1);
+		
+		JButton btnInserir_1_1 = new JButton("-");
+		btnInserir_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnInserir_1_1.setBounds(618, 72, 44, 23);
+		panel.add(btnInserir_1_1);
 
 	}
 }
