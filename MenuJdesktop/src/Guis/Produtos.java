@@ -365,12 +365,12 @@ public class Produtos extends JInternalFrame {
 //			return (false);
 //		}
 
-		if (ValidaEntrada.temLetra(codigo)) {
-			JOptionPane.showInternalMessageDialog(null, "Campo Codigo somente números.");
-			textFieldCod.setText("");
-			textFieldCod.requestFocus();
-			return (false);
-		}
+//		if (ValidaEntrada.temLetra(codigo)) {
+//			JOptionPane.showInternalMessageDialog(null, "Campo Codigo somente números.");
+//			textFieldCod.setText("");
+//			textFieldCod.requestFocus();
+//			return (false);
+//		}
 
 		// Validação nome produto
 		if (produto.equals("")) {

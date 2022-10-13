@@ -8,9 +8,10 @@ public class Produto {
 	String valor_venda_produto;
 	String descricao_produto;
 	String cod_marca_produto;
+	String nome_marca_produto;
 	
 	public Produto(String cod_produto, String nome_produto, String quantidade_produto, String valor_compra_produto,
-			String valor_venda_produto, String descricao_produto, String cod_marca_pedido) {
+			String valor_venda_produto, String descricao_produto, String cod_marca_pedido, String nome_marca_produto) {
 		super();
 		this.cod_produto = cod_produto;
 		this.nome_produto = nome_produto;
@@ -19,6 +20,7 @@ public class Produto {
 		this.valor_venda_produto = valor_venda_produto;
 		this.descricao_produto = descricao_produto;
 		this.cod_marca_produto = cod_marca_pedido;
+		this.nome_marca_produto = nome_marca_produto;
 	}
 
 	public Produto() {
@@ -29,7 +31,7 @@ public class Produto {
 		return cod_produto;
 	}
 
-	public void setCod_produto(String Cod_produto) {
+	public void setCod_produto(String cod_produto) {
 		this.cod_produto = cod_produto;
 	}
 
@@ -80,6 +82,15 @@ public class Produto {
 	public void setCod_marca_produto(String cod_marca_pedido) {
 		this.cod_marca_produto = cod_marca_pedido;
 	}
+
+	public String getNome_marca_produto() {
+		return nome_marca_produto;
+	}
+
+	public void setNome_marca_produto(String nome_marca_produto) {
+		this.nome_marca_produto = nome_marca_produto;
+	}
+	
 
 	
 

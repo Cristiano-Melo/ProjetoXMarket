@@ -59,7 +59,7 @@ public class ProdutoDao {
 		ArrayList<Produto> listaDeProdutos = new ArrayList<>(); // criação de um Array para armazenar os objetos de produto que vamos buscar no banco de dados
 
 		try {
-			String query = "select * from produtos where nome_produto like '%" + nome + "%'";
+			String query = "select * from produtos AS p join marcas AS m ON p.cod_marca_produto = m.cod_marca where nome_produto like '%" + nome + "%'";
 			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query)); //executamos a query no banco de dados para realizar a consulta e armazenamos o resultado no método Set do resultset alocado no Dao ConectaBancoDao
 			while (conectabancodao.getResultSet().next()) { //aqui criamos uma repetição para armazenar no array cada resultado em um objeto cliente diferente para listar todos de uma vez no Scroll pane do Windows Builder
 
@@ -72,6 +72,7 @@ public class ProdutoDao {
 				produto.setValor_venda_produto(conectabancodao.getResultSet().getString("valor_venda_produto"));
 				produto.setDescricao_produto(conectabancodao.getResultSet().getString("descricao_produto"));
 				produto.setCod_marca_produto(conectabancodao.getResultSet().getString("cod_marca_produto"));
+				produto.setNome_marca_produto(conectabancodao.getResultSet().getString("nome_marca"));
 
 				listaDeProdutos.add(produto); // por fim pegamos o objeto cliente criado acima e alocamos ele dentro de um Array para listar futuramente no Scroll Pane
 			}
