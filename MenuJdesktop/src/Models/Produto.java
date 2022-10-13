@@ -1,7 +1,7 @@
 package Models;
 
 public class Produto {
-	String id_produto;
+	String cod_produto;
 	String nome_produto;
 	String quantidade_produto;
 	String valor_compra_produto;
@@ -9,10 +9,10 @@ public class Produto {
 	String descricao_produto;
 	String cod_marca_produto;
 	
-	public Produto(String id_produto, String nome_produto, String quantidade_produto, String valor_compra_produto,
+	public Produto(String cod_produto, String nome_produto, String quantidade_produto, String valor_compra_produto,
 			String valor_venda_produto, String descricao_produto, String cod_marca_pedido) {
 		super();
-		this.id_produto = id_produto;
+		this.cod_produto = cod_produto;
 		this.nome_produto = nome_produto;
 		this.quantidade_produto = quantidade_produto;
 		this.valor_compra_produto = valor_compra_produto;
@@ -25,12 +25,12 @@ public class Produto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getId_produto() {
-		return id_produto;
+	public String getCod_produto() {
+		return cod_produto;
 	}
 
-	public void setId_produto(String id_produto) {
-		this.id_produto = id_produto;
+	public void setCod_produto(String Cod_produto) {
+		this.cod_produto = cod_produto;
 	}
 
 	public String getNome_produto() {

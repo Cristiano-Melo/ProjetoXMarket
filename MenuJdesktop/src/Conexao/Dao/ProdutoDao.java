@@ -36,7 +36,7 @@ public class ProdutoDao {
 
 				Produto produto = new Produto();
 
-				produto.setId_produto(conectabancodao.getResultSet().getString("cod_produto"));
+				produto.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
 				produto.setNome_produto(conectabancodao.getResultSet().getString("nome_produto"));
 				produto.setQuantidade_produto(conectabancodao.getResultSet().getString("quantidade_produto"));
 				produto.setValor_compra_produto(conectabancodao.getResultSet().getString("valor_compra_produto"));
@@ -65,7 +65,7 @@ public class ProdutoDao {
 
 				Produto produto = new Produto();  // criamos um novo objeto Produto para cada repetição para armazenarmos no Array
 
-				produto.setId_produto(conectabancodao.getResultSet().getString("cod_produto")); //adicionamos ao objeto criado acima cada campo do resultado do banco de dados
+				produto.setCod_produto(conectabancodao.getResultSet().getString("cod_produto")); //adicionamos ao objeto criado acima cada campo do resultado do banco de dados
 				produto.setNome_produto(conectabancodao.getResultSet().getString("nome_produto"));
 				produto.setQuantidade_produto(conectabancodao.getResultSet().getString("quantidade_produto"));
 				produto.setValor_compra_produto(conectabancodao.getResultSet().getString("valor_compra_produto"));
@@ -85,7 +85,7 @@ public class ProdutoDao {
 	
 	public void deletarProdutoPorId(Produto produto) { //Optamos por receber o objeto produto inteiro mas vamos usar somente o ID dele para realizar o delete deste cadastro no banco de dados
 		try {
-			String query = "delete from produtos where cod_produto = '" + produto.getId_produto() + "';";
+			String query = "delete from produtos where cod_produto = '" + produto.getCod_produto() + "';";
 			System.out.println(query);
 			conectabancodao.getStatement().execute(query); // chamamos o Dao responsável em conectar ao banco de dados e executar a query
 
@@ -102,7 +102,7 @@ public class ProdutoDao {
 					+ "',valor_venda_produto='"+ produto.getValor_venda_produto() 
 					+ "',descricao_produto='"+ produto.getDescricao_produto()
 					+ "',cod_marca_produto='" + produto.getCod_marca_produto()
-					+ "'  where cod_produto= '" + produto.getId_produto() + "';";
+					+ "'  where cod_produto= '" + produto.getCod_produto() + "';";
 			System.out.println(query);
 			conectabancodao.getStatement().execute(query);
 		} catch (Exception e) {
