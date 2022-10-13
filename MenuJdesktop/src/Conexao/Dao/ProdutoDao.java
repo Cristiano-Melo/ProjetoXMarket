@@ -102,7 +102,7 @@ public class ProdutoDao {
 					+ "',valor_venda_produto='"+ produto.getValor_venda_produto() 
 					+ "',descricao_produto='"+ produto.getDescricao_produto()
 					+ "',cod_marca_produto='" + produto.getCod_marca_produto()
-					+ "'  where cod_cliente= '" + produto.getId_produto() + "';";
+					+ "'  where cod_produto= '" + produto.getId_produto() + "';";
 			System.out.println(query);
 			conectabancodao.getStatement().execute(query);
 		} catch (Exception e) {
