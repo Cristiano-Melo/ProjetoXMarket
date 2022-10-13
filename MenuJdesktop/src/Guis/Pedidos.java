@@ -13,6 +13,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -47,9 +48,14 @@ public class Pedidos extends JInternalFrame {
 	private JTextField textFieldCampoDescricaoCod;
 	private JTextField textFieldQtdItens;
 	private JTextField textFieldValorTotal;
+	Pedido pedido = new Pedido();
+	private PesquisaProdutoPedido pesquisaProduto;
+	private JDesktopPane desktopPane; 
 
 	DefaultTableModel model;
 	private JTextField textFieldCodCliente;
+	private JTextField textFieldValor;
+	private JTextField textFieldMarca;
 	
 	/**
 	 * Launch the application.
@@ -101,21 +107,24 @@ public class Pedidos extends JInternalFrame {
 		panel.add(lblClienteCpf);
 
 		textFieldCpf = new JTextField();
+		textFieldCpf.setEditable(false);
 		textFieldCpf.setBackground(new Color(225, 225, 225));
 		textFieldCpf.setBounds(99, 41, 120, 20);
 		panel.add(textFieldCpf);
 		textFieldCpf.setColumns(10);
 
 		textFieldNomeCliente = new JTextField();
+		textFieldNomeCliente.setEditable(false);
 		textFieldNomeCliente.setColumns(10);
 		textFieldNomeCliente.setBackground(new Color(225, 225, 225));
 		textFieldNomeCliente.setBounds(229, 41, 318, 20);
 		panel.add(textFieldNomeCliente);
 
 		textFieldProdutoCod = new JTextField();
+		textFieldProdutoCod.setEditable(false);
 		textFieldProdutoCod.setColumns(10);
 		textFieldProdutoCod.setBackground(new Color(225, 225, 225));
-		textFieldProdutoCod.setBounds(109, 72, 46, 20);
+		textFieldProdutoCod.setBounds(112, 102, 67, 20);
 		panel.add(textFieldProdutoCod);
 		
 		JComboBox comboBoxCondicaoPagamento = new JComboBox();
@@ -130,13 +139,27 @@ public class Pedidos extends JInternalFrame {
 
 		JLabel lblQuantidade = new JLabel("Quantidade:");
 		lblQuantidade.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblQuantidade.setBounds(479, 71, 80, 20);
+		lblQuantidade.setBounds(467, 72, 80, 20);
 		panel.add(lblQuantidade);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(23, 101, 693, 142);
+		scrollPane.setBounds(23, 133, 693, 110);
 		panel.add(scrollPane);
 
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Pedido");
+		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pedido.setTipo_pedido("P");
+			}
+		});
+		
+		JRadioButton rdbtnOramento = new JRadioButton("Orçamento");
+		rdbtnOramento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					pedido.setTipo_pedido("O");
+			}
+		});
+		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.addMouseListener(new MouseAdapter() {
@@ -151,8 +174,8 @@ public class Pedidos extends JInternalFrame {
 		});
 		
 		model = new DefaultTableModel();
-		Object[] colunn = {"Codigo","Produto", "Quantidade"};
-		Object[] row = new Object[3];
+		Object[] colunn = {"Codigo","Produto", "Quantidade", "Valor"};
+		Object[] row = new Object[4];
 		model.setColumnIdentifiers(colunn);
 		table.setModel(model);
 		
@@ -164,7 +187,7 @@ public class Pedidos extends JInternalFrame {
 
 		textFieldQuantidade = new JTextField();
 		textFieldQuantidade.setBackground(new Color(225, 225, 225));
-		textFieldQuantidade.setBounds(559, 72, 54, 20);
+		textFieldQuantidade.setBounds(557, 73, 54, 20);
 		panel.add(textFieldQuantidade);
 		textFieldQuantidade.setColumns(10);
 
@@ -172,14 +195,13 @@ public class Pedidos extends JInternalFrame {
 		btnGravar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Pedido pedido = new Pedido();
 				ArrayList<ItemPedido> listaItensPedido = new ArrayList<>();
 				PedidoDao pedidodao = new PedidoDao();				
 				
 				pedido.setData_pedido(LocalDate.now().toString());
-				pedido.setClientes_cod_cliente(textFieldCpf.getText());
+				pedido.setClientes_cod_cliente(textFieldCodCliente.getText());
 				pedido.setCondicao_pagamento_pedido(comboBoxCondicaoPagamento.getSelectedItem().toString());
-				pedido.setTipo_pedido("P");
+				pedido.setTipo_pedido(pedido.getTipo_pedido());
 				int contador = model.getRowCount();
 				
 				for(int teste=0; teste < contador; teste++) {
@@ -216,23 +238,22 @@ public class Pedidos extends JInternalFrame {
 		btnLimpar.setBounds(382, 287, 89, 23);
 		panel.add(btnLimpar);
 
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Pedido");
 		rdbtnNewRadioButton.setBounds(290, 7, 90, 23);
 		panel.add(rdbtnNewRadioButton);
 
-		JRadioButton rdbtnOramento = new JRadioButton("Orçamento");
 		rdbtnOramento.setBounds(382, 7, 109, 23);
 		panel.add(rdbtnOramento);
 
-		JLabel lblProduto = new JLabel("Produto Cod:");
+		JLabel lblProduto = new JLabel("Nome Produto:");
 		lblProduto.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblProduto.setBounds(23, 72, 94, 20);
 		panel.add(lblProduto);
 
 		textFieldCampoDescricaoCod = new JTextField();
+		textFieldCampoDescricaoCod.setEditable(false);
 		textFieldCampoDescricaoCod.setColumns(10);
 		textFieldCampoDescricaoCod.setBackground(new Color(225, 225, 225));
-		textFieldCampoDescricaoCod.setBounds(165, 72, 312, 20);
+		textFieldCampoDescricaoCod.setBounds(127, 72, 330, 20);
 		panel.add(textFieldCampoDescricaoCod);
 
 		JLabel lblQtdItens = new JLabel("Qtd Itens:");
@@ -263,6 +284,7 @@ public class Pedidos extends JInternalFrame {
 		panel.add(lblCodigo);
 		
 		textFieldCodCliente = new JTextField();
+		textFieldCodCliente.setEditable(false);
 		textFieldCodCliente.setColumns(10);
 		textFieldCodCliente.setBackground(new Color(225, 225, 225));
 		textFieldCodCliente.setBounds(608, 41, 46, 20);
@@ -287,19 +309,87 @@ public class Pedidos extends JInternalFrame {
 		btnPesquisaCliente.setBounds(672, 41, 46, 23);
 		panel.add(btnPesquisaCliente);
 		
-		JButton btnInserir_1 = new JButton("+");
-		btnInserir_1.addActionListener(new ActionListener() {
+		JButton btnInserir = new JButton("+");
+		btnInserir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			
+
+					int contador = model.getRowCount()+1;
+					textFieldQtdItens.setText(String.valueOf(contador));
+
+					row[0] = textFieldProdutoCod.getText();
+					row[1] = "AQUI ENTRA A CONSULTA DO BANCO";
+					row[2] = textFieldQuantidade.getText();
+					row[3] = textFieldValor.getText();
+
+					model.addRow(row);
 			}
 		});
-		btnInserir_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnInserir_1.setBounds(672, 72, 44, 23);
-		panel.add(btnInserir_1);
+		btnInserir.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnInserir.setBounds(672, 72, 44, 23);
+		panel.add(btnInserir);
 		
-		JButton btnInserir_1_1 = new JButton("-");
-		btnInserir_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnInserir_1_1.setBounds(618, 72, 44, 23);
-		panel.add(btnInserir_1_1);
+		JButton btnRemover = new JButton("-");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int contador = model.getRowCount()-1;
+				textFieldQtdItens.setText(String.valueOf(contador));
+
+				row[0] = textFieldProdutoCod.getText();
+				row[1] = "AQUI ENTRA A CONSULTA DO BANCO";
+				row[2] = textFieldQuantidade.getText();
+				row[3] = textFieldValor.getText();
+
+				model.removeRow(contador);;
+				
+			}
+		});
+		btnRemover.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnRemover.setBounds(618, 72, 44, 23);
+		panel.add(btnRemover);
+		
+		JButton btnBuscaProdutos = new JButton("Pesquisar Produtos");
+		btnBuscaProdutos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pesquisaProduto = new PesquisaProdutoPedido();
+				desktopPane(pesquisaProduto);
+				
+				
+			}
+
+		});
+		btnBuscaProdutos.setBounds(586, 101, 130, 23);
+		panel.add(btnBuscaProdutos);
+		
+		JLabel lblCodProduto = new JLabel("Cod Produto:");
+		lblCodProduto.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCodProduto.setBounds(23, 102, 94, 20);
+		panel.add(lblCodProduto);
+		
+		JLabel lblValorUnitrio = new JLabel("Valor Unitário:");
+		lblValorUnitrio.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblValorUnitrio.setBounds(189, 102, 94, 20);
+		panel.add(lblValorUnitrio);
+		
+		textFieldValor = new JTextField();
+		textFieldValor.setEditable(false);
+		textFieldValor.setColumns(10);
+		textFieldValor.setBackground(new Color(225, 225, 225));
+		textFieldValor.setBounds(278, 102, 94, 20);
+		panel.add(textFieldValor);
+		
+		JLabel lblMarca = new JLabel("Marca:");
+		lblMarca.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblMarca.setBounds(382, 102, 94, 20);
+		panel.add(lblMarca);
+		
+		textFieldMarca = new JTextField();
+		textFieldMarca.setEditable(false);
+		textFieldMarca.setColumns(10);
+		textFieldMarca.setBackground(new Color(225, 225, 225));
+		textFieldMarca.setBounds(425, 102, 151, 20);
+		panel.add(textFieldMarca);
 
 	}
 }
