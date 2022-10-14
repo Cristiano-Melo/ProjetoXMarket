@@ -61,9 +61,12 @@ public class Clientes extends JInternalFrame {
 		});
 	}
 
+	
+
 	/**
 	 * Create the frame.
 	 */
+
 	public Clientes() {
 		setClosable(true);
 		setFrameIcon(new ImageIcon(Clientes.class.getResource("/Icones/cliente.png")));
@@ -89,6 +92,7 @@ public class Clientes extends JInternalFrame {
 		panel.add(lblCodCliente);
 
 		textFieldCodCliente = new JTextField();
+		textFieldCodCliente.setEditable(false);
 		textFieldCodCliente.setBounds(101, 25, 55, 20);
 		textFieldCodCliente.setColumns(10);
 		textFieldCodCliente.setBackground(new Color(225, 225, 225));
@@ -191,6 +195,7 @@ public class Clientes extends JInternalFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.addMouseListener(new MouseAdapter() {
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
@@ -206,7 +211,9 @@ public class Clientes extends JInternalFrame {
 				textFieldCidade.setText(model.getValueAt(contador, 8).toString());
 				comboBox_Uf.setSelectedItem(model.getValueAt(contador, 9));
 				textFieldCep.setText(model.getValueAt(contador, 10).toString());
+
 			}
+
 		});
 
 		model = new DefaultTableModel();
@@ -225,6 +232,11 @@ public class Clientes extends JInternalFrame {
 
 				try {
 					if (validaCampos() == false) {
+						return;
+					}
+
+					if (Integer.parseInt(textFieldCodCliente.getText()) > 0) {
+						JOptionPane.showInternalMessageDialog(null, "Cliente já cadastrado. Operação inválida");
 						return;
 					}
 
@@ -247,7 +259,7 @@ public class Clientes extends JInternalFrame {
 				} catch (Exception erroCadastroCliente) {
 					JOptionPane.showMessageDialog(null, erroCadastroCliente);
 				}
-				
+
 			}
 		});
 		btnGravar.setBounds(34, 416, 89, 23);
@@ -256,6 +268,7 @@ public class Clientes extends JInternalFrame {
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldCodCliente.setText("");
 				textFieldNome.setText("");
 				textFieldCpf.setText("");
 				textFieldRg.setText("");
@@ -266,6 +279,7 @@ public class Clientes extends JInternalFrame {
 				comboBox_Uf.setSelectedItem("");
 				textFieldCep.setText("");
 				textFieldTelefone.setText("");
+
 			}
 		});
 		btnLimpar.setBounds(365, 416, 89, 23);
@@ -292,7 +306,7 @@ public class Clientes extends JInternalFrame {
 		textFieldCidade.setBackground(new Color(225, 225, 225));
 		textFieldCidade.setBounds(358, 92, 192, 20);
 		panel.add(textFieldCidade);
-		
+
 		JButton btnBuscar = new JButton("Buscar Todos");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -324,6 +338,8 @@ public class Clientes extends JInternalFrame {
 					model.addRow(row);
 				}
 
+				Cliente cliente = new Cliente();
+
 			}
 		});
 		btnBuscar.setBounds(146, 416, 99, 23);
@@ -333,39 +349,44 @@ public class Clientes extends JInternalFrame {
 		btnDeletar.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-					ClienteDao clientedao = new ClienteDao();
-					Cliente cliente = new Cliente();
-					cliente.setCod_cliente(textFieldCodCliente.getText());
+				ClienteDao clientedao = new ClienteDao();
+				Cliente cliente = new Cliente();
+				cliente.setCod_cliente(textFieldCodCliente.getText());
 
-					if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
-							JOptionPane.YES_NO_OPTION) == 0) {
-						clientedao.deletarClientePorId(cliente);
-					}
+				if (textFieldNome.getText().equals("")) {
+					JOptionPane.showInternalMessageDialog(null, "Nenhum cliente selecionado.");
+					return;
+				}
 
-					if (model.getRowCount() != 0) {
-						model.setRowCount(0);
-					}
+				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					clientedao.deletarClientePorId(cliente);
+				}
 
-					clientedao.listarTodosClientes();
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
 
-					ArrayList<Cliente> listaDeClientes = new ArrayList<>();
-					listaDeClientes = clientedao.listarTodosClientes();
+				clientedao.listarTodosClientes();
 
-					for (Cliente contador : listaDeClientes) {
-						row[0] = contador.getCod_cliente();
-						;
-						row[1] = contador.getNome_cliente();
-						row[2] = contador.getCpf_cliente();
-						row[3] = contador.getRg_cliente();
-						row[4] = contador.getEmail_cliente();
-						row[5] = contador.getTelefone_cliente();
-						row[6] = contador.getEndereco_cliente();
-						row[7] = contador.getBairro_cliente();
-						row[8] = contador.getCidade_cliente();
-						row[9] = contador.getUf_cliente();
-						row[10] = contador.getCep_cliente();
-						model.addRow(row);
-					}
+				ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+				listaDeClientes = clientedao.listarTodosClientes();
+
+				for (Cliente contador : listaDeClientes) {
+					row[0] = contador.getCod_cliente();
+					;
+					row[1] = contador.getNome_cliente();
+					row[2] = contador.getCpf_cliente();
+					row[3] = contador.getRg_cliente();
+					row[4] = contador.getEmail_cliente();
+					row[5] = contador.getTelefone_cliente();
+					row[6] = contador.getEndereco_cliente();
+					row[7] = contador.getBairro_cliente();
+					row[8] = contador.getCidade_cliente();
+					row[9] = contador.getUf_cliente();
+					row[10] = contador.getCep_cliente();
+					model.addRow(row);
+				}
 			}
 		});
 		btnDeletar.setBounds(255, 416, 89, 23);
@@ -409,6 +430,11 @@ public class Clientes extends JInternalFrame {
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				if (textFieldNome.getText().equals("")) {
+					JOptionPane.showInternalMessageDialog(null, "Nenhum cliente selecionado.");
+					return;
+				}
 
 				ClienteDao clientedao = new ClienteDao();
 				Cliente cliente = new Cliente();
@@ -454,7 +480,7 @@ public class Clientes extends JInternalFrame {
 			return (false);
 		}
 
-		if ((nome.length() < 2)||(nome.length() > 100)) {
+		if ((nome.length() < 2) || (nome.length() > 100)) {
 			JOptionPane.showInternalMessageDialog(null, "Nome do Cliente mínimo 2 máximo 100 posições.");
 			textFieldNome.requestFocus();
 			return (false);
