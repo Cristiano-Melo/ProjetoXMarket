@@ -129,7 +129,7 @@ public class ClienteDao {
 			String query = "update clientes set nome_cliente='" + cliente.getNome_cliente() + "', cpf_cliente='"
 					+ cliente.getCpf_cliente() + "',rg_cliente='" + cliente.getRg_cliente() + "',email_cliente='"
 					+ cliente.getEmail_cliente() + "',telefone_cliente='" + cliente.getTelefone_cliente()
-					+ "',endereco_cliente='" + cliente.getTelefone_cliente() + "',bairro_cliente='"
+					+ "',endereco_cliente='" + cliente.getEndereco_cliente() + "',bairro_cliente='"
 					+ cliente.getBairro_cliente() + "',cidade_cliente='" + cliente.getCidade_cliente()
 					+ "',uf_cliente='" + cliente.getUf_cliente() + "',cep_cliente='" + cliente.getCep_cliente()
 					+ "'  where cod_cliente= '" + cliente.getCod_cliente() + "';";
