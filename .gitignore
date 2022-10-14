@@ -1,6 +1,5 @@
 .metadata/
-MenuJdesktop/.settings
-MenuJdesktop/bin
-MenuJdesktop/.classpath
-MenuJdesktop/.project
-OLD/
+./MenuJdesktop/.settings
+./MenuJdesktop/.classpath
+./MenuJdesktop/.project
+./OLD/
