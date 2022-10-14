@@ -244,10 +244,10 @@ public class Clientes extends JInternalFrame {
 
 					clienteDao.inserirCliente(cliente);
 
-					JOptionPane.showMessageDialog(null, "Cliente Cadastrado com sucesso!");
 				} catch (Exception erroCadastroCliente) {
 					JOptionPane.showMessageDialog(null, erroCadastroCliente);
 				}
+				
 			}
 		});
 		btnGravar.setBounds(34, 416, 89, 23);
