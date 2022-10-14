@@ -204,7 +204,7 @@ public class Clientes extends JInternalFrame {
 				textFieldEndereco.setText(model.getValueAt(contador, 6).toString());
 				textFieldBairro.setText(model.getValueAt(contador, 7).toString());
 				textFieldCidade.setText(model.getValueAt(contador, 8).toString());
-//				comboBox_Uf.setSelectedItem(aaHint).toString(model.getValueAt(contador, 9).toString());
+				comboBox_Uf.setSelectedItem(model.getValueAt(contador, 9));
 				textFieldCep.setText(model.getValueAt(contador, 10).toString());
 			}
 		});
@@ -223,26 +223,31 @@ public class Clientes extends JInternalFrame {
 		btnGravar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (validaCampos() == false) {
-					return;
+				try {
+					if (validaCampos() == false) {
+						return;
+					}
+
+					Cliente cliente = new Cliente();
+					ClienteDao clienteDao = new ClienteDao();
+
+					cliente.setNome_cliente(textFieldNome.getText());
+					cliente.setCpf_cliente(textFieldCpf.getText());
+					cliente.setRg_cliente(textFieldRg.getText());
+					cliente.setEmail_cliente(textFieldEmail.getText());
+					cliente.setTelefone_cliente(textFieldTelefone.getText());
+					cliente.setEndereco_cliente(textFieldEndereco.getText());
+					cliente.setBairro_cliente(textFieldBairro.getText());
+					cliente.setCidade_cliente(textFieldCidade.getText());
+					cliente.setUf_cliente(comboBox_Uf.getSelectedItem().toString());
+					cliente.setCep_cliente(textFieldCep.getText());
+
+					clienteDao.inserirCliente(cliente);
+
+					JOptionPane.showMessageDialog(null, "Cliente Cadastrado com sucesso!");
+				} catch (Exception erroCadastroCliente) {
+					JOptionPane.showMessageDialog(null, erroCadastroCliente);
 				}
-
-				Cliente cliente = new Cliente();
-				ClienteDao clienteDao = new ClienteDao();
-
-				cliente.setNome_cliente(textFieldNome.getText());
-				cliente.setCpf_cliente(textFieldCep.getText());
-				cliente.setRg_cliente(textFieldRg.getText());
-				cliente.setEmail_cliente(textFieldEmail.getText());
-				cliente.setTelefone_cliente(textFieldTelefone.getText());
-				cliente.setEndereco_cliente(textFieldEndereco.getText());
-				cliente.setBairro_cliente(textFieldBairro.getText());
-				cliente.setCidade_cliente(textFieldCidade.getText());
-				cliente.setUf_cliente(comboBox_Uf.getSelectedItem().toString());
-				cliente.setCep_cliente(textFieldCep.getText());
-
-				clienteDao.inserirCliente(cliente);
-
 			}
 		});
 		btnGravar.setBounds(12, 286, 89, 23);
@@ -288,23 +293,6 @@ public class Clientes extends JInternalFrame {
 		textFieldCidade.setBounds(358, 92, 192, 20);
 		panel.add(textFieldCidade);
 
-		JButton btnDeletar = new JButton("Deletar");
-		btnDeletar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ClienteDao clientedao = new ClienteDao();
-				Cliente cliente = new Cliente();
-				cliente.setCod_cliente(textFieldCodCliente.getText());
-
-				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
-						JOptionPane.YES_NO_OPTION) == 0) {
-					clientedao.deletarClientePorId(cliente);
-				}
-
-			}
-		});
-		btnDeletar.setBounds(233, 286, 89, 23);
-		panel.add(btnDeletar);
-
 		JButton btnBuscar = new JButton("Buscar Todos");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -340,6 +328,49 @@ public class Clientes extends JInternalFrame {
 		});
 		btnBuscar.setBounds(124, 286, 99, 23);
 		panel.add(btnBuscar);
+
+		JButton btnDeletar = new JButton("Deletar");
+		btnDeletar.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				ClienteDao clientedao = new ClienteDao();
+				Cliente cliente = new Cliente();
+				cliente.setCod_cliente(textFieldCodCliente.getText());
+
+				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					clientedao.deletarClientePorId(cliente);
+				}
+
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+
+				clientedao.listarTodosClientes();
+
+				ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+				listaDeClientes = clientedao.listarTodosClientes();
+
+				for (Cliente contador : listaDeClientes) {
+					row[0] = contador.getCod_cliente();
+					;
+					row[1] = contador.getNome_cliente();
+					row[2] = contador.getCpf_cliente();
+					row[3] = contador.getRg_cliente();
+					row[4] = contador.getEmail_cliente();
+					row[5] = contador.getTelefone_cliente();
+					row[6] = contador.getEndereco_cliente();
+					row[7] = contador.getBairro_cliente();
+					row[8] = contador.getCidade_cliente();
+					row[9] = contador.getUf_cliente();
+					row[10] = contador.getCep_cliente();
+					model.addRow(row);
+				}
+			}
+			
+		});
+		btnDeletar.setBounds(233, 286, 89, 23);
+		panel.add(btnDeletar);
 
 		JButton btnPesquisa = new JButton("Pesquisar por Nome");
 		btnPesquisa.addActionListener(new ActionListener() {
@@ -384,7 +415,7 @@ public class Clientes extends JInternalFrame {
 				Cliente cliente = new Cliente();
 				cliente.setCod_cliente(textFieldCodCliente.getText());
 				cliente.setNome_cliente(textFieldNome.getText());
-				cliente.setCpf_cliente(textFieldCep.getText());
+				cliente.setCpf_cliente(textFieldCpf.getText());
 				cliente.setRg_cliente(textFieldRg.getText());
 				cliente.setEmail_cliente(textFieldEmail.getText());
 				cliente.setTelefone_cliente(textFieldTelefone.getText());
@@ -408,8 +439,6 @@ public class Clientes extends JInternalFrame {
 	public boolean validaCampos() {
 		String nome = textFieldNome.getText();
 		String cpf = textFieldCpf.getText();
-		cpf = cpf.replace(".", "");
-		cpf = cpf.replace("-", "");
 		String rg = textFieldRg.getText();
 		String email = textFieldEmail.getText();
 		String endereco = textFieldEndereco.getText();
@@ -426,7 +455,7 @@ public class Clientes extends JInternalFrame {
 			return (false);
 		}
 
-		if ((nome.length() < 2)||(nome.length() > 100)) {
+		if ((nome.length() < 2) || (nome.length() > 100)) {
 			JOptionPane.showInternalMessageDialog(null, "Nome do Cliente mínimo 2 máximo 100 posições.");
 			textFieldNome.requestFocus();
 			return (false);
