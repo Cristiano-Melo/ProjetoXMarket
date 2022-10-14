@@ -26,13 +26,18 @@ public class PedidoDao {
 			for (int cont = 0; cont < contador; cont++) {
 				String query2 = "insert into itens_pedido values(null,"
 						+ listaItensPedido.get(cont).getProdutos_cod_produto()
-						+ ",(select max(cod_pedido) from pedidos),"
-						+ listaItensPedido.get(cont).getQuantidade_item() + ", (select valor_venda_produto * "
-						+ listaItensPedido.get(cont).getQuantidade_item()
+						+ ",(select max(cod_pedido) from pedidos)," + listaItensPedido.get(cont).getQuantidade_item()
+						+ ", (select valor_venda_produto * " + listaItensPedido.get(cont).getQuantidade_item()
 						+ " from produtos p where p.cod_produto = "
 						+ listaItensPedido.get(cont).getProdutos_cod_produto() + "));";
 
 				conectabancodao.getStatement().execute(query2);
+
+				String query3 = "update produtos set quantidade_produto = (quantidade_produto - "
+						+ listaItensPedido.get(cont).getQuantidade_item() + ") where cod_produto = "
+						+ listaItensPedido.get(cont).getProdutos_cod_produto() + ";";
+
+				conectabancodao.getStatement().execute(query3);
 
 			}
 

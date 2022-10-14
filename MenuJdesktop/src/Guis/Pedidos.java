@@ -58,6 +58,7 @@ public class Pedidos extends JInternalFrame {
 	private JTextField textFieldMarca;
 	private JTable table_1;
 	private JTextField textFieldCodMarca;
+	private String tipoPedido = "";
 	
 	/**
 	 * Launch the application.
@@ -151,14 +152,18 @@ public class Pedidos extends JInternalFrame {
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Pedido");
 		rdbtnNewRadioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pedido.setTipo_pedido("P");
+				tipoPedido = "P";
+				pedido.setTipo_pedido(tipoPedido);
+				tipoPedido = "";
 			}
 		});
 		
 		JRadioButton rdbtnOramento = new JRadioButton("Orçamento");
 		rdbtnOramento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					pedido.setTipo_pedido("O");
+				tipoPedido = "0";
+				pedido.setTipo_pedido(tipoPedido);
+				tipoPedido = "";
 			}
 		});
 		
@@ -218,7 +223,7 @@ public class Pedidos extends JInternalFrame {
 				
 				pedidodao.inserirPedido(pedido, listaItensPedido);
 				
-				JOptionPane.showMessageDialog(btnGravar, "Cliente cadastrado com sucesso!");
+				JOptionPane.showMessageDialog(btnGravar, "Pedido cadastrado com sucesso!");
 				calculaValorTotal=0;
 			}
 		});
