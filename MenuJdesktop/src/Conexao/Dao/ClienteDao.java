@@ -22,7 +22,10 @@ public class ClienteDao {
 			System.out.println(query); // somente um print no terminal para validação se a query foi executada
 										// corretamente
 			conectabancodao.getStatement().execute(query); // chamamos o Dao responsável em conectar ao banco de dados
+			
+			//Valida a alteração com sucesso do cadastro do cliente.
 			JOptionPane.showMessageDialog(null, "Cliente Cadastrado com sucesso!");
+			//Verificar erro na alteração do cadastro
 		} catch (Exception e) {
 			System.out.println("ERRO: " + e.getMessage());
 			JOptionPane.showMessageDialog(null, e);
