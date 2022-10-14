@@ -67,7 +67,7 @@ public class Produtos extends JInternalFrame {
 		setClosable(true);
 		setFrameIcon(new ImageIcon(Produtos.class.getResource("/Icones/produtos.png")));
 		setTitle("Gestão de Produtos");
-		setBounds(100, 100, 770, 538);
+		setBounds(100, 100, 769, 417);
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Produtos");
@@ -78,78 +78,78 @@ public class Produtos extends JInternalFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel.setBounds(10, 46, 739, 451);
+		panel.setBounds(10, 46, 739, 321);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
 		JLabel lblCodProduto = new JLabel("Cod:");
 		lblCodProduto.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCodProduto.setBounds(23, 36, 46, 20);
+		lblCodProduto.setBounds(23, 15, 46, 20);
 		panel.add(lblCodProduto);
 
 		textFieldCod = new JTextField();
 		textFieldCod.setEditable(false);
 		textFieldCod.setBackground(new Color(225, 225, 225));
-		textFieldCod.setBounds(61, 36, 86, 20);
+		textFieldCod.setBounds(61, 15, 86, 20);
 		panel.add(textFieldCod);
 		textFieldCod.setColumns(10);
 
 		textFieldProduto = new JTextField();
 		textFieldProduto.setColumns(10);
 		textFieldProduto.setBackground(new Color(225, 225, 225));
-		textFieldProduto.setBounds(240, 34, 288, 20);
+		textFieldProduto.setBounds(240, 13, 288, 20);
 		panel.add(textFieldProduto);
 
 		JLabel lblProduto = new JLabel("Produto:");
 		lblProduto.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblProduto.setBounds(179, 36, 63, 20);
+		lblProduto.setBounds(179, 15, 63, 20);
 		panel.add(lblProduto);
 
 		JLabel lblQuantidade = new JLabel("Quantidade:");
 		lblQuantidade.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblQuantidade.setBounds(538, 36, 89, 18);
+		lblQuantidade.setBounds(538, 15, 89, 18);
 		panel.add(lblQuantidade);
 
 		textFieldQuantidade = new JTextField();
 		textFieldQuantidade.setColumns(10);
 		textFieldQuantidade.setBackground(new Color(225, 225, 225));
-		textFieldQuantidade.setBounds(627, 34, 89, 20);
+		textFieldQuantidade.setBounds(627, 13, 89, 20);
 		panel.add(textFieldQuantidade);
 
 		JLabel lblPrecoC = new JLabel("Preço Compra:");
 		lblPrecoC.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblPrecoC.setBounds(23, 67, 104, 20);
+		lblPrecoC.setBounds(23, 60, 104, 20);
 		panel.add(lblPrecoC);
 
 		textFieldCompra = new JTextField();
 		textFieldCompra.setColumns(10);
 		textFieldCompra.setBackground(new Color(225, 225, 225));
-		textFieldCompra.setBounds(116, 67, 77, 20);
+		textFieldCompra.setBounds(116, 60, 77, 20);
 		panel.add(textFieldCompra);
 
 		JLabel lblPrecoV = new JLabel("Preço Venda:");
 		lblPrecoV.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblPrecoV.setBounds(203, 67, 89, 20);
+		lblPrecoV.setBounds(203, 60, 89, 20);
 		panel.add(lblPrecoV);
 
 		textFieldVenda = new JTextField();
 		textFieldVenda.setColumns(10);
 		textFieldVenda.setBackground(new Color(225, 225, 225));
-		textFieldVenda.setBounds(290, 67, 77, 20);
+		textFieldVenda.setBounds(290, 60, 77, 20);
 		panel.add(textFieldVenda);
 
 		JLabel lblCodMarca = new JLabel("Cod_Marca:");
 		lblCodMarca.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCodMarca.setBounds(420, 67, 89, 20);
+		lblCodMarca.setBounds(420, 60, 89, 20);
 		panel.add(lblCodMarca);
 
 		
 		comboBox_CodMarca.setModel(new DefaultComboBoxModel(new String[] {"", "001", "002", "003", "004", "005", "006"}));
-		comboBox_CodMarca.setBounds(506, 67, 46, 22);
+		comboBox_CodMarca.setBounds(506, 60, 46, 22);
 		panel.add(comboBox_CodMarca);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(23, 145, 693, 261);
+		scrollPane.setBounds(23, 124, 693, 147);
 		panel.add(scrollPane);
 
 		table = new JTable();
@@ -181,7 +181,7 @@ public class Produtos extends JInternalFrame {
 		textFieldViewMarca = new JTextField();
 		textFieldViewMarca.setEditable(false);
 		textFieldViewMarca.setBackground(new Color(225, 225, 225));
-		textFieldViewMarca.setBounds(587, 68, 129, 20);
+		textFieldViewMarca.setBounds(587, 61, 129, 20);
 		panel.add(textFieldViewMarca);
 		textFieldViewMarca.setColumns(10);
 
@@ -210,7 +210,7 @@ public class Produtos extends JInternalFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(23, 417, 89, 23);
+		btnNewButton.setBounds(23, 287, 89, 23);
 		panel.add(btnNewButton);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -228,18 +228,18 @@ public class Produtos extends JInternalFrame {
 				
 			}
 		});
-		btnLimpar.setBounds(138, 417, 89, 23);
+		btnLimpar.setBounds(138, 287, 89, 23);
 		panel.add(btnLimpar);
 
 		JLabel lblDescricao = new JLabel("Descrição:");
 		lblDescricao.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblDescricao.setBounds(23, 102, 104, 20);
+		lblDescricao.setBounds(23, 93, 104, 20);
 		panel.add(lblDescricao);
 
 		textFieldDescricao = new JTextField();
 		textFieldDescricao.setColumns(10);
 		textFieldDescricao.setBackground(new Color(225, 225, 225));
-		textFieldDescricao.setBounds(92, 102, 624, 20);
+		textFieldDescricao.setBounds(92, 93, 624, 20);
 		panel.add(textFieldDescricao);
 		
 		JButton btnListarTudo = new JButton("Listar Tudo");
@@ -270,7 +270,7 @@ public class Produtos extends JInternalFrame {
 				}
 			}
 		});
-		btnListarTudo.setBounds(358, 417, 119, 23);
+		btnListarTudo.setBounds(358, 287, 119, 23);
 		panel.add(btnListarTudo);
 		
 		JButton btnListarNome = new JButton("Listar por nome");
@@ -301,7 +301,7 @@ public class Produtos extends JInternalFrame {
 				}
 			}
 		});
-		btnListarNome.setBounds(497, 417, 120, 23);
+		btnListarNome.setBounds(497, 287, 120, 23);
 		panel.add(btnListarNome);
 		
 		JButton btnAlterar = new JButton("Alterar");
@@ -325,7 +325,7 @@ public class Produtos extends JInternalFrame {
 				}
 			}
 		});
-		btnAlterar.setBounds(627, 417, 89, 23);
+		btnAlterar.setBounds(627, 287, 89, 23);
 		panel.add(btnAlterar);
 		
 		JButton btnDeletar = new JButton("Deletar");
@@ -341,7 +341,7 @@ public class Produtos extends JInternalFrame {
 				}
 			}
 		});
-		btnDeletar.setBounds(248, 417, 89, 23);
+		btnDeletar.setBounds(248, 287, 89, 23);
 		panel.add(btnDeletar);
 
 	}

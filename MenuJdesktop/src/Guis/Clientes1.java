@@ -68,7 +68,7 @@ public class Clientes extends JInternalFrame {
 		setClosable(true);
 		setFrameIcon(new ImageIcon(Clientes.class.getResource("/Icones/cliente.png")));
 		setTitle("Gestão de Clientes");
-		setBounds(100, 100, 770, 538);
+		setBounds(100, 100, 767, 416);
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Clientes");
@@ -79,7 +79,7 @@ public class Clientes extends JInternalFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel.setBounds(10, 47, 749, 450);
+		panel.setBounds(10, 47, 749, 320);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
@@ -185,7 +185,7 @@ public class Clientes extends JInternalFrame {
 		panel.add(lblQuantidade_1_1);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 156, 716, 249);
+		scrollPane.setBounds(10, 156, 716, 114);
 		panel.add(scrollPane);
 
 		table = new JTable();
@@ -250,7 +250,7 @@ public class Clientes extends JInternalFrame {
 				}
 			}
 		});
-		btnGravar.setBounds(34, 416, 89, 23);
+		btnGravar.setBounds(12, 286, 89, 23);
 		panel.add(btnGravar);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -268,7 +268,7 @@ public class Clientes extends JInternalFrame {
 				textFieldTelefone.setText("");
 			}
 		});
-		btnLimpar.setBounds(365, 416, 89, 23);
+		btnLimpar.setBounds(343, 286, 89, 23);
 		panel.add(btnLimpar);
 
 		JLabel lblTelefone = new JLabel("Telefone:");
@@ -292,7 +292,7 @@ public class Clientes extends JInternalFrame {
 		textFieldCidade.setBackground(new Color(225, 225, 225));
 		textFieldCidade.setBounds(358, 92, 192, 20);
 		panel.add(textFieldCidade);
-		
+
 		JButton btnBuscar = new JButton("Buscar Todos");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -326,49 +326,50 @@ public class Clientes extends JInternalFrame {
 
 			}
 		});
-		btnBuscar.setBounds(146, 416, 99, 23);
+		btnBuscar.setBounds(124, 286, 99, 23);
 		panel.add(btnBuscar);
 
 		JButton btnDeletar = new JButton("Deletar");
 		btnDeletar.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-					ClienteDao clientedao = new ClienteDao();
-					Cliente cliente = new Cliente();
-					cliente.setCod_cliente(textFieldCodCliente.getText());
+				ClienteDao clientedao = new ClienteDao();
+				Cliente cliente = new Cliente();
+				cliente.setCod_cliente(textFieldCodCliente.getText());
 
-					if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
-							JOptionPane.YES_NO_OPTION) == 0) {
-						clientedao.deletarClientePorId(cliente);
-					}
+				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					clientedao.deletarClientePorId(cliente);
+				}
 
-					if (model.getRowCount() != 0) {
-						model.setRowCount(0);
-					}
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
 
-					clientedao.listarTodosClientes();
+				clientedao.listarTodosClientes();
 
-					ArrayList<Cliente> listaDeClientes = new ArrayList<>();
-					listaDeClientes = clientedao.listarTodosClientes();
+				ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+				listaDeClientes = clientedao.listarTodosClientes();
 
-					for (Cliente contador : listaDeClientes) {
-						row[0] = contador.getCod_cliente();
-						;
-						row[1] = contador.getNome_cliente();
-						row[2] = contador.getCpf_cliente();
-						row[3] = contador.getRg_cliente();
-						row[4] = contador.getEmail_cliente();
-						row[5] = contador.getTelefone_cliente();
-						row[6] = contador.getEndereco_cliente();
-						row[7] = contador.getBairro_cliente();
-						row[8] = contador.getCidade_cliente();
-						row[9] = contador.getUf_cliente();
-						row[10] = contador.getCep_cliente();
-						model.addRow(row);
-					}
+				for (Cliente contador : listaDeClientes) {
+					row[0] = contador.getCod_cliente();
+					;
+					row[1] = contador.getNome_cliente();
+					row[2] = contador.getCpf_cliente();
+					row[3] = contador.getRg_cliente();
+					row[4] = contador.getEmail_cliente();
+					row[5] = contador.getTelefone_cliente();
+					row[6] = contador.getEndereco_cliente();
+					row[7] = contador.getBairro_cliente();
+					row[8] = contador.getCidade_cliente();
+					row[9] = contador.getUf_cliente();
+					row[10] = contador.getCep_cliente();
+					model.addRow(row);
+				}
 			}
+			
 		});
-		btnDeletar.setBounds(255, 416, 89, 23);
+		btnDeletar.setBounds(233, 286, 89, 23);
 		panel.add(btnDeletar);
 
 		JButton btnPesquisa = new JButton("Pesquisar por Nome");
@@ -403,7 +404,7 @@ public class Clientes extends JInternalFrame {
 
 			}
 		});
-		btnPesquisa.setBounds(473, 416, 132, 23);
+		btnPesquisa.setBounds(451, 286, 132, 23);
 		panel.add(btnPesquisa);
 
 		JButton btnAlterar = new JButton("Alterar");
@@ -430,7 +431,7 @@ public class Clientes extends JInternalFrame {
 				}
 			}
 		});
-		btnAlterar.setBounds(615, 416, 89, 23);
+		btnAlterar.setBounds(593, 286, 89, 23);
 		panel.add(btnAlterar);
 
 	}
@@ -454,7 +455,7 @@ public class Clientes extends JInternalFrame {
 			return (false);
 		}
 
-		if ((nome.length() < 2)||(nome.length() > 100)) {
+		if ((nome.length() < 2) || (nome.length() > 100)) {
 			JOptionPane.showInternalMessageDialog(null, "Nome do Cliente mínimo 2 máximo 100 posições.");
 			textFieldNome.requestFocus();
 			return (false);

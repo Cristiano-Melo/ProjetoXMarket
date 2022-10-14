@@ -10,7 +10,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -27,9 +26,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import Conexao.Dao.ClienteDao;
-import Models.Cliente;
-
 public class frmPrincipal extends JFrame {
 
 	private JPanel contentPane;
@@ -38,9 +34,6 @@ public class frmPrincipal extends JFrame {
 	private Pedidos pedidos;
 	private Login login;
 	private JDesktopPane desktopPanePrincipal; // classe do painel deskttoppanel
-	protected AbstractButton textFieldCodCliente;
-	protected AbstractButton textFieldNomeCliente;
-	protected AbstractButton textFieldCpf;
 
 	/**
 	 * Launch the application.
@@ -78,7 +71,7 @@ public class frmPrincipal extends JFrame {
 
 			}
 		});
-
+		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Login");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -123,6 +116,16 @@ public class frmPrincipal extends JFrame {
 		mnProcessos.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnProcessos);
 
+		JMenuItem mntmPedidos = new JMenuItem("Pedidos");
+		mntmPedidos.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/icons8-verificar-100.png")));
+		mntmPedidos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarPedidos();
+			}
+		});
+		mntmPedidos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		mnProcessos.add(mntmPedidos);
+
 		JMenuItem mntmFaturamento = new JMenuItem("Faturamento");
 		mntmFaturamento.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
 		mntmFaturamento.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -132,32 +135,16 @@ public class frmPrincipal extends JFrame {
 		mnConsultas.setForeground(new Color(0, 0, 0));
 		mnConsultas.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnConsultas);
-
+		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Clientes");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				carregarClientes();
-			}
-		});
 		mntmNewMenuItem_1.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/cliente.png")));
 		mnConsultas.add(mntmNewMenuItem_1);
-
+		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Produtos");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				carregarProdutos();
-			}
-		});
 		mntmNewMenuItem_2.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/produtos.png")));
 		mnConsultas.add(mntmNewMenuItem_2);
-
+		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Pedidos");
-		mntmNewMenuItem_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				carregarPedidos();
-
-			}
-		});
 		mntmNewMenuItem_3.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/icons8-verificar-100.png")));
 		mnConsultas.add(mntmNewMenuItem_3);
 
@@ -169,11 +156,11 @@ public class frmPrincipal extends JFrame {
 		mnRelatorio.setForeground(new Color(0, 0, 0));
 		mnRelatorio.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnRelatorio);
-
+		
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Vendas");
 		mntmNewMenuItem_4.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
 		mnRelatorio.add(mntmNewMenuItem_4);
-
+		
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Gerencial");
 		mntmNewMenuItem_5.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/icons8-verificar-100.png")));
 		mnRelatorio.add(mntmNewMenuItem_5);
@@ -196,17 +183,21 @@ public class frmPrincipal extends JFrame {
 		desktopPanePrincipal = new JDesktopPane();
 		desktopPanePrincipal.setBackground(new Color(204, 204, 255));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 1309, Short.MAX_VALUE).addGroup(Alignment.LEADING,
-						gl_contentPane.createSequentialGroup().addContainerGap()
-								.addComponent(desktopPanePrincipal, GroupLayout.DEFAULT_SIZE, 1289, Short.MAX_VALUE)
-								.addGap(55)));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 1309, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(desktopPanePrincipal, GroupLayout.DEFAULT_SIZE, 1309, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-						.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(desktopPanePrincipal, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
-						.addContainerGap()));
+					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(desktopPanePrincipal, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE))
+		);
 
 		JButton btnClientes = new JButton("Clientes");
 		btnClientes.setBackground(new Color(255, 255, 255));
@@ -229,7 +220,7 @@ public class frmPrincipal extends JFrame {
 		btnProdutos.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/produtos.png")));
 		btnProdutos.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnProdutos);
-
+		
 		JButton btnNewButton = new JButton("Pedidos");
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		btnNewButton.addActionListener(new ActionListener() {
@@ -240,36 +231,37 @@ public class frmPrincipal extends JFrame {
 		btnNewButton.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/icons8-verificar-100.png")));
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnNewButton);
-
+		
 		JButton btnConsultas = new JButton("Consultas");
 		btnConsultas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InputDialog();
-
+				
+				
 			}
 		});
 		btnConsultas.setBackground(new Color(255, 255, 255));
 		btnConsultas.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/lupa.png")));
 		btnConsultas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnConsultas);
-
+		
 		JButton btnRelatorios = new JButton("Relatorios");
 		btnRelatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				
+				
 			}
 		});
 		btnRelatorios.setBackground(new Color(255, 255, 255));
 		btnRelatorios.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
 		btnRelatorios.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnRelatorios);
-
+		
 		JButton btnContatos = new JButton("Contatos");
 		btnContatos.setBackground(new Color(255, 255, 255));
 		btnContatos.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/contato.png")));
 		btnContatos.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnContatos);
-
+		
 		JButton btnAjuda = new JButton("Ajuda");
 		btnAjuda.setBackground(new Color(255, 255, 255));
 		btnAjuda.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/chamada-de-ajuda.png")));
@@ -279,38 +271,24 @@ public class frmPrincipal extends JFrame {
 
 	}
 
-	protected void InputDialog() {
-		String[] options = { null, "Consulta Clientes", "Consulta Produtos", "Consulta Pedidos" };
-		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
-		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Consultas",
-				JOptionPane.QUESTION_MESSAGE, icon, options, options[3]);
-		System.out.println(n);
-
-		String opcao = n;
-		switch (opcao) {
-
-		case "Consulta Clientes":
-			System.out.println("Consulta Clientes");
-			carregarClientes();
-			break;
-		case "Consulta Produtos":
-			System.out.println("Consulta Produtos");
-			carregarProdutos();
-			break;
-
-		case "Consulta Pedidos":
-			System.out.println("Consulta Pedidos");
-			carregarPedidos();
-			break;
-
-		}
-
-	}
-
 	public frmPrincipal() {
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		projetoGui();
 	}
+	
+
+//	void carregarPedidos() {
+//		if (pedidos == null || pedidos.isClosed()) { // metodo que verifica se a janela esta aberta, barrando nova abertura
+//			pedidos = new Pedidos();
+//			desktopPanePrincipal.add(pedidos);
+//
+//			Dimension tf = pedidos.getSize();// Metodo que centraliza no meio da tela a janela produtos
+//			pedidos.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 4,
+//					(desktopPanePrincipal.getHeight() - tf.height) / 4);
+//			pedidos.show();
+//
+//		}
+//	}
 
 	void carregarProdutos() {
 		if (p == null || p.isClosed()) { // metodo que verifica se a janela esta aberta, barrando nova abertura
@@ -337,10 +315,9 @@ public class frmPrincipal extends JFrame {
 
 		}
 	}
-
+	
 	void carregarPedidos() {
-		if (pedidos == null || pedidos.isClosed()) { // metodo que verifica se a janela esta aberta, barrando nova
-														// abertura
+		if (pedidos == null || pedidos.isClosed()) { // metodo que verifica se a janela esta aberta, barrando nova abertura
 			pedidos = new Pedidos();
 			desktopPanePrincipal.add(pedidos);
 
@@ -351,7 +328,6 @@ public class frmPrincipal extends JFrame {
 
 		}
 	}
-
 	void carregarLogin() {
 		if (login == null || login.isClosed()) { // metodo que verifica se a janela esta aberta, barrando nova abertura
 			login = new Login();
@@ -364,5 +340,4 @@ public class frmPrincipal extends JFrame {
 
 		}
 	}
-
 }

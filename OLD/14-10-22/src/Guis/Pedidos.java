@@ -89,7 +89,7 @@ public class Pedidos extends JInternalFrame {
 		setClosable(true);
 		setFrameIcon(new ImageIcon(Pedidos.class.getResource("/Icones/relatorio.png")));
 		setTitle("Gestão de Pedidos");
-		setBounds(100, 100, 770, 538);
+		setBounds(100, 100, 769, 542);
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Pedidos/Orçamentos");
@@ -132,12 +132,12 @@ public class Pedidos extends JInternalFrame {
 		
 		JComboBox comboBoxCondicaoPagamento = new JComboBox();
 		comboBoxCondicaoPagamento.setModel(new DefaultComboBoxModel(new String[] {"", "Dinheiro", "Pix", "Débito", "Credito"}));
-		comboBoxCondicaoPagamento.setBounds(179, 10, 94, 18);
+		comboBoxCondicaoPagamento.setBounds(174, 7, 94, 22);
 		panel.add(comboBoxCondicaoPagamento);
 		
 		JLabel lblNewLabel_1 = new JLabel("Condição de Pagamento");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_1.setBounds(23, 11, 173, 14);
+		lblNewLabel_1.setBounds(20, 11, 173, 14);
 		panel.add(lblNewLabel_1);
 
 		JLabel lblQuantidade = new JLabel("Quantidade:");
@@ -227,7 +227,7 @@ public class Pedidos extends JInternalFrame {
 				calculaValorTotal=0;
 			}
 		});
-		btnGravar.setBounds(258, 421, 89, 23);
+		btnGravar.setBounds(259, 421, 89, 23);
 		panel.add(btnGravar);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -243,13 +243,13 @@ public class Pedidos extends JInternalFrame {
 
 			}
 		});
-		btnLimpar.setBounds(381, 421, 89, 23);
+		btnLimpar.setBounds(382, 421, 89, 23);
 		panel.add(btnLimpar);
 
-		rdbtnNewRadioButton.setBounds(293, 7, 90, 23);
+		rdbtnNewRadioButton.setBounds(290, 7, 90, 23);
 		panel.add(rdbtnNewRadioButton);
 
-		rdbtnOramento.setBounds(385, 7, 109, 23);
+		rdbtnOramento.setBounds(382, 7, 109, 23);
 		panel.add(rdbtnOramento);
 
 		JLabel lblProduto = new JLabel("Nome Produto:");
