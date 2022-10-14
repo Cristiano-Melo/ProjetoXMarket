@@ -38,6 +38,7 @@ public class Contatos extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public Contatos() {
+		setClosable(true);
 		setBorder(new TitledBorder(null, "", TitledBorder.TRAILING, TitledBorder.TOP, null, null));
 		setTitle("Contatos");
 		setFrameIcon(new ImageIcon(Contatos.class.getResource("/Icones/icons8-suporte-on-line-100.png")));
