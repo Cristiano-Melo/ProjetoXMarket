@@ -37,6 +37,7 @@ public class frmPrincipal extends JFrame {
 	private Produtos p;
 	private Pedidos pedidos;
 	private Login login;
+	private Contatos con;
 	private JDesktopPane desktopPanePrincipal; // classe do painel deskttoppanel
 	protected AbstractButton textFieldCodCliente;
 	protected AbstractButton textFieldNomeCliente;
@@ -265,6 +266,13 @@ public class frmPrincipal extends JFrame {
 		toolBar.add(btnRelatorios);
 
 		JButton btnContatos = new JButton("Contatos");
+		btnContatos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarContatos();
+				
+				
+			}
+		});
 		btnContatos.setBackground(new Color(255, 255, 255));
 		btnContatos.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/contato.png")));
 		btnContatos.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -364,5 +372,19 @@ public class frmPrincipal extends JFrame {
 
 		}
 	}
-
+	void carregarContatos() {
+		if (con == null || con.isClosed()) {
+			con = new Contatos();
+			desktopPanePrincipal.add(con);
+			Dimension tf = con.getSize();// Metodo que centraliza no meio da tela a janela produtos
+			con.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
+					(desktopPanePrincipal.getHeight() - tf.height) / 2);
+			con.show();
+			
+		}
+		
+		
+		
+		
+	}
 }
