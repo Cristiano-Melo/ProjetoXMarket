@@ -27,14 +27,12 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import Conexao.Dao.ClienteDao;
-import Models.Cliente;
-
 public class frmPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private Clientes c;
 	private Produtos p;
+	private Marcas m;
 	private Pedidos pedidos;
 	private Login login;
 	private Contatos con;
@@ -124,10 +122,16 @@ public class frmPrincipal extends JFrame {
 		mnProcessos.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnProcessos);
 
-		JMenuItem mntmFaturamento = new JMenuItem("Faturamento");
-		mntmFaturamento.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
-		mntmFaturamento.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		mnProcessos.add(mntmFaturamento);
+		JMenuItem mntmCadastro = new JMenuItem("Cadastro");
+		mntmCadastro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarMarcas();
+
+			}
+		});
+		mntmCadastro.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
+		mntmCadastro.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		mnProcessos.add(mntmCadastro);
 
 		JMenu mnConsultas = new JMenu("Consultas");
 		mnConsultas.setForeground(new Color(0, 0, 0));
@@ -250,7 +254,7 @@ public class frmPrincipal extends JFrame {
 			}
 		});
 		btnConsultas.setBackground(new Color(255, 255, 255));
-		btnConsultas.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/lupa.png")));
+		btnConsultas.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/marca.png")));
 		btnConsultas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnConsultas);
 
@@ -269,8 +273,7 @@ public class frmPrincipal extends JFrame {
 		btnContatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carregarContatos();
-				
-				
+
 			}
 		});
 		btnContatos.setBackground(new Color(255, 255, 255));
@@ -372,6 +375,7 @@ public class frmPrincipal extends JFrame {
 
 		}
 	}
+
 	void carregarContatos() {
 		if (con == null || con.isClosed()) {
 			con = new Contatos();
@@ -380,11 +384,21 @@ public class frmPrincipal extends JFrame {
 			con.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
 					(desktopPanePrincipal.getHeight() - tf.height) / 2);
 			con.show();
-			
+
 		}
-		
-		
-		
-		
+
+	}
+
+	void carregarMarcas() {
+		if (m == null || m.isClosed()) {
+			m = new Marcas();
+			desktopPanePrincipal.add(m);
+			Dimension tf = m.getSize();// Metodo que centraliza no meio da tela a janela produtos
+			m.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
+					(desktopPanePrincipal.getHeight() - tf.height) / 2);
+			m.show();
+
+		}
+
 	}
 }

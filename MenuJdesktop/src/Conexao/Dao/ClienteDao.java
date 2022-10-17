@@ -21,6 +21,7 @@ public class ClienteDao {
 					+ cliente.getUf_cliente() + "','" + cliente.getCep_cliente() + "');";
 			System.out.println(query); // somente um print no terminal para validação se a query foi executada
 										// corretamente
+			
 			conectabancodao.getStatement().execute(query); // chamamos o Dao responsável em conectar ao banco de dados
 			
 			//Valida a alteração com sucesso do cadastro do cliente.

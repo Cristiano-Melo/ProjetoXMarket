@@ -273,7 +273,8 @@ public class Produtos extends JInternalFrame {
 		btnListarTudo.setBounds(358, 417, 119, 23);
 		panel.add(btnListarTudo);
 		
-		JButton btnListarNome = new JButton("Listar por nome");
+		JButton btnListarNome = new JButton("Listar p/ nome");
+		btnListarNome.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnListarNome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -335,7 +336,13 @@ public class Produtos extends JInternalFrame {
 				Produto produto = new Produto();				
 				produto.setCod_produto(textFieldCod.getText());
 				
-				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
+				String codproduto=textFieldCod.getText();
+				if(codproduto.equals("")) {
+					JOptionPane.showInternalMessageDialog(null, "Nenhum Produto selecionado.");
+					return;
+				}
+				
+				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Produto?", "SIM",
 						JOptionPane.YES_NO_OPTION) == 0) {
 					produtodao.deletarProdutoPorId(produto);
 				}
@@ -351,26 +358,11 @@ public class Produtos extends JInternalFrame {
 		String produto = textFieldProduto.getText();
 		String quantidade = textFieldQuantidade.getText();
 		String precoCompra = textFieldCompra.getText();
-		precoCompra = precoCompra.replace(",", ".");
 		String precoVenda = textFieldVenda.getText();
-		precoVenda = precoVenda.replace(",", ".");
 		String descricao=textFieldDescricao.getText();
 		
 		String marca = comboBox_CodMarca.getSelectedItem().toString();
 
-//		// Valida código produto
-//		if (codigo.equals("")) {
-//			JOptionPane.showInternalMessageDialog(null, "Campo Codigo é preenchimento obrigatório.");
-//			textFieldCod.requestFocus();
-//			return (false);
-//		}
-
-//		if (ValidaEntrada.temLetra(codigo)) {
-//			JOptionPane.showInternalMessageDialog(null, "Campo Codigo somente números.");
-//			textFieldCod.setText("");
-//			textFieldCod.requestFocus();
-//			return (false);
-//		}
 
 		// Validação nome produto
 		if (produto.equals("")) {
@@ -412,9 +404,10 @@ public class Produtos extends JInternalFrame {
 			textFieldCompra.requestFocus();
 			return (false);
 		}
+		
 
 		if (!ValidaEntrada.isFloat(precoCompra)) {
-			JOptionPane.showInternalMessageDialog(null, "Preço Compra somente número.");
+			JOptionPane.showInternalMessageDialog(null, "Preço Compra somente número. Decimal com '.'.");
 			textFieldCompra.setText("");
 			textFieldCompra.requestFocus();
 			return (false);
@@ -428,7 +421,7 @@ public class Produtos extends JInternalFrame {
 		}
 
 		if (!ValidaEntrada.isFloat(precoVenda)) {
-			JOptionPane.showInternalMessageDialog(null, "Preço Compra somente número.");
+			JOptionPane.showInternalMessageDialog(null, "Preço Venda somente número. Decimal com '.'.");
 			textFieldVenda.setText("");
 			textFieldVenda.requestFocus();
 			return (false);
