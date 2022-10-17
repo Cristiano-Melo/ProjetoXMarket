@@ -11,14 +11,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 
-public class Login1 extends JFrame {
+import Conexao.Dao.LoginDao;
+import Models.Login;
 
+public class Login1 extends JFrame {
+	
 	private JPanel contentPane;
 
 	/**
@@ -52,11 +54,11 @@ public class Login1 extends JFrame {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JTextField textFieldCampoUsuário = new JTextField();
-		textFieldCampoUsuário.setBackground(new Color(153, 204, 204));
-		textFieldCampoUsuário.setBounds(219, 214, 133, 20);
-		panel.add(textFieldCampoUsuário);
-		textFieldCampoUsuário.setColumns(10);
+		JTextField textFieldCampoUsuario = new JTextField();
+		textFieldCampoUsuario.setBackground(new Color(153, 204, 204));
+		textFieldCampoUsuario.setBounds(219, 214, 133, 20);
+		panel.add(textFieldCampoUsuario);
+		textFieldCampoUsuario.setColumns(10);
 		
 		JTextField textFieldCampoSenha = new JTextField();
 		textFieldCampoSenha.setBackground(new Color(153, 204, 204));
@@ -81,16 +83,15 @@ public class Login1 extends JFrame {
 		btnNewButton.setBackground(new Color(0, 0, 0));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (textFieldCampoUsuário.getText().equals("Admin")
-						&& textFieldCampoSenha.getText().equals("Admin")) {
-					JOptionPane.showMessageDialog(null, "Bem Vindo");
-					frmPrincipal principal=new frmPrincipal();
-					principal.setVisible(true);
-					dispose();
-							
-				}else {
-					JOptionPane.showMessageDialog(null, "Acesso Negado");
-				}
+				LoginDao loginDao = new LoginDao();
+				Login login = new Login();
+				login.setUsuario(textFieldCampoUsuario.getText());
+				login.setSenha(textFieldCampoSenha.getText());
+				
+				loginDao.logar(login);
+				
+			
+			
 				
 			}
 		});

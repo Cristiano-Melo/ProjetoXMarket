@@ -234,8 +234,8 @@ public class Clientes extends JInternalFrame {
 					if (validaCampos() == false) {
 						return;
 					}
-
-					if (Integer.parseInt(textFieldCodCliente.getText()) > 0) {
+					String valida= textFieldCodCliente.getText();
+					if (!valida.equals("")) {
 						JOptionPane.showInternalMessageDialog(null, "Cliente já cadastrado. Operação inválida");
 						return;
 					}
