@@ -26,7 +26,8 @@ public class ListaPedidos extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public ListaPedidos() {
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 774, 538);
+		getContentPane().setLayout(null);
 
 	}
 

@@ -1,18 +1,18 @@
-package Models;
+ package Models;
 
 public class Cliente {
-	String cod_cliente;
+	private String cod_cliente;
 
-	String nome_cliente;
-	String cpf_cliente;
-	String rg_cliente;
-	String email_cliente;
-	String telefone_cliente;
-	String endereco_cliente;
-	String bairro_cliente;
-	String cidade_cliente;
-	String uf_cliente;
-	String cep_cliente;
+	private String nome_cliente;
+	private String cpf_cliente;
+	private String rg_cliente;
+	private String email_cliente;
+	private String telefone_cliente;
+	private String endereco_cliente;
+	private String bairro_cliente;
+	private String cidade_cliente;
+	private String uf_cliente;
+	private String cep_cliente;
 	
 	public Cliente(String nome_cliente, String cpf_cliente, String rg_cliente, String email_cliente,
 			String telefone_cliente, String endereco_cliente, String bairro_cliente, String cidade_cliente,

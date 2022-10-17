@@ -29,7 +29,7 @@ import javax.swing.border.EmptyBorder;
 
 import Conexao.Dao.ClienteDao;
 import Models.Cliente;
-import Old.Login;
+import Models.Login;
 
 public class frmPrincipal extends JFrame {
 

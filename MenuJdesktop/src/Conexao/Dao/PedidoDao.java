@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import Models.Cliente;
 import Models.ItemPedido;
 import Models.Pedido;
 import Models.Produto;
@@ -83,5 +84,34 @@ public class PedidoDao {
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
+	
+	public ArrayList<Pedido> listarTodosPedidos() {
+		
+			ArrayList<Pedido> listaDePedidos = new ArrayList<>();
+
+			try {
+				String query = "select * from pedidos;";
+
+				conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+
+				while (conectabancodao.getResultSet().next()) {
+
+					Pedido pedidos = new Pedido();
+
+					pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
+					pedidos.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+					pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
+					pedidos.setCondicao_pagamento_pedido(conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
+					pedidos.setTipo_pedido(conectabancodao.getResultSet().getString("tipo_pedido"));
+					
+					listaDePedidos.add(pedidos);
+				}
+
+			} catch (Exception e) {
+				System.out.println("ERRO: " + e.getMessage());
+			}
+			return listaDePedidos;
+		}
+	
 
 }
