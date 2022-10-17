@@ -2,8 +2,11 @@ package Conexao.Dao;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import Models.ItemPedido;
 import Models.Pedido;
+import Models.Produto;
 
 public class PedidoDao {
 
@@ -45,6 +48,40 @@ public class PedidoDao {
 			System.out.println("ERRO: " + e.getMessage());
 		}
 
+	}
+	
+	public void excluirPedido(Pedido pedido) {
+//		ArrayList<Produto> listaItensPedido = new ArrayList<>();
+		try {
+			String query = "select * from itens_pedido where pedidos_cod_pedido = "+pedido.getCod_pedido()+"";
+			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+			while (conectabancodao.getResultSet().next()) {
+				
+				Produto produto = new Produto();
+				
+				produto.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
+				produto.setNome_produto(conectabancodao.getResultSet().getString("nome_produto"));
+				produto.setQuantidade_produto(conectabancodao.getResultSet().getString("quantidade_produto"));
+				produto.setValor_compra_produto(conectabancodao.getResultSet().getString("valor_compra_produto"));
+				produto.setValor_venda_produto(conectabancodao.getResultSet().getString("valor_venda_produto"));
+				produto.setDescricao_produto(conectabancodao.getResultSet().getString("descricao_produto"));
+				produto.setCod_marca_produto(conectabancodao.getResultSet().getString("cod_marca_produto"));
+				produto.setNome_marca_produto(conectabancodao.getResultSet().getString("nome_marca"));
+				
+				String query2 = "update produtos set quantidade_produto = (quantidade_produto + "
+						+ produto.getQuantidade_produto() + ") where cod_produto = "
+						+ produto.getCod_produto() + ";";
+
+				conectabancodao.getStatement().execute(query2);
+				
+			}
+			
+			String query3 = "select * from pedidos where cod_pedido="+pedido.getCod_pedido()+"";
+			conectabancodao.getStatement().execute(query3);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
 	}
 
 }
