@@ -29,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 
 import Conexao.Dao.ClienteDao;
 import Models.Cliente;
+import Old.Login;
 
 public class frmPrincipal extends JFrame {
 
@@ -83,7 +84,7 @@ public class frmPrincipal extends JFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Login");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				carregarLogin();
+				//carregarLogin();
 			}
 		});
 		mntmNewMenuItem.setBackground(Color.WHITE);
@@ -360,18 +361,9 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 
-	void carregarLogin() {
-		if (login == null || login.isClosed()) { // metodo que verifica se a janela esta aberta, barrando nova abertura
-			login = new Login();
-			desktopPanePrincipal.add(login);
+	
+		
 
-			Dimension tf = login.getSize();// Metodo que centraliza no meio da tela a janela produtos
-			login.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
-					(desktopPanePrincipal.getHeight() - tf.height) / 2);
-			login.show();
-
-		}
-	}
 	void carregarContatos() {
 		if (con == null || con.isClosed()) {
 			con = new Contatos();
