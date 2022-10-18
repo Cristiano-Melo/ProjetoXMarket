@@ -90,9 +90,7 @@ public class Login1 extends JFrame {
 				
 				loginDao.logar(login);
 				
-			
-			
-				
+
 			}
 		});
 		btnNewButton.setFont(new Font("Arial", btnNewButton.getFont().getStyle(), btnNewButton.getFont().getSize() + 2));
