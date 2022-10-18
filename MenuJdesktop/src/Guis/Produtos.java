@@ -172,8 +172,9 @@ public class Produtos extends JInternalFrame {
 		model.setColumnIdentifiers(colunn);
 		table.setModel(model);
 		
-		table.setBackground(UIManager.getColor("Button.light"));
-		table.setForeground(SystemColor.activeCaption);
+		//Retirada da cor da fonte apresentada no grid da tela estava muito clara. Retirando as linhas ficou fonte black
+		//table.setBackground(UIManager.getColor("Button.light"));
+		//table.setForeground(SystemColor.activeCaption);
 
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);

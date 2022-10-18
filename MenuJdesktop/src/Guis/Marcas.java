@@ -27,6 +27,8 @@ import javax.swing.table.DefaultTableModel;
 import Conexao.Dao.MarcaDao;
 import Models.Cliente;
 import Models.Marca;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class Marcas extends JInternalFrame {
 	private JTextField textCodigoMarca;
@@ -96,6 +98,10 @@ public class Marcas extends JInternalFrame {
 		panel.add(textDescricaoMarca);
 
 		JScrollPane scrollPane = new JScrollPane();
+//		scrollPane.addPropertyChangeListener(new PropertyChangeListener() {
+//			public void propertyChange(PropertyChangeEvent evt) {
+//			}
+//		});
 		scrollPane.setBounds(23, 145, 693, 261);
 		panel.add(scrollPane);
 
@@ -109,18 +115,19 @@ public class Marcas extends JInternalFrame {
 				int contador = table.getSelectedRow();
 				textCodigoMarca.setText(model.getValueAt(contador, 0).toString());
 				textDescricaoMarca.setText(model.getValueAt(contador, 1).toString());
+				textCodigoMarca.setEditable(false);
 			}
 		});
 
 		model = new DefaultTableModel();
-		Object[] colunn = { "Codigo", "Descrição" };
+	
+		Object[] colunn = { "Código", "Descrição" };
 		Object[] row = new Object[2];
 		model.setColumnIdentifiers(colunn);
 		table.setModel(model);
-
-		table.setBackground(UIManager.getColor("Button.light"));
-		table.setForeground(SystemColor.activeCaption);
-
+		((DefaultTableModel) model).setRowCount(0);
+		table.getColumnModel().getColumn(0).setMaxWidth(100);
+			
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
 
@@ -140,6 +147,8 @@ public class Marcas extends JInternalFrame {
 
 					MarcaDao marcadao = new MarcaDao();
 					marcadao.inserirMarca(marca);
+					textCodigoMarca.setText("");
+					textDescricaoMarca.setText("");
 
 
 				} catch (Exception erroCadastroMarca) {
@@ -155,10 +164,18 @@ public class Marcas extends JInternalFrame {
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+			
 
 				textCodigoMarca.setText("");
 				textDescricaoMarca.setText("");
-
+				
+				System.out.println("Número de linhas antes: "+model.getRowCount());
+				
+				
+				model.setRowCount(0);
+				System.out.println("Número de linhas depois: "+model.getRowCount());
+				
 				((DefaultTableModel) model).setRowCount(0);
 
 			}
@@ -169,14 +186,11 @@ public class Marcas extends JInternalFrame {
 		JButton btnListarTudo = new JButton("Listar");
 		btnListarTudo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				// Marcas marca = new Marcas();
+				
+			
+				Marca marca = new Marca();
 				MarcaDao marcadao = new MarcaDao();
-
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}
-
+				
 				marcadao.listarTodasMarcas();
 
 				ArrayList<Marca> listaDeMarcas = new ArrayList<>();
@@ -185,6 +199,7 @@ public class Marcas extends JInternalFrame {
 				for (Marca contador : listaDeMarcas) {
 					row[0] = contador.getCodigoMarca();
 					row[1] = contador.getDescricaoMarca();
+					
 
 					model.addRow(row);
 				}
@@ -196,17 +211,27 @@ public class Marcas extends JInternalFrame {
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				
 				Marca marca = new Marca();
 				MarcaDao marcadao = new MarcaDao();
 
 				marca.setCodigoMarca(textCodigoMarca.getText());
 				marca.setDescricaoMarca(textDescricaoMarca.getText());
+				
+				String codmarca = textCodigoMarca.getText();
+				
+				if(codmarca.equals("")) {
+					JOptionPane.showInternalMessageDialog(null, "Nenhuma Marca selecionada.");
+					return;
+				}
 
-				if (JOptionPane.showConfirmDialog(null, "Confirma atualização do cadastro?", "SIM",
+				if (JOptionPane.showConfirmDialog(null, "Confirma alteração da Marca selecionada?", "SIM",
 						JOptionPane.YES_NO_OPTION) == 0) {
 					marcadao.alterarMarcaPorId(marca);
 				}
+				textCodigoMarca.setEditable(true);
+				textCodigoMarca.setText("");
+				textDescricaoMarca.setText("");
 			}
 		});
 		btnAlterar.setBounds(130, 417, 89, 23);
@@ -217,17 +242,23 @@ public class Marcas extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				MarcaDao marcadao = new MarcaDao();
 				Marca marca = new Marca();
+				
+				marca.setCodigoMarca(textCodigoMarca.getText());
+				marca.setDescricaoMarca(textDescricaoMarca.getText());
 
 				String codmarca = textCodigoMarca.getText();
 				if (codmarca.equals("")) {
-					JOptionPane.showInternalMessageDialog(null, "Nenhua Marca selecionado.");
+					JOptionPane.showInternalMessageDialog(null, "Nenhuma Marca selecionada.");
 					return;
 				}
 
-				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir a Marca?", "SIM",
+				if (JOptionPane.showConfirmDialog(null, "Confirma exclusão da Marca selecionada?", "SIM",
 						JOptionPane.YES_NO_OPTION) == 0) {
 					marcadao.deletarMarca(marca);
 				}
+				textCodigoMarca.setEditable(true);
+				textCodigoMarca.setText("");
+				textDescricaoMarca.setText("");
 			}
 		});
 		btnDeletar.setBounds(238, 417, 89, 23);
