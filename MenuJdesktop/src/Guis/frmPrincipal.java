@@ -47,6 +47,7 @@ public class frmPrincipal extends JFrame {
 	private Clientes c;
 	private Produtos p;
 	private Pedidos pedidos;
+	private ListarPedidos lp;
 	private Marcas m;
 	private Login login;
 	private Contatos con;
@@ -329,7 +330,7 @@ public class frmPrincipal extends JFrame {
 
 		case "Consulta Pedidos":
 			System.out.println("Consulta Pedidos");
-			carregarPedidos();
+			listarPedidos();
 			break;
 
 		}
@@ -555,6 +556,18 @@ public class frmPrincipal extends JFrame {
 			m.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
 					(desktopPanePrincipal.getHeight() - tf.height) / 2);
 			m.show();
+			
+		}
+	}
+	
+	void listarPedidos() {
+		if (lp == null || lp.isClosed()) {
+			lp = new ListarPedidos();
+			desktopPanePrincipal.add(lp);
+			Dimension tf = lp.getSize();// Metodo que centraliza no meio da tela a janela produtos
+			lp.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
+					(desktopPanePrincipal.getHeight() - tf.height) / 2);
+			lp.show();
 			
 		}
 	}

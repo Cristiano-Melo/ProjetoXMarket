@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import Guis.Pedidos;
 import Models.Cliente;
 import Models.ItemPedido;
+import Models.ListaPedido;
 import Models.Pedido;
 import Models.Produto;
 
@@ -50,16 +52,16 @@ public class PedidoDao {
 		}
 
 	}
-	
+
 	public void excluirPedido(Pedido pedido) {
 //		ArrayList<Produto> listaItensPedido = new ArrayList<>();
 		try {
-			String query = "select * from itens_pedido where pedidos_cod_pedido = "+pedido.getCod_pedido()+"";
+			String query = "select * from itens_pedido where pedidos_cod_pedido = " + pedido.getCod_pedido() + "";
 			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
 			while (conectabancodao.getResultSet().next()) {
-				
+
 				Produto produto = new Produto();
-				
+
 				produto.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
 				produto.setNome_produto(conectabancodao.getResultSet().getString("nome_produto"));
 				produto.setQuantidade_produto(conectabancodao.getResultSet().getString("quantidade_produto"));
@@ -68,50 +70,145 @@ public class PedidoDao {
 				produto.setDescricao_produto(conectabancodao.getResultSet().getString("descricao_produto"));
 				produto.setCod_marca_produto(conectabancodao.getResultSet().getString("cod_marca_produto"));
 				produto.setNome_marca_produto(conectabancodao.getResultSet().getString("nome_marca"));
-				
+
 				String query2 = "update produtos set quantidade_produto = (quantidade_produto + "
-						+ produto.getQuantidade_produto() + ") where cod_produto = "
-						+ produto.getCod_produto() + ";";
+						+ produto.getQuantidade_produto() + ") where cod_produto = " + produto.getCod_produto() + ";";
 
 				conectabancodao.getStatement().execute(query2);
-				
+
 			}
-			
-			String query3 = "select * from pedidos where cod_pedido="+pedido.getCod_pedido()+"";
+
+			String query3 = "select * from pedidos where cod_pedido=" + pedido.getCod_pedido() + "";
 			conectabancodao.getStatement().execute(query3);
-			
+
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
-	
+
 	public ArrayList<Pedido> listarTodosPedidos() {
-		
-			ArrayList<Pedido> listaDePedidos = new ArrayList<>();
 
-			try {
-				String query = "select * from pedidos;";
+		ArrayList<Pedido> listaDePedidos = new ArrayList<>();
 
-				conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+		try {
+			String query = "select * from pedidos;";
 
-				while (conectabancodao.getResultSet().next()) {
+			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
 
-					Pedido pedidos = new Pedido();
+			while (conectabancodao.getResultSet().next()) {
 
-					pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-					pedidos.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
-					pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
-					pedidos.setCondicao_pagamento_pedido(conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
-					pedidos.setTipo_pedido(conectabancodao.getResultSet().getString("tipo_pedido"));
-					
-					listaDePedidos.add(pedidos);
-				}
+				Pedido pedidos = new Pedido();
 
-			} catch (Exception e) {
-				System.out.println("ERRO: " + e.getMessage());
+				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
+				pedidos.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
+				pedidos.setCondicao_pagamento_pedido(
+						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
+				pedidos.setTipo_pedido(conectabancodao.getResultSet().getString("tipo_pedido"));
+
+				listaDePedidos.add(pedidos);
 			}
-			return listaDePedidos;
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
 		}
-	
+		return listaDePedidos;
+	}
+
+	public ArrayList<ListaPedido> listarPedidoPorData(String data) {
+
+		ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
+
+		try {
+			String query = "select * from pedidos as p join clientes as c join itens_pedido as i join produtos as pr where p.data_pedido = '"
+					+ data
+					+ "' and p.cod_pedido = i.pedidos_cod_pedido and p.clientes_cod_cliente = c.cod_cliente and i.produtos_cod_produto = pr.cod_produto order by p.cod_pedido;";
+			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+
+			while (conectabancodao.getResultSet().next()) {
+				ListaPedido listaPedido = new ListaPedido();
+				listaPedido.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
+				listaPedido.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				listaPedido.setCondicao_pagamento_pedido(
+						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
+				listaPedido.setCod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
+				listaPedido.setNome_cliente(conectabancodao.getResultSet().getString("nome_cliente"));
+				listaPedido.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
+				listaPedido.setNome_produto(conectabancodao.getResultSet().getString("nome_produto"));
+				listaPedido.setQuantidade_item(conectabancodao.getResultSet().getString("quantidade_item"));
+				listaPedido.setPreco_total_item(conectabancodao.getResultSet().getString("preco_total_item"));
+
+				listaDePedidos.add(listaPedido);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+
+		return listaDePedidos;
+	}
+
+	public ArrayList<ListaPedido> listarPedidoPorNomeCliente(String nome) {
+
+		ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
+
+		try {
+			String query = "select * from pedidos as p join clientes as c join itens_pedido as i join produtos as pr where c.nome_cliente like '%"
+					+ nome
+					+ "%' and p.cod_pedido = i.pedidos_cod_pedido and p.clientes_cod_cliente = c.cod_cliente and i.produtos_cod_produto = pr.cod_produto order by p.cod_pedido;";
+			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+
+			while (conectabancodao.getResultSet().next()) {
+				ListaPedido listaPedido = new ListaPedido();
+				listaPedido.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
+				listaPedido.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				listaPedido.setCondicao_pagamento_pedido(
+						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
+				listaPedido.setCod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
+				listaPedido.setNome_cliente(conectabancodao.getResultSet().getString("nome_cliente"));
+				listaPedido.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
+				listaPedido.setNome_produto(conectabancodao.getResultSet().getString("nome_produto"));
+				listaPedido.setQuantidade_item(conectabancodao.getResultSet().getString("quantidade_item"));
+				listaPedido.setPreco_total_item(conectabancodao.getResultSet().getString("preco_total_item"));
+
+				listaDePedidos.add(listaPedido);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+
+		return listaDePedidos;
+	}
+
+	public ArrayList<ListaPedido> listarPedidoPorCondicaoPagamento(String condicao) {
+
+		ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
+
+		try {
+			String query = "select * from pedidos as p join clientes as c join itens_pedido as i join produtos as pr where p.condicao_pagamento_pedido like '%"
+					+ condicao
+					+ "%' and p.cod_pedido = i.pedidos_cod_pedido and p.clientes_cod_cliente = c.cod_cliente and i.produtos_cod_produto = pr.cod_produto order by p.cod_pedido;";
+			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+
+			while (conectabancodao.getResultSet().next()) {
+				ListaPedido listaPedido = new ListaPedido();
+				listaPedido.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
+				listaPedido.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				listaPedido.setCondicao_pagamento_pedido(
+						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
+				listaPedido.setCod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
+				listaPedido.setNome_cliente(conectabancodao.getResultSet().getString("nome_cliente"));
+				listaPedido.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
+				listaPedido.setNome_produto(conectabancodao.getResultSet().getString("nome_produto"));
+				listaPedido.setQuantidade_item(conectabancodao.getResultSet().getString("quantidade_item"));
+				listaPedido.setPreco_total_item(conectabancodao.getResultSet().getString("preco_total_item"));
+
+				listaDePedidos.add(listaPedido);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+
+		return listaDePedidos;
+	}
 
 }
