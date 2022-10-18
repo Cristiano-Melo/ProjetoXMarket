@@ -9,6 +9,8 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.GroupLayout;
@@ -28,8 +30,16 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import Conexao.Dao.ClienteDao;
+import Conexao.Dao.PedidoDao;
+import Conexao.Dao.ProdutoDao;
 import Models.Cliente;
 import Models.Login;
+import Models.Pedido;
+import Models.Produto;
+import Relatorios.RelatorioCliente;
+import Relatorios.RelatorioPedidos;
+import Relatorios.RelatorioProdutos;
+import net.sf.jasperreports.engine.JRException;
 
 public class frmPrincipal extends JFrame {
 
@@ -37,13 +47,16 @@ public class frmPrincipal extends JFrame {
 	private Clientes c;
 	private Produtos p;
 	private Pedidos pedidos;
+	private Marcas m;
 	private Login login;
 	private Contatos con;
 	private JDesktopPane desktopPanePrincipal; // classe do painel deskttoppanel
 	protected AbstractButton textFieldCodCliente;
 	protected AbstractButton textFieldNomeCliente;
 	protected AbstractButton textFieldCpf;
-
+	
+	ArrayList<Cliente> listacliente = new ArrayList<Cliente>();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -125,10 +138,16 @@ public class frmPrincipal extends JFrame {
 		mnProcessos.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnProcessos);
 
-		JMenuItem mntmFaturamento = new JMenuItem("Faturamento");
-		mntmFaturamento.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
-		mntmFaturamento.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		mnProcessos.add(mntmFaturamento);
+		JMenuItem mntmCadastro = new JMenuItem("Marcas");
+		mntmCadastro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarMarcas();
+
+			}
+		});
+		mntmCadastro.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
+		mntmCadastro.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		mnProcessos.add(mntmCadastro);
 
 		JMenu mnConsultas = new JMenu("Consultas");
 		mnConsultas.setForeground(new Color(0, 0, 0));
@@ -258,7 +277,7 @@ public class frmPrincipal extends JFrame {
 		JButton btnRelatorios = new JButton("Relatorios");
 		btnRelatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				InputDialog2();	
 			}
 		});
 		btnRelatorios.setBackground(new Color(255, 255, 255));
@@ -301,6 +320,7 @@ public class frmPrincipal extends JFrame {
 		case "Consulta Clientes":
 			System.out.println("Consulta Clientes");
 			carregarClientes();
+			
 			break;
 		case "Consulta Produtos":
 			System.out.println("Consulta Produtos");
@@ -315,10 +335,161 @@ public class frmPrincipal extends JFrame {
 		}
 
 	}
+	
+	protected void InputDialog2() {
+		String[] options = { null, "Relatório Clientes", "Relatório Produtos", "Relatório Pedidos" };
+		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
+		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Relatórios",
+				JOptionPane.QUESTION_MESSAGE, icon, options, options[3]);
+		System.out.println(n);
+
+		String opcao = n;
+		switch (opcao) {
+
+		case "Relatório Clientes":
+			System.out.println("Relatório Clientes");
+			relatorioCliente();			
+			break;
+			
+		case "Relatório Produtos":
+			System.out.println("Relatório Produtos");
+			relatorioProduto();
+			break;
+
+		case "Relatório Pedidos":
+			System.out.println("Relatório Pedidos");
+			relatorioPedido();
+			break;
+
+		}
+
+	}
 
 	public frmPrincipal() {
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		projetoGui();
+	}
+	
+	void relatorioPedido() {
+		RelatorioPedidos relatorio = new RelatorioPedidos();
+		
+		try {
+		PedidoDao pedidodao = new PedidoDao();
+		List<Pedido> listaDePedidos = new ArrayList<>();
+		
+		ArrayList<Pedido> arraypedido = new ArrayList<>();
+		
+		arraypedido = pedidodao.listarTodosPedidos();
+		
+
+		for (Pedido contador : arraypedido) {
+			Pedido pedido = new Pedido(); 
+		
+			
+			pedido.setCod_pedido(contador.getCod_pedido());
+			pedido.setData_pedido(contador.getData_pedido());
+			pedido.setClientes_cod_cliente(contador.getClientes_cod_cliente());
+			pedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
+			pedido.setTipo_pedido(contador.getTipo_pedido());
+			
+			System.out.println(contador.getCod_pedido());
+			System.out.println(contador.getData_pedido());
+			System.out.println(contador.getClientes_cod_cliente());
+			System.out.println(contador.getCondicao_pagamento_pedido());
+			System.out.println(contador.getTipo_pedido());
+			
+			listaDePedidos.add(pedido);			
+		}
+		
+		
+		relatorio.gerarRelatorio(listaDePedidos);
+			
+			
+		} catch (JRException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+	}
+	
+	void relatorioProduto() {
+		RelatorioProdutos relatorio = new RelatorioProdutos();
+		
+		try {
+		ProdutoDao produtodao = new ProdutoDao();
+		List<Produto> listaDeProdutos = new ArrayList<>();
+		
+		ArrayList<Produto> arrayproduto = new ArrayList<>();
+		
+		arrayproduto = produtodao.listarTodosProdutos();	
+		
+
+		for (Produto contador : arrayproduto) {
+			Produto produto = new Produto(); 
+		
+			produto.setCod_produto(contador.getCod_produto());
+			produto.setNome_produto(contador.getNome_produto());
+			produto.setQuantidade_produto(contador.getQuantidade_produto());
+			produto.setValor_compra_produto(contador.getValor_compra_produto());
+			produto.setValor_venda_produto(contador.getValor_venda_produto());
+			produto.setDescricao_produto(contador.getDescricao_produto());
+			produto.setCod_marca_produto(contador.getCod_marca_produto());
+			
+			System.out.println(produto.getCod_produto());
+			System.out.println(produto.getNome_produto());
+			System.out.println(produto.getQuantidade_produto());
+			System.out.println(produto.getValor_compra_produto());
+			System.out.println(produto.getValor_venda_produto());
+			System.out.println(produto.getDescricao_produto());
+			System.out.println(produto.getCod_marca_produto());
+			
+			listaDeProdutos.add(produto);			
+		}
+		
+		
+		relatorio.gerarRelatorio(listaDeProdutos);
+			
+			
+		} catch (JRException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	void relatorioCliente() {
+		RelatorioCliente relatorio = new RelatorioCliente();
+		
+		try {
+		ClienteDao clientedao = new ClienteDao();
+		List<Cliente> listaDeClientes = new ArrayList<>();
+		
+		ArrayList<Cliente> arraycliente = new ArrayList<>();
+		
+		arraycliente = clientedao.listarTodosClientes();		
+
+		for (Cliente contador : arraycliente) {
+			Cliente clientes = new Cliente(); 
+		
+			
+			clientes.setCod_cliente(contador.getCod_cliente());
+			clientes.setNome_cliente(contador.getNome_cliente());
+			clientes.setCpf_cliente(contador.getCpf_cliente());
+			clientes.setRg_cliente(contador.getRg_cliente());
+			clientes.setEmail_cliente(contador.getEmail_cliente());
+			clientes.setTelefone_cliente(contador.getTelefone_cliente());
+			clientes.setEndereco_cliente(contador.getEndereco_cliente());
+			clientes.setBairro_cliente(contador.getBairro_cliente());
+			clientes.setCidade_cliente(contador.getCidade_cliente());
+			clientes.setUf_cliente( contador.getUf_cliente());
+			clientes.setCep_cliente(contador.getCep_cliente());	
+			
+			listaDeClientes.add(clientes);
+		}
+		
+		
+		relatorio.gerarRelatorio(listaDeClientes);
+			
+			
+		} catch (JRException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	void carregarProdutos() {
@@ -373,10 +544,18 @@ public class frmPrincipal extends JFrame {
 					(desktopPanePrincipal.getHeight() - tf.height) / 2);
 			con.show();
 			
+		}	
+	}
+	
+	void carregarMarcas() {
+		if (m == null || m.isClosed()) {
+			m = new Marcas();
+			desktopPanePrincipal.add(m);
+			Dimension tf = m.getSize();// Metodo que centraliza no meio da tela a janela produtos
+			m.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
+					(desktopPanePrincipal.getHeight() - tf.height) / 2);
+			m.show();
+			
 		}
-		
-		
-		
-		
 	}
 }

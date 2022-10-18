@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl">
+  <name>AdapterProjeto</name>
+  <classpath>C:\mysql-connector-java-8.0.27\mysql-connector-java-8.0.27.jar</classpath>
+  <driver>com.mysql.jdbc.Driver</driver>
+  <username>root</username>
+  <password>mysql</password>
+  <url>jdbc:mysql://localhost/xmarket_api</url>
+  <database></database>
+  <savePassword>true</savePassword>
+  <serverAddress></serverAddress>
+</jdbcDataAdapter>

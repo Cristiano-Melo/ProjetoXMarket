@@ -19,6 +19,8 @@ import javax.swing.border.BevelBorder;
 import Conexao.Dao.LoginDao;
 import Models.Login;
 
+
+
 public class Login1 extends JFrame {
 	
 	private JPanel contentPane;
