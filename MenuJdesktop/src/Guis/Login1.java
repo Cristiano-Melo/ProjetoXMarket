@@ -18,12 +18,14 @@ import javax.swing.border.BevelBorder;
 
 import Conexao.Dao.LoginDao;
 import Models.Login;
+import javax.swing.JPasswordField;
 
 
 
 public class Login1 extends JFrame {
 	
 	private JPanel contentPane;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -56,17 +58,16 @@ public class Login1 extends JFrame {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
+		passwordField = new JPasswordField();
+		passwordField.setBackground(new Color(153, 204, 204));
+		passwordField.setBounds(219, 245, 133, 20);
+		panel.add(passwordField);
+		
 		JTextField textFieldCampoUsuario = new JTextField();
 		textFieldCampoUsuario.setBackground(new Color(153, 204, 204));
 		textFieldCampoUsuario.setBounds(219, 214, 133, 20);
 		panel.add(textFieldCampoUsuario);
 		textFieldCampoUsuario.setColumns(10);
-		
-		JTextField textFieldCampoSenha = new JTextField();
-		textFieldCampoSenha.setBackground(new Color(153, 204, 204));
-		textFieldCampoSenha.setColumns(10);
-		textFieldCampoSenha.setBounds(219, 245, 133, 20);
-		panel.add(textFieldCampoSenha);
 		
 		JLabel lblUsuario = new JLabel("Usuário");
 		lblUsuario.setForeground(Color.BLACK);
@@ -84,11 +85,12 @@ public class Login1 extends JFrame {
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setBackground(new Color(0, 0, 0));
 		btnNewButton.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				LoginDao loginDao = new LoginDao();
 				Login login = new Login();
 				login.setUsuario(textFieldCampoUsuario.getText());
-				login.setSenha(textFieldCampoSenha.getText());
+				login.setSenha(passwordField.getText());
 				
 				loginDao.logar(login);
 				

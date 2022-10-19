@@ -33,6 +33,7 @@ import Conexao.Dao.ClienteDao;
 import Conexao.Dao.PedidoDao;
 import Conexao.Dao.ProdutoDao;
 import Models.Cliente;
+import Models.ListaPedido;
 import Models.Login;
 import Models.Pedido;
 import Models.Produto;
@@ -338,31 +339,73 @@ public class frmPrincipal extends JFrame {
 	}
 	
 	protected void InputDialog2() {
-		String[] options = { null, "Relatório Clientes", "Relatório Produtos", "Relatório Pedidos" };
-		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
-		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Relatórios",
-				JOptionPane.QUESTION_MESSAGE, icon, options, options[3]);
-		System.out.println(n);
+		
+		try {
+			String[] options = { null, "Relatório Clientes", "Relatório Clientes por Nome", "Relatório Clientes por CPF", 
+					"Relatório Produtos", "Relatório Pedidos", "Relatório Pedidos por CPF", "Relatório Pedidos por Nome", "Relatório Pedidos por Data", "Relatório Pedidos Entre Datas"};
+			ImageIcon icon = new ImageIcon("src/icones/lupa.png");
+			String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Relatórios",
+					JOptionPane.QUESTION_MESSAGE, icon, options, options[3]);
+			System.out.println(n);
 
-		String opcao = n;
-		switch (opcao) {
+			String opcao = n;
+			switch (opcao) {
 
-		case "Relatório Clientes":
-			System.out.println("Relatório Clientes");
-			relatorioCliente();			
-			break;
-			
-		case "Relatório Produtos":
-			System.out.println("Relatório Produtos");
-			relatorioProduto();
-			break;
+			case "Relatório Clientes":
+				System.out.println("Relatório Clientes");
+				relatorioCliente();			
+				break;
+				
+			case "Relatório Clientes por Nome":
+				System.out.println("Relatório Clientes por Nome");
+				relatorioClientePorNome();
+				break;
+				
+			case "Relatório Clientes por CPF":
+				System.out.println("Relatório Clientes por CPF");
+				relatorioClientePorCPF();
+				break;
+				
+			case "Relatório Produtos":
+				System.out.println("Relatório Produtos");
+				relatorioProduto();
+				break;
 
-		case "Relatório Pedidos":
-			System.out.println("Relatório Pedidos");
-			relatorioPedido();
-			break;
-
+			case "Relatório Pedidos":
+				System.out.println("Relatório Pedidos");
+				relatorioPedido();
+				break;
+				
+			case "Relatório Pedidos por CPF":
+				System.out.println();
+				relatorioPedidoPorCpf();
+				break;
+				
+			case "Relatório Pedidos por Data":
+				System.out.println("Relatório Pedidos por Data");
+				relatorioPedidoPorData();
+				break;
+				
+			case "Relatório Pedidos Entre Datas":
+				System.out.println("Relatório Pedidos Entre Datas");
+				relatorioPedidoEntreDatas();
+				break;
+				
+			case "Relatório Pedidos por Nome":
+				System.out.println("Relatório Pedidos por Nome");
+				relatorioPedidoPorNome();
+				break;
+				
+			case "Relatório Pedidos Opção de Pagamento":
+				 System.out.println("Relatório Pedidos Opção de Pagamento");
+				 relatorioPedidoOpcaoPagamento();
+				 break;
+			}
+				 
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Opção não pode estar vazia!");
 		}
+		
 
 	}
 
@@ -371,33 +414,190 @@ public class frmPrincipal extends JFrame {
 		projetoGui();
 	}
 	
+	
+	
 	void relatorioPedido() {
+
 		RelatorioPedidos relatorio = new RelatorioPedidos();
 		
 		try {
 		PedidoDao pedidodao = new PedidoDao();
-		List<Pedido> listaDePedidos = new ArrayList<>();
+		List<ListaPedido> listaDePedidos = new ArrayList<>();
 		
-		ArrayList<Pedido> arraypedido = new ArrayList<>();
+		ArrayList<ListaPedido> arraypedido = new ArrayList<>();
 		
 		arraypedido = pedidodao.listarTodosPedidos();
 		
 
-		for (Pedido contador : arraypedido) {
-			Pedido pedido = new Pedido(); 
+		for (ListaPedido contador : arraypedido) {
+			
+			ListaPedido pedido = new ListaPedido(); 		
+			
+			pedido.setCod_pedido(contador.getCod_pedido());
+			pedido.setData_pedido(contador.getData_pedido());
+			pedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
+			pedido.setTipo_pedido(contador.getTipo_pedido());
+			pedido.setNome_cliente(contador.getNome_cliente());
+			pedido.setCpf_cliente(contador.getCpf_cliente());
+			pedido.setNome_produto(contador.getNome_produto());
+			pedido.setQuantidade_item(contador.getQuantidade_item());
+			pedido.setPreco_total_item(contador.getPreco_total_item());
+			pedido.setValor_venda_produto(contador.getValor_venda_produto());
+			
+			listaDePedidos.add(pedido);			
+		}
+		
+		
+		relatorio.gerarRelatorio(listaDePedidos);
+			
+			
+		} catch (JRException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+	}
+	void relatorioPedidoOpcaoPagamento() {
+		RelatorioPedidos relatorio = new RelatorioPedidos();
+		
+		try {
+		PedidoDao pedidodao = new PedidoDao();
+		List<ListaPedido> listaDePedidos = new ArrayList<>();
+		
+		ArrayList<ListaPedido> arraypedido = new ArrayList<>();
+		
+		String[] options = { null, "Dinheiro", "Pix", "Débito", "Credito" };
+		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
+		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Condição de Pagamento",
+				JOptionPane.QUESTION_MESSAGE, icon, options, options[4]);
+		System.out.println(n);
+
+		String opcao = n;
+		
+		switch (opcao) {
+
+		case "Dinheiro":
+			
+			listaDePedidos = pedidodao.listarPedidoPorCondicaoPagamento(opcao);
+			break;
+			
+		case "Pix":
+
+			listaDePedidos = pedidodao.listarPedidoPorCondicaoPagamento(opcao);
+			break;
+
+		case "Débito":
+
+			listaDePedidos = pedidodao.listarPedidoPorCondicaoPagamento(opcao);
+			break;
+
+		case "Credito":
+
+			listaDePedidos = pedidodao.listarPedidoPorCondicaoPagamento(opcao);
+			break;
+
+		}
+		
+	
+	
+		
+		arraypedido = pedidodao.listarPedidoPorCondicaoPagamento(opcao);
+		
+
+		for (ListaPedido contador : arraypedido) {
+			ListaPedido pedido = new ListaPedido(); 
 		
 			
 			pedido.setCod_pedido(contador.getCod_pedido());
 			pedido.setData_pedido(contador.getData_pedido());
-			pedido.setClientes_cod_cliente(contador.getClientes_cod_cliente());
 			pedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
 			pedido.setTipo_pedido(contador.getTipo_pedido());
+			pedido.setNome_cliente(contador.getNome_cliente());
+			pedido.setCpf_cliente(contador.getCpf_cliente());
+			pedido.setNome_produto(contador.getNome_produto());
+			pedido.setQuantidade_item(contador.getQuantidade_item());
+			pedido.setPreco_total_item(contador.getPreco_total_item());
+			pedido.setValor_venda_produto(contador.getValor_venda_produto());
 			
-			System.out.println(contador.getCod_pedido());
-			System.out.println(contador.getData_pedido());
-			System.out.println(contador.getClientes_cod_cliente());
-			System.out.println(contador.getCondicao_pagamento_pedido());
-			System.out.println(contador.getTipo_pedido());
+			listaDePedidos.add(pedido);			
+		}
+		
+		
+		relatorio.gerarRelatorio(listaDePedidos);
+			
+			
+		} catch (JRException e1) {
+			JOptionPane.showMessageDialog(null, "Tempo entre essas datas não possui nada!");
+		}
+	}
+	
+	void relatorioPedidoPorNome() {
+RelatorioPedidos relatorio = new RelatorioPedidos();
+		
+		try {
+		PedidoDao pedidodao = new PedidoDao();
+		List<ListaPedido> listaDePedidos = new ArrayList<>();
+		
+		ArrayList<ListaPedido> arraypedido = new ArrayList<>();
+		
+		String nome = JOptionPane.showInputDialog("Insira o nome do cliente: ");
+		
+		arraypedido = pedidodao.listarPedidoPorNomeCliente(nome);
+		
+
+		for (ListaPedido contador : arraypedido) {
+			ListaPedido pedido = new ListaPedido(); 		
+			
+			pedido.setCod_pedido(contador.getCod_pedido());
+			pedido.setData_pedido(contador.getData_pedido());
+			pedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
+			pedido.setTipo_pedido(contador.getTipo_pedido());
+			pedido.setNome_cliente(contador.getNome_cliente());
+			pedido.setCpf_cliente(contador.getCpf_cliente());
+			pedido.setNome_produto(contador.getNome_produto());
+			pedido.setQuantidade_item(contador.getQuantidade_item());
+			pedido.setPreco_total_item(contador.getPreco_total_item());
+			pedido.setValor_venda_produto(contador.getValor_venda_produto());
+			
+			listaDePedidos.add(pedido);	
+		}
+		
+		
+		relatorio.gerarRelatorio(listaDePedidos);
+			
+			
+		} catch (JRException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+	}
+	
+	void relatorioPedidoPorCpf() {
+		
+		RelatorioPedidos relatorio = new RelatorioPedidos();
+		
+		try {
+		PedidoDao pedidodao = new PedidoDao();
+		List<ListaPedido> listaDePedidos = new ArrayList<>();
+		
+		ArrayList<ListaPedido> arraypedido = new ArrayList<>();
+		
+		String cpf = JOptionPane.showInputDialog("Insira o cpf do cliente: ");
+		
+		arraypedido = pedidodao.listarPedidoPorCpfCliente(cpf);
+		
+
+		for (ListaPedido contador : arraypedido) {
+			ListaPedido pedido = new ListaPedido(); 
+		
+			
+			pedido.setCod_pedido(contador.getCod_pedido());
+			pedido.setData_pedido(contador.getData_pedido());
+			pedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
+			pedido.setTipo_pedido(contador.getTipo_pedido());
+			pedido.setNome_cliente(contador.getNome_cliente());
+			pedido.setCpf_cliente(contador.getCpf_cliente());
+			pedido.setNome_produto(contador.getNome_produto());
+			pedido.setQuantidade_item(contador.getQuantidade_item());
+			pedido.setPreco_total_item(contador.getPreco_total_item());
+			pedido.setValor_venda_produto(contador.getValor_venda_produto());
 			
 			listaDePedidos.add(pedido);			
 		}
@@ -411,7 +611,95 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 	
-	void relatorioProduto() {
+    void relatorioPedidoEntreDatas() {
+    	RelatorioPedidos relatorio = new RelatorioPedidos();
+		
+		try {
+		PedidoDao pedidodao = new PedidoDao();
+		List<ListaPedido> listaDePedidos = new ArrayList<>();
+		
+		ArrayList<ListaPedido> arraypedido = new ArrayList<>();
+		
+		String data = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'AAAA-MM-DD':");
+		String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'AAAA-MM-DD':");
+		
+		arraypedido = pedidodao.listarPedidoEntreDatas(data, data2);
+		
+
+		for (ListaPedido contador : arraypedido) {
+			ListaPedido pedido = new ListaPedido(); 
+		
+			
+			pedido.setCod_pedido(contador.getCod_pedido());
+			pedido.setData_pedido(contador.getData_pedido());
+			pedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
+			pedido.setTipo_pedido(contador.getTipo_pedido());
+			pedido.setNome_cliente(contador.getNome_cliente());
+			pedido.setCpf_cliente(contador.getCpf_cliente());
+			pedido.setNome_produto(contador.getNome_produto());
+			pedido.setQuantidade_item(contador.getQuantidade_item());
+			
+			System.out.println(contador.getCod_pedido());
+			System.out.println(contador.getData_pedido());
+			System.out.println(contador.getCod_cliente());
+			System.out.println(contador.getCondicao_pagamento_pedido());
+			System.out.println(contador.getTipo_pedido());
+			
+			listaDePedidos.add(pedido);			
+		}
+		
+		
+		relatorio.gerarRelatorio(listaDePedidos);
+			
+			
+		} catch (JRException e1) {
+			JOptionPane.showMessageDialog(null, "Tempo entre essas datas não possui nada!");
+		}
+	}
+
+    void relatorioPedidoPorData() {
+RelatorioPedidos relatorio = new RelatorioPedidos();
+		
+		try {
+		PedidoDao pedidodao = new PedidoDao();
+		List<ListaPedido> listaDePedidos = new ArrayList<>();
+		
+		ArrayList<ListaPedido> arraypedido = new ArrayList<>();
+		
+		String data = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'AAAA-MM-DD':");
+		
+		arraypedido = pedidodao.listarPedidoPorData(data);
+		
+
+		for (ListaPedido contador : arraypedido) {
+			ListaPedido pedido = new ListaPedido(); 
+		
+			
+			pedido.setCod_pedido(contador.getCod_pedido());
+			pedido.setData_pedido(contador.getData_pedido());
+			pedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
+			pedido.setTipo_pedido(contador.getTipo_pedido());
+			pedido.setNome_cliente(contador.getNome_cliente());
+			pedido.setCpf_cliente(contador.getCpf_cliente());
+			pedido.setNome_produto(contador.getNome_produto());
+			pedido.setQuantidade_item(contador.getQuantidade_item());
+			pedido.setPreco_total_item(contador.getPreco_total_item());
+			pedido.setValor_venda_produto(contador.getValor_venda_produto());
+			
+			listaDePedidos.add(pedido);			
+		}
+		
+		
+		relatorio.gerarRelatorio(listaDePedidos);
+			
+			
+		} catch (JRException e1) {
+			JOptionPane.showMessageDialog(null, "Tempo entre essas datas não possui nada!");
+		}
+    }
+    
+	
+    void relatorioProduto() {
 		RelatorioProdutos relatorio = new RelatorioProdutos();
 		
 		try {
@@ -454,7 +742,8 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 	
-	void relatorioCliente() {
+	
+    void relatorioCliente() {
 		RelatorioCliente relatorio = new RelatorioCliente();
 		
 		try {
@@ -493,6 +782,89 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 
+	void relatorioClientePorNome() {
+		RelatorioCliente relatorio = new RelatorioCliente();
+		
+		try {
+		ClienteDao clientedao = new ClienteDao();
+		List<Cliente> listaDeClientes = new ArrayList<>();
+		
+		ArrayList<Cliente> arraycliente = new ArrayList<>();
+		
+		String nome = JOptionPane.showInputDialog("Informe o Nome: ");
+		
+		arraycliente = clientedao.listarClientePorNome(nome);		
+
+		for (Cliente contador : arraycliente) {
+			Cliente clientes = new Cliente(); 
+		
+			
+			clientes.setCod_cliente(contador.getCod_cliente());
+			clientes.setNome_cliente(contador.getNome_cliente());
+			clientes.setCpf_cliente(contador.getCpf_cliente());
+			clientes.setRg_cliente(contador.getRg_cliente());
+			clientes.setEmail_cliente(contador.getEmail_cliente());
+			clientes.setTelefone_cliente(contador.getTelefone_cliente());
+			clientes.setEndereco_cliente(contador.getEndereco_cliente());
+			clientes.setBairro_cliente(contador.getBairro_cliente());
+			clientes.setCidade_cliente(contador.getCidade_cliente());
+			clientes.setUf_cliente( contador.getUf_cliente());
+			clientes.setCep_cliente(contador.getCep_cliente());	
+			
+			listaDeClientes.add(clientes);
+		}
+		
+		
+		relatorio.gerarRelatorio(listaDeClientes);
+			
+			
+		} catch (JRException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	void relatorioClientePorCPF() {
+		RelatorioCliente relatorio = new RelatorioCliente();
+		
+		try {
+		ClienteDao clientedao = new ClienteDao();
+		List<Cliente> listaDeClientes = new ArrayList<>();
+		
+		ArrayList<Cliente> arraycliente = new ArrayList<>();
+		
+		String cpf = JOptionPane.showInputDialog("Informe o Cpf: ");
+		
+		arraycliente = clientedao.listarClientePorCpf(cpf);		
+
+		for (Cliente contador : arraycliente) {
+			Cliente clientes = new Cliente(); 
+		
+			
+			clientes.setCod_cliente(contador.getCod_cliente());
+			clientes.setNome_cliente(contador.getNome_cliente());
+			clientes.setCpf_cliente(contador.getCpf_cliente());
+			clientes.setRg_cliente(contador.getRg_cliente());
+			clientes.setEmail_cliente(contador.getEmail_cliente());
+			clientes.setTelefone_cliente(contador.getTelefone_cliente());
+			clientes.setEndereco_cliente(contador.getEndereco_cliente());
+			clientes.setBairro_cliente(contador.getBairro_cliente());
+			clientes.setCidade_cliente(contador.getCidade_cliente());
+			clientes.setUf_cliente( contador.getUf_cliente());
+			clientes.setCep_cliente(contador.getCep_cliente());	
+			
+			listaDeClientes.add(clientes);
+		}
+		
+		
+		relatorio.gerarRelatorio(listaDeClientes);
+			
+			
+		} catch (JRException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	
 	void carregarProdutos() {
 		if (p == null || p.isClosed()) { // metodo que verifica se a janela esta aberta, barrando nova abertura
 			p = new Produtos();
@@ -533,9 +905,6 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 
-	
-		
-
 	void carregarContatos() {
 		if (con == null || con.isClosed()) {
 			con = new Contatos();
@@ -571,4 +940,5 @@ public class frmPrincipal extends JFrame {
 			
 		}
 	}
+
 }

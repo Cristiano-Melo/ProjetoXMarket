@@ -302,16 +302,17 @@ public class Pedidos extends JInternalFrame {
 		btnPesquisaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Cliente cliente = new Cliente();
+				ArrayList<Cliente> cliente = new ArrayList<>();
 				ClienteDao clienteDao = new ClienteDao();
 				
 				String cpf = JOptionPane.showInputDialog("Informe o CPF do Cliente: ");
 				cliente = clienteDao.listarClientePorCpf(cpf);
 				
-				textFieldCodCliente.setText(cliente.getCod_cliente());
-				textFieldNomeCliente.setText(cliente.getNome_cliente());
-				textFieldCpf.setText(cliente.getCpf_cliente());				
-				
+				for (Cliente contador : cliente) {
+				textFieldCodCliente.setText(contador.getCod_cliente());
+				textFieldNomeCliente.setText(contador.getNome_cliente());
+				textFieldCpf.setText(contador.getCpf_cliente());				
+				}
 			}
 		});
 		btnPesquisaCliente.setBounds(672, 41, 46, 23);
@@ -333,6 +334,8 @@ public class Pedidos extends JInternalFrame {
 					row[4] = textFieldValor.getText();
 
 					model.addRow(row);
+					
+					
 					
 					calculaValorTotal += Double.parseDouble(textFieldQuantidade.getText()) * Double.parseDouble(textFieldValor.getText()); 
 					textFieldValorTotal.setText(String.valueOf(calculaValorTotal));

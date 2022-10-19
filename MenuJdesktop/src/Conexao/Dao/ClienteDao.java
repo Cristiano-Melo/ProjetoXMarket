@@ -149,11 +149,13 @@ public class ClienteDao {
 		}
 	}
 
-	public Cliente listarClientePorCpf(String cpf) {
-		Cliente clientes = new Cliente();  
+	public ArrayList<Cliente> listarClientePorCpf(String cpf) {
+		ArrayList<Cliente> listaDeClientes = new ArrayList<>();  
 		try {
 			String query = "select * from clientes where cpf_cliente = '" + cpf + "';";
 			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+			
+			Cliente clientes = new Cliente();
 			
 				while(conectabancodao.getResultSet().next()) {
 				clientes.setCod_cliente(conectabancodao.getResultSet().getString("cod_cliente"));
@@ -167,13 +169,16 @@ public class ClienteDao {
 				clientes.setCidade_cliente(conectabancodao.getResultSet().getString("cidade_cliente"));
 				clientes.setUf_cliente(conectabancodao.getResultSet().getString("uf_cliente"));
 				clientes.setCep_cliente(conectabancodao.getResultSet().getString("cep_cliente"));
+				
+				listaDeClientes.add(clientes);
 				}
 		
 		}catch (Exception e) {
 			System.out.println("ERRO: " + e.getMessage());
 		}
 		
-		return clientes;
+		return listaDeClientes;
 
 	}
+
 }

@@ -162,7 +162,7 @@ public class ListarPedidos extends JInternalFrame {
 					row[0] = contador.getCod_pedido();
 					row[1] = contador.getData_pedido();
 					row[2] = contador.getCondicao_pagamento_pedido();
-					row[3] = contador.getCod_cliente();
+					row[3] = contador.getClientes_cod_cliente();
 					row[4] = contador.getNome_cliente();
 					row[5] = contador.getCod_produto();
 					row[6] = contador.getNome_produto();
@@ -194,7 +194,7 @@ public class ListarPedidos extends JInternalFrame {
 					row[0] = contador.getCod_pedido();
 					row[1] = contador.getData_pedido();
 					row[2] = contador.getCondicao_pagamento_pedido();
-					row[3] = contador.getCod_cliente();
+					row[3] = contador.getClientes_cod_cliente();
 					row[4] = contador.getNome_cliente();
 					row[5] = contador.getCod_produto();
 					row[6] = contador.getNome_produto();
@@ -213,6 +213,9 @@ public class ListarPedidos extends JInternalFrame {
 		btnListarPorPagamento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}	
 				ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
 				
 				listaDePedidos = InputDialog();
@@ -221,7 +224,7 @@ public class ListarPedidos extends JInternalFrame {
 					row[0] = contador.getCod_pedido();
 					row[1] = contador.getData_pedido();
 					row[2] = contador.getCondicao_pagamento_pedido();
-					row[3] = contador.getCod_cliente();
+					row[3] = contador.getClientes_cod_cliente();
 					row[4] = contador.getNome_cliente();
 					row[5] = contador.getCod_produto();
 					row[6] = contador.getNome_produto();

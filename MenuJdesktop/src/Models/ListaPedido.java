@@ -6,11 +6,54 @@ public class ListaPedido {
 	String condicao_pagamento_pedido;
 	String cod_cliente;
 	String nome_cliente;
+	String cpf_cliente;
+	String rg_cliente;
+	String email_cliente;
+	String clientes_cod_cliente;
 	String cod_produto;
 	String nome_produto;
 	String quantidade_item;
-	String preco_total_item;
+	String valor_venda_produto;
+	Double preco_total_item;
+	String tipo_pedido;
 	
+	
+	public String getValor_venda_produto() {
+		return valor_venda_produto;
+	}
+	public void setValor_venda_produto(String valor_venda_produto) {
+		this.valor_venda_produto = valor_venda_produto;
+	}
+	public String getEmail_cliente() {
+		return email_cliente;
+	}
+	public void setEmail_cliente(String email_cliente) {
+		this.email_cliente = email_cliente;
+	}
+	public String getRg_cliente() {
+		return rg_cliente;
+	}
+	public void setRg_cliente(String rg_cliente) {
+		this.rg_cliente = rg_cliente;
+	}
+	public String getClientes_cod_cliente() {
+		return clientes_cod_cliente;
+	}
+	public void setClientes_cod_cliente(String clientes_cod_cliente) {
+		this.clientes_cod_cliente = clientes_cod_cliente;
+	}
+	public String getCpf_cliente() {
+		return cpf_cliente;
+	}
+	public void setCpf_cliente(String cpf_cliente) {
+		this.cpf_cliente = cpf_cliente;
+	}
+	public String getTipo_pedido() {
+		return tipo_pedido;
+	}
+	public void setTipo_pedido(String tipo_pedido) {
+		this.tipo_pedido = tipo_pedido;
+	}
 	public String getCod_pedido() {
 		return cod_pedido;
 	}
@@ -59,11 +102,12 @@ public class ListaPedido {
 	public void setQuantidade_item(String quantidade_item) {
 		this.quantidade_item = quantidade_item;
 	}
-	public String getPreco_total_item() {
+	public Double getPreco_total_item() {
 		return preco_total_item;
 	}
-	public void setPreco_total_item(String preco_total_item) {
+	public void setPreco_total_item(Double preco_total_item) {
 		this.preco_total_item = preco_total_item;
 	}
+	
 
 }

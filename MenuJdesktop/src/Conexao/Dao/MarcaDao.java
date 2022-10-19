@@ -83,5 +83,32 @@ public class MarcaDao {
 					"Erro na alteração da marca: [" + marca.getCodigoMarca() + "] " + e.getMessage() + ". Verifique!");
 		}
 	}
+	
+	public String buscaDescricaoCodMarca(String codmarca) {
+		String  descricao="";
+		try {
+			
+			
+			String query = "select nome_marca from marcas where cod_marca='"+codmarca+"';";
+			
+			System.out.println("query seleção descrição código da marca: [" + query + "]\n");
+			
+			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+			
+			if(conectabancodao.getResultSet().next()){
+				descricao=conectabancodao.getResultSet().getString("nome_marca");
+				return(descricao);
+			}
+			return("Descrição não encontrada");
+		
+			
+	
+		} catch (Exception e) {
+			JOptionPane.showInternalMessageDialog(null,
+					"Erro na seleção da descrição da marca: [" + codmarca + "] " + e.getMessage() + ". Verifique!");
+			return(descricao);
+		}
+		
+	}
 
 }
