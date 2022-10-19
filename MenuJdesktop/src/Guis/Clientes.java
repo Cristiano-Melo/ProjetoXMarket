@@ -26,7 +26,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Conexao.Dao.ClienteDao;
+import Conexao.Dao.ProdutoDao;
 import Models.Cliente;
+import Models.Produto;
 
 public class Clientes extends JInternalFrame {
 	private JTextField textFieldCodCliente;
@@ -82,7 +84,7 @@ public class Clientes extends JInternalFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel.setBounds(10, 47, 749, 450);
+		panel.setBounds(10, 40, 749, 457);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
@@ -99,12 +101,12 @@ public class Clientes extends JInternalFrame {
 		panel.add(textFieldCodCliente);
 
 		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(179, 25, 63, 20);
+		lblNome.setBounds(205, 25, 46, 20);
 		lblNome.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblNome);
 
 		textFieldNome = new JTextField();
-		textFieldNome.setBounds(227, 23, 288, 20);
+		textFieldNome.setBounds(277, 23, 238, 20);
 		textFieldNome.setColumns(10);
 		textFieldNome.setBackground(new Color(225, 225, 225));
 		panel.add(textFieldNome);
@@ -127,12 +129,12 @@ public class Clientes extends JInternalFrame {
 		panel.add(textFieldEndereco);
 
 		JLabel lblEndereco = new JLabel("Endereço:");
-		lblEndereco.setBounds(209, 60, 89, 20);
+		lblEndereco.setBounds(205, 60, 89, 20);
 		lblEndereco.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblEndereco);
 
 		textFieldRg = new JTextField();
-		textFieldRg.setBounds(48, 60, 132, 20);
+		textFieldRg.setBounds(54, 60, 126, 20);
 		textFieldRg.setColumns(10);
 		textFieldRg.setBackground(new Color(225, 225, 225));
 		panel.add(textFieldRg);
@@ -148,24 +150,24 @@ public class Clientes extends JInternalFrame {
 		panel.add(lblBairro);
 
 		textFieldBairro = new JTextField();
-		textFieldBairro.setBounds(58, 91, 221, 20);
+		textFieldBairro.setBounds(54, 91, 272, 20);
 		textFieldBairro.setColumns(10);
 		textFieldBairro.setBackground(new Color(225, 225, 225));
 		panel.add(textFieldBairro);
 
 		JLabel lblCidade = new JLabel("Cidade:");
-		lblCidade.setBounds(301, 92, 89, 18);
+		lblCidade.setBounds(336, 92, 55, 18);
 		lblCidade.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblCidade);
 
 		textFieldTelefone = new JTextField();
-		textFieldTelefone.setBounds(258, 125, 148, 20);
+		textFieldTelefone.setBounds(277, 125, 148, 20);
 		textFieldTelefone.setColumns(10);
 		textFieldTelefone.setBackground(new Color(225, 225, 225));
 		panel.add(textFieldTelefone);
 
 		textFieldCep = new JTextField();
-		textFieldCep.setBounds(48, 125, 132, 20);
+		textFieldCep.setBounds(54, 125, 126, 20);
 		textFieldCep.setColumns(10);
 		textFieldCep.setBackground(new Color(225, 225, 225));
 		panel.add(textFieldCep);
@@ -189,7 +191,7 @@ public class Clientes extends JInternalFrame {
 		panel.add(lblQuantidade_1_1);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 156, 716, 249);
+		scrollPane.setBounds(10, 187, 716, 218);
 		panel.add(scrollPane);
 
 		table = new JTable();
@@ -262,7 +264,7 @@ public class Clientes extends JInternalFrame {
 
 			}
 		});
-		btnGravar.setBounds(34, 416, 89, 23);
+		btnGravar.setBounds(78, 416, 89, 23);
 		panel.add(btnGravar);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -282,68 +284,30 @@ public class Clientes extends JInternalFrame {
 
 			}
 		});
-		btnLimpar.setBounds(365, 416, 89, 23);
+		btnLimpar.setBounds(579, 416, 89, 23);
 		panel.add(btnLimpar);
 
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblTelefone.setBounds(190, 125, 71, 18);
+		lblTelefone.setBounds(205, 125, 71, 18);
 		panel.add(lblTelefone);
 
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblEmail.setBounds(426, 125, 71, 18);
+		lblEmail.setBounds(462, 125, 55, 18);
 		panel.add(lblEmail);
 
 		textFieldEmail = new JTextField();
 		textFieldEmail.setColumns(10);
 		textFieldEmail.setBackground(new Color(225, 225, 225));
-		textFieldEmail.setBounds(472, 125, 253, 20);
+		textFieldEmail.setBounds(520, 125, 205, 20);
 		panel.add(textFieldEmail);
 
 		textFieldCidade = new JTextField();
 		textFieldCidade.setColumns(10);
 		textFieldCidade.setBackground(new Color(225, 225, 225));
-		textFieldCidade.setBounds(358, 92, 192, 20);
+		textFieldCidade.setBounds(394, 92, 170, 20);
 		panel.add(textFieldCidade);
-
-		JButton btnBuscar = new JButton("Buscar Todos");
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				ClienteDao clientedao = new ClienteDao();
-
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}
-
-				clientedao.listarTodosClientes();
-
-				ArrayList<Cliente> listaDeClientes = new ArrayList<>();
-				listaDeClientes = clientedao.listarTodosClientes();
-
-				for (Cliente contador : listaDeClientes) {
-					row[0] = contador.getCod_cliente();
-					;
-					row[1] = contador.getNome_cliente();
-					row[2] = contador.getCpf_cliente();
-					row[3] = contador.getRg_cliente();
-					row[4] = contador.getEmail_cliente();
-					row[5] = contador.getTelefone_cliente();
-					row[6] = contador.getEndereco_cliente();
-					row[7] = contador.getBairro_cliente();
-					row[8] = contador.getCidade_cliente();
-					row[9] = contador.getUf_cliente();
-					row[10] = contador.getCep_cliente();
-					model.addRow(row);
-				}
-
-				Cliente cliente = new Cliente();
-
-			}
-		});
-		btnBuscar.setBounds(146, 416, 99, 23);
-		panel.add(btnBuscar);
 
 		JButton btnDeletar = new JButton("Deletar");
 		btnDeletar.addActionListener(new ActionListener() {
@@ -389,43 +353,8 @@ public class Clientes extends JInternalFrame {
 				}
 			}
 		});
-		btnDeletar.setBounds(255, 416, 89, 23);
+		btnDeletar.setBounds(412, 416, 89, 23);
 		panel.add(btnDeletar);
-
-		JButton btnPesquisa = new JButton("Pesquisar por Nome");
-		btnPesquisa.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Cliente cliente = new Cliente();
-				ClienteDao clientedao = new ClienteDao();
-
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}
-				String nome = JOptionPane.showInputDialog("Informe o Nome: ");
-
-				ArrayList<Cliente> listaDeClientes = new ArrayList<>();
-				listaDeClientes = clientedao.listarClientePorNome(nome);
-
-				for (Cliente contador : listaDeClientes) {
-					row[0] = contador.getCod_cliente();
-					row[1] = contador.getNome_cliente();
-					row[2] = contador.getCpf_cliente();
-					row[3] = contador.getRg_cliente();
-					row[4] = contador.getEmail_cliente();
-					row[5] = contador.getTelefone_cliente();
-					row[6] = contador.getEndereco_cliente();
-					row[7] = contador.getBairro_cliente();
-					row[8] = contador.getCidade_cliente();
-					row[9] = contador.getUf_cliente();
-					row[10] = contador.getCep_cliente();
-					model.addRow(row);
-				}
-
-			}
-		});
-		btnPesquisa.setBounds(473, 416, 132, 23);
-		panel.add(btnPesquisa);
 
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
@@ -456,8 +385,40 @@ public class Clientes extends JInternalFrame {
 				}
 			}
 		});
-		btnAlterar.setBounds(615, 416, 89, 23);
+		btnAlterar.setBounds(245, 416, 89, 23);
 		panel.add(btnAlterar);
+		
+		JButton btnPesquisa_1 = new JButton("");
+		btnPesquisa_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+
+				ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+				listaDeClientes = InputDialog();
+
+				for (Cliente contador : listaDeClientes) {
+					row[0] = contador.getCod_cliente();
+					row[1] = contador.getNome_cliente();
+					row[2] = contador.getCpf_cliente();
+					row[3] = contador.getRg_cliente();
+					row[4] = contador.getEmail_cliente();
+					row[5] = contador.getTelefone_cliente();
+					row[6] = contador.getEndereco_cliente();
+					row[7] = contador.getBairro_cliente();
+					row[8] = contador.getCidade_cliente();
+					row[9] = contador.getUf_cliente();
+					row[10] = contador.getCep_cliente();
+					model.addRow(row);
+				}
+
+				
+			}
+		});
+		btnPesquisa_1.setIcon(new ImageIcon(Clientes.class.getResource("/Icones/lupa.png")));
+		btnPesquisa_1.setBounds(10, 155, 35, 30);
+		panel.add(btnPesquisa_1);
 
 	}
 
@@ -648,4 +609,54 @@ public class Clientes extends JInternalFrame {
 		return (true);
 
 	}
+	
+	protected ArrayList<Cliente> InputDialog() {
+		String[] options = { null, "Listar por Nome", "Listar Tudo" };
+		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
+		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Pesquisa",
+				JOptionPane.QUESTION_MESSAGE, icon, options, options[2]);
+		System.out.println(n);
+		
+		ArrayList<Cliente> pesquisar = new ArrayList<>();
+		ClienteDao clientedao = new ClienteDao();
+		String opcao = n;
+		switch (opcao) {
+
+		case "Listar por Nome":
+			String nome = JOptionPane.showInputDialog("Informe o Nome: ");
+
+			pesquisar = clientedao.listarClientePorNome(nome);
+
+			break;
+		case "Listar Tudo":
+
+			pesquisar = clientedao.listarTodosClientes();
+
+			break;
+
+		}
+		return pesquisar;
+	}
+
+	private ArrayList<Cliente> listarTudo() {
+		ClienteDao clientedao = new ClienteDao();
+
+		ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+		listaDeClientes = clientedao.listarTodosClientes();
+
+		return listaDeClientes;
+	}
+
+	private ArrayList<Cliente> listarPorNome() {
+		ClienteDao clientedao = new ClienteDao();
+
+		ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+		listaDeClientes = clientedao.listarTodosClientes();
+
+		return listaDeClientes;
+	}
+	
 }
+
+
+

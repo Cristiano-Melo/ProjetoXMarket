@@ -181,8 +181,12 @@ public class PedidoDao {
 				pedidos.setQuantidade_item(conectabancodao.getResultSet().getString("quantidade_item"));
 				pedidos.setTipo_pedido(conectabancodao.getResultSet().getString("tipo_pedido"));
 				pedidos.setPreco_total_item(Double.parseDouble(conectabancodao.getResultSet().getString("preco_total_item")));
+				System.out.println(pedidos.getPreco_total_item());
+				
 				pedidos.setValor_venda_produto(conectabancodao.getResultSet().getString("valor_venda_produto"));
-
+				System.out.println(pedidos.getValor_venda_produto());
+				
+				
 				listaDePedidos.add(pedidos);
 			}
 		} catch (Exception e) {
@@ -286,7 +290,9 @@ public class PedidoDao {
 				pedidos.setQuantidade_item(conectabancodao.getResultSet().getString("quantidade_item"));
 				pedidos.setTipo_pedido(conectabancodao.getResultSet().getString("tipo_pedido"));
 				pedidos.setPreco_total_item(Double.parseDouble(conectabancodao.getResultSet().getString("preco_total_item")));
+				System.out.println(pedidos.getPreco_total_item());
 				pedidos.setValor_venda_produto(conectabancodao.getResultSet().getString("valor_venda_produto"));
+				System.out.println(pedidos.getValor_venda_produto());
 				pedidos.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
 
 				listaDePedidos.add(pedidos);
