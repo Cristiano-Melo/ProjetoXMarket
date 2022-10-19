@@ -47,7 +47,6 @@ public class Produtos extends JInternalFrame {
 	private static JTextField textFieldViewMarca;
 	private JTextField textFieldDescricao;
 	JComboBox comboBox_CodMarca = new JComboBox();
-	
 
 	DefaultTableModel model;
 
@@ -77,7 +76,7 @@ public class Produtos extends JInternalFrame {
 		setBounds(100, 100, 770, 538);
 		getContentPane().setLayout(null);
 		textFieldViewMarca = new JTextField();
-		
+
 		JLabel lblNewLabel = new JLabel("Produtos");
 		lblNewLabel.setForeground(new Color(255, 0, 0));
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -151,7 +150,7 @@ public class Produtos extends JInternalFrame {
 		lblCodMarca.setBounds(377, 69, 89, 20);
 		panel.add(lblCodMarca);
 		comboBox_CodMarca.addItemListener(new ItemListener() {
-			//@Override
+			// @Override
 			public void itemStateChanged(ItemEvent e) {
 
 				if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -164,8 +163,7 @@ public class Produtos extends JInternalFrame {
 
 					if (codigo_marca.equals("")) {
 						textFieldViewMarca.setText("");
-					}
-					else {
+					} else {
 						descricao_marca = marcadao.buscaDescricaoCodMarca(codigo_marca);
 						textFieldViewMarca.setText(descricao_marca);
 					}
@@ -181,11 +179,11 @@ public class Produtos extends JInternalFrame {
 			}
 		});
 
-		comboBox_CodMarca.setBounds(463, 69, 46, 22);
+		comboBox_CodMarca.setBounds(466, 67, 46, 22);
 		panel.add(comboBox_CodMarca);
 
 		// Carrega itens no combo referente Marca
-		//Marca marca = new Marca();
+		// Marca marca = new Marca();
 		MarcaDao marcadao = new MarcaDao();
 
 		marcadao.listarTodasMarcas();
@@ -199,7 +197,7 @@ public class Produtos extends JInternalFrame {
 		}
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(23, 145, 693, 261);
+		scrollPane.setBounds(23, 174, 693, 232);
 		panel.add(scrollPane);
 
 		table = new JTable();
@@ -234,7 +232,7 @@ public class Produtos extends JInternalFrame {
 		textFieldViewMarca = new JTextField();
 		textFieldViewMarca.setEditable(false);
 		textFieldViewMarca.setBackground(new Color(225, 225, 225));
-		textFieldViewMarca.setBounds(519, 68, 197, 20);
+		textFieldViewMarca.setBounds(538, 68, 178, 20);
 		panel.add(textFieldViewMarca);
 		textFieldViewMarca.setColumns(10);
 
@@ -263,7 +261,7 @@ public class Produtos extends JInternalFrame {
 
 			}
 		});
-		btnNewButton.setBounds(23, 417, 89, 23);
+		btnNewButton.setBounds(76, 417, 89, 23);
 		panel.add(btnNewButton);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -281,7 +279,7 @@ public class Produtos extends JInternalFrame {
 
 			}
 		});
-		btnLimpar.setBounds(627, 417, 89, 23);
+		btnLimpar.setBounds(571, 417, 89, 23);
 		panel.add(btnLimpar);
 
 		JLabel lblDescricao = new JLabel("Descrição:");
@@ -294,69 +292,6 @@ public class Produtos extends JInternalFrame {
 		textFieldDescricao.setBackground(new Color(225, 225, 225));
 		textFieldDescricao.setBounds(92, 102, 624, 20);
 		panel.add(textFieldDescricao);
-
-		JButton btnListarTudo = new JButton("Listar Tudo");
-		btnListarTudo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				ProdutoDao produtodao = new ProdutoDao();
-
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}
-
-				produtodao.listarTodosProdutos();
-
-				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
-				listaDeProdutos = produtodao.listarTodosProdutos();
-
-				for (Produto contador : listaDeProdutos) {
-					row[0] = contador.getCod_produto();
-					row[1] = contador.getNome_produto();
-					row[2] = contador.getQuantidade_produto();
-					row[3] = contador.getValor_compra_produto();
-					row[4] = contador.getValor_venda_produto();
-					row[5] = contador.getCod_marca_produto();
-					row[6] = contador.getDescricao_produto();
-
-					model.addRow(row);
-				}
-			}
-		});
-		btnListarTudo.setBounds(485, 417, 119, 23);
-		panel.add(btnListarTudo);
-
-		JButton btnListarNome = new JButton("Listar por nome");
-		btnListarNome.setMargin(new Insets(2, 3, 2, 3));
-		btnListarNome.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Produto produto = new Produto();
-				ProdutoDao produtodao = new ProdutoDao();
-
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}
-				String nome = JOptionPane.showInputDialog("Informe o Nome: ");
-
-				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
-				listaDeProdutos = produtodao.listarProdutoPorNome(nome);
-
-				for (Produto contador : listaDeProdutos) {
-					row[0] = contador.getCod_produto();
-					row[1] = contador.getNome_produto();
-					row[2] = contador.getQuantidade_produto();
-					row[3] = contador.getValor_compra_produto();
-					row[4] = contador.getValor_venda_produto();
-					row[5] = contador.getCod_marca_produto();
-					row[6] = contador.getDescricao_produto();
-
-					model.addRow(row);
-				}
-			}
-		});
-		btnListarNome.setBounds(346, 417, 120, 23);
-		panel.add(btnListarNome);
 
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
@@ -378,7 +313,7 @@ public class Produtos extends JInternalFrame {
 				}
 			}
 		});
-		btnAlterar.setBounds(132, 417, 89, 23);
+		btnAlterar.setBounds(241, 417, 89, 23);
 		panel.add(btnAlterar);
 
 		JButton btnDeletar = new JButton("Deletar");
@@ -394,8 +329,38 @@ public class Produtos extends JInternalFrame {
 				}
 			}
 		});
-		btnDeletar.setBounds(240, 417, 89, 23);
+		btnDeletar.setBounds(406, 417, 89, 23);
 		panel.add(btnDeletar);
+
+		JButton btnPesquisa = new JButton("");
+
+		btnPesquisa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+
+				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
+				listaDeProdutos = InputDialog();
+
+				for (Produto contador : listaDeProdutos) {
+
+					row[0] = contador.getCod_produto();
+					row[1] = contador.getNome_produto();
+					row[2] = contador.getQuantidade_produto();
+					row[3] = contador.getValor_compra_produto();
+					row[4] = contador.getValor_venda_produto();
+					row[5] = contador.getCod_marca_produto();
+					row[6] = contador.getDescricao_produto();
+
+					model.addRow(row);
+				}
+
+			}
+		});
+		btnPesquisa.setIcon(new ImageIcon(Produtos.class.getResource("/Icones/lupa.png")));
+		btnPesquisa.setBounds(23, 133, 35, 30);
+		panel.add(btnPesquisa);
 
 	}
 
@@ -504,4 +469,33 @@ public class Produtos extends JInternalFrame {
 		return (true);
 
 	}
+
+	protected ArrayList<Produto> InputDialog() {
+		String[] options = { null, "Listar por Nome", "Listar Tudo" };
+		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
+		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Pesquisa",
+				JOptionPane.QUESTION_MESSAGE, icon, options, options[2]);
+		System.out.println(n);
+		// frmPrincipal principal = new frmPrincipal();
+		ArrayList<Produto> pesquisar = new ArrayList<>();
+		ProdutoDao produtodao = new ProdutoDao();
+		String opcao = n;
+		switch (opcao) {
+
+		case "Listar por Nome":
+			String nome = JOptionPane.showInputDialog("Informe o Nome: ");
+
+			pesquisar = produtodao.listarProdutoPorNome(nome);
+
+			break;
+		case "Listar Tudo":
+
+			pesquisar = produtodao.listarTodosProdutos();
+
+			break;
+
+		}
+		return pesquisar;
+	}
+
 }
