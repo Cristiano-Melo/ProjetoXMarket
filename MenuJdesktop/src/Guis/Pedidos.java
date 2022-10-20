@@ -29,6 +29,7 @@ import Conexao.Dao.PedidoDao;
 import Conexao.Dao.ProdutoDao;
 import Models.Cliente;
 import Models.ItemPedido;
+import Models.ListaPedido;
 import Models.Pedido;
 import Models.Produto;
 
@@ -226,6 +227,12 @@ public class Pedidos extends JInternalFrame {
 
 				JOptionPane.showMessageDialog(btnGravar, "Pedido cadastrado com sucesso!");
 				calculaValorTotal = 0;
+				
+				frmPrincipal frame = new frmPrincipal();
+				
+				Integer cod_pedido = pedidodao.listarUltimoPedido();
+				
+				frame.relatorioComprovanteFiscal(cod_pedido);
 			}
 		});
 		btnGravar.setBounds(258, 421, 89, 23);

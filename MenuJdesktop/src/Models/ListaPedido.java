@@ -4,20 +4,65 @@ public class ListaPedido {
 	String cod_pedido;
 	String data_pedido;
 	String condicao_pagamento_pedido;
+	String clientes_cod_cliente;
+	String tipo_pedido;
+	
 	String cod_cliente;
 	String nome_cliente;
 	String cpf_cliente;
 	String rg_cliente;
 	String email_cliente;
-	String clientes_cod_cliente;
+	String endereco_cliente;
+	String bairro_cliente;
+	String cidade_cliente;
+	String uf_cliente;
+	String cep_cliente;
+	
 	String cod_produto;
 	String nome_produto;
-	String quantidade_item;
 	String valor_venda_produto;
+	
+	String quantidade_item;
 	Double preco_total_item;
-	String tipo_pedido;
+	String cod_itens_pedido;
 	
 	
+	public String getCod_itens_pedido() {
+		return cod_itens_pedido;
+	}
+	public void setCod_itens_pedido(String cod_itens_pedido) {
+		this.cod_itens_pedido = cod_itens_pedido;
+	}
+	public String getCep_cliente() {
+		return cep_cliente;
+	}
+	public void setCep_cliente(String cep_cliente) {
+		this.cep_cliente = cep_cliente;
+	}
+	public String getBairro_cliente() {
+		return bairro_cliente;
+	}
+	public void setBairro_cliente(String bairro_cliente) {
+		this.bairro_cliente = bairro_cliente;
+	}
+	public String getCidade_cliente() {
+		return cidade_cliente;
+	}
+	public void setCidade_cliente(String cidade_cliente) {
+		this.cidade_cliente = cidade_cliente;
+	}
+	public String getUf_cliente() {
+		return uf_cliente;
+	}
+	public void setUf_cliente(String estado_cliente) {
+		this.uf_cliente = estado_cliente;
+	}
+	public String getEndereco_cliente() {
+		return endereco_cliente;
+	}
+	public void setEndereco_cliente(String endereco_cliente) {
+		this.endereco_cliente = endereco_cliente;
+	}
 	public String getValor_venda_produto() {
 		return valor_venda_produto;
 	}

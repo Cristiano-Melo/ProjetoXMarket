@@ -37,6 +37,7 @@ import Models.Cliente;
 import Models.ListaPedido;
 import Models.Login;
 import Models.Produto;
+import Relatorios.ComprovanteFiscal;
 import Relatorios.RelatorioCliente;
 import Relatorios.RelatorioPedidos;
 import Relatorios.RelatorioProdutos;
@@ -194,6 +195,14 @@ public class frmPrincipal extends JFrame {
 		menuBar.add(mnRelatorio);
 
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Vendas");
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Integer cod_pedido = Integer.parseInt(JOptionPane.showInputDialog("Informe o código do pedido: "));
+				relatorioComprovanteFiscal(cod_pedido);				
+			}
+		});
 		mntmNewMenuItem_4.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
 		mnRelatorio.add(mntmNewMenuItem_4);
 
@@ -838,6 +847,44 @@ public class frmPrincipal extends JFrame {
 			}
 
 			relatorio.gerarRelatorio(listaDeClientes);
+
+		} catch (JRException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	void relatorioComprovanteFiscal(Integer cod_pedido) {
+		ComprovanteFiscal relatorio = new ComprovanteFiscal();
+
+		try {
+			PedidoDao pedidoDao = new PedidoDao();
+			List<ListaPedido> listaDePedidos = new ArrayList<>();
+
+			ArrayList<ListaPedido> arrayPedido = new ArrayList<>();
+
+			arrayPedido = pedidoDao.listarPedidoPorCodigo(cod_pedido);
+
+			for (ListaPedido contador : arrayPedido) {
+				ListaPedido itemPedido = new ListaPedido();
+				
+				itemPedido.setCod_pedido(contador.getCod_pedido());
+				itemPedido.setCpf_cliente(contador.getCpf_cliente());
+				itemPedido.setNome_cliente(contador.getNome_cliente());
+				itemPedido.setEndereco_cliente(contador.getEndereco_cliente());
+				itemPedido.setBairro_cliente(contador.getBairro_cliente());
+				itemPedido.setCidade_cliente(contador.getCidade_cliente());
+				itemPedido.setUf_cliente(contador.getUf_cliente());
+				itemPedido.setCep_cliente(contador.getCep_cliente());
+				itemPedido.setCod_itens_pedido(contador.getCod_itens_pedido());
+				itemPedido.setQuantidade_item(contador.getQuantidade_item());
+				itemPedido.setNome_produto(contador.getNome_produto());
+				itemPedido.setValor_venda_produto(contador.getValor_venda_produto());
+				itemPedido.setPreco_total_item(contador.getPreco_total_item());
+
+				listaDePedidos.add(itemPedido);
+			}
+
+			relatorio.gerarRelatorio(listaDePedidos);
 
 		} catch (JRException e1) {
 			e1.printStackTrace();
