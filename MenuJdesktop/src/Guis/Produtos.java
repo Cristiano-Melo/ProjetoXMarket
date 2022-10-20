@@ -47,6 +47,7 @@ public class Produtos extends JInternalFrame {
 	private static JTextField textFieldViewMarca;
 	private JTextField textFieldDescricao;
 	JComboBox comboBox_CodMarca = new JComboBox();
+	
 
 	DefaultTableModel model;
 
@@ -76,7 +77,7 @@ public class Produtos extends JInternalFrame {
 		setBounds(100, 100, 770, 538);
 		getContentPane().setLayout(null);
 		textFieldViewMarca = new JTextField();
-
+		
 		JLabel lblNewLabel = new JLabel("Produtos");
 		lblNewLabel.setForeground(new Color(255, 0, 0));
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -150,7 +151,7 @@ public class Produtos extends JInternalFrame {
 		lblCodMarca.setBounds(377, 69, 89, 20);
 		panel.add(lblCodMarca);
 		comboBox_CodMarca.addItemListener(new ItemListener() {
-			// @Override
+			//@Override
 			public void itemStateChanged(ItemEvent e) {
 
 				if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -163,7 +164,9 @@ public class Produtos extends JInternalFrame {
 
 					if (codigo_marca.equals("")) {
 						textFieldViewMarca.setText("");
-					} else {
+					}
+					else {
+						
 						descricao_marca = marcadao.buscaDescricaoCodMarca(codigo_marca);
 						textFieldViewMarca.setText(descricao_marca);
 					}
@@ -179,11 +182,11 @@ public class Produtos extends JInternalFrame {
 			}
 		});
 
-		comboBox_CodMarca.setBounds(466, 67, 46, 22);
+		comboBox_CodMarca.setBounds(463, 69, 46, 22);
 		panel.add(comboBox_CodMarca);
 
 		// Carrega itens no combo referente Marca
-		// Marca marca = new Marca();
+		//Marca marca = new Marca();
 		MarcaDao marcadao = new MarcaDao();
 
 		marcadao.listarTodasMarcas();
@@ -197,7 +200,7 @@ public class Produtos extends JInternalFrame {
 		}
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(23, 174, 693, 232);
+		scrollPane.setBounds(23, 145, 693, 261);
 		panel.add(scrollPane);
 
 		table = new JTable();
@@ -206,11 +209,27 @@ public class Produtos extends JInternalFrame {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				
+				MarcaDao marcadao = new MarcaDao();
 				int contador = table.getSelectedRow();
+				String descricao_marca="";
+				descricao_marca = marcadao.buscaDescricaoCodMarca(model.getValueAt(contador,5).toString());
+				
+
+				
 				textFieldCod.setText(model.getValueAt(contador, 0).toString());
 				textFieldProduto.setText(model.getValueAt(contador, 1).toString());
-
+				textFieldQuantidade.setText(model.getValueAt(contador,2).toString());
+				textFieldCompra.setText(model.getValueAt(contador,3).toString());
+				textFieldVenda.setText(model.getValueAt(contador,4).toString());
+				comboBox_CodMarca.setSelectedItem(model.getValueAt(contador,5).toString());
+				textFieldDescricao.setText(model.getValueAt(contador,6).toString());
+				textFieldViewMarca.setText(descricao_marca);
+				
+				
+				
+				
+				
 			}
 		});
 
@@ -232,7 +251,7 @@ public class Produtos extends JInternalFrame {
 		textFieldViewMarca = new JTextField();
 		textFieldViewMarca.setEditable(false);
 		textFieldViewMarca.setBackground(new Color(225, 225, 225));
-		textFieldViewMarca.setBounds(538, 68, 178, 20);
+		textFieldViewMarca.setBounds(519, 68, 197, 20);
 		panel.add(textFieldViewMarca);
 		textFieldViewMarca.setColumns(10);
 
@@ -258,10 +277,20 @@ public class Produtos extends JInternalFrame {
 				produto.setCod_marca_produto(comboBox_CodMarca.getSelectedItem().toString());
 
 				produtoDao.inserirProduto(produto);
+				
+				//Limpa os campos após gravação do produto
+				textFieldCod.setText("");
+				textFieldProduto.setText("");
+				textFieldQuantidade.setText("");
+				textFieldCompra.setText("");
+				textFieldVenda.setText("");
+				comboBox_CodMarca.setSelectedIndex(-1);
+				textFieldDescricao.setText("");
+				textFieldViewMarca.setText("");
 
 			}
 		});
-		btnNewButton.setBounds(76, 417, 89, 23);
+		btnNewButton.setBounds(23, 417, 89, 23);
 		panel.add(btnNewButton);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -279,7 +308,7 @@ public class Produtos extends JInternalFrame {
 
 			}
 		});
-		btnLimpar.setBounds(571, 417, 89, 23);
+		btnLimpar.setBounds(627, 417, 89, 23);
 		panel.add(btnLimpar);
 
 		JLabel lblDescricao = new JLabel("Descrição:");
@@ -293,9 +322,81 @@ public class Produtos extends JInternalFrame {
 		textFieldDescricao.setBounds(92, 102, 624, 20);
 		panel.add(textFieldDescricao);
 
+		JButton btnListarTudo = new JButton("Listar Tudo");
+		btnListarTudo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				ProdutoDao produtodao = new ProdutoDao();
+
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+
+				produtodao.listarTodosProdutos();
+
+				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
+				listaDeProdutos = produtodao.listarTodosProdutos();
+
+				for (Produto contador : listaDeProdutos) {
+					row[0] = contador.getCod_produto();
+					row[1] = contador.getNome_produto();
+					row[2] = contador.getQuantidade_produto();
+					row[3] = contador.getValor_compra_produto();
+					row[4] = contador.getValor_venda_produto();
+					row[5] = contador.getCod_marca_produto();
+					row[6] = contador.getDescricao_produto();
+
+					model.addRow(row);
+				}
+			}
+		});
+		btnListarTudo.setBounds(485, 417, 119, 23);
+		panel.add(btnListarTudo);
+
+		JButton btnListarNome = new JButton("Listar por nome");
+		btnListarNome.setMargin(new Insets(2, 3, 2, 3));
+		btnListarNome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				Produto produto = new Produto();
+				ProdutoDao produtodao = new ProdutoDao();
+
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+				String nome = JOptionPane.showInputDialog("Informe o Nome: ");
+
+				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
+				listaDeProdutos = produtodao.listarProdutoPorNome(nome);
+
+				for (Produto contador : listaDeProdutos) {
+					row[0] = contador.getCod_produto();
+					row[1] = contador.getNome_produto();
+					row[2] = contador.getQuantidade_produto();
+					row[3] = contador.getValor_compra_produto();
+					row[4] = contador.getValor_venda_produto();
+					row[5] = contador.getCod_marca_produto();
+					row[6] = contador.getDescricao_produto();
+
+					model.addRow(row);
+				}
+			}
+		});
+		btnListarNome.setBounds(346, 417, 120, 23);
+		panel.add(btnListarNome);
+
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				if(textFieldCod.getText().equals("")){
+					JOptionPane.showInternalMessageDialog(null, "Nenhum produto selecionado.");
+					return;
+				}
+				
+				if (validaCampos() == false) {
+					return;
+				}
 				ProdutoDao produtodao = new ProdutoDao();
 				Produto produto = new Produto();
 
@@ -307,60 +408,35 @@ public class Produtos extends JInternalFrame {
 				produto.setDescricao_produto(textFieldDescricao.getText());
 				produto.setCod_marca_produto(comboBox_CodMarca.getSelectedItem().toString());
 
-				if (JOptionPane.showConfirmDialog(null, "Tem certeza que deseja realizar esta alteração no cadastro?",
+				if (JOptionPane.showConfirmDialog(null, "Confirma alteração no cadastro do produto?",
 						"SIM", JOptionPane.YES_NO_OPTION) == 0) {
 					produtodao.alterarProdutoPorId(produto);
 				}
 			}
 		});
-		btnAlterar.setBounds(241, 417, 89, 23);
+		btnAlterar.setBounds(132, 417, 89, 23);
 		panel.add(btnAlterar);
 
 		JButton btnDeletar = new JButton("Deletar");
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				if(textFieldCod.getText().equals("")){
+					JOptionPane.showInternalMessageDialog(null, "Nenhum produto selecionado.");
+					return;
+				}
 				ProdutoDao produtodao = new ProdutoDao();
 				Produto produto = new Produto();
 				produto.setCod_produto(textFieldCod.getText());
 
-				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
+				if (JOptionPane.showConfirmDialog(null, "Confirma esclusão do Produto?", "SIM",
 						JOptionPane.YES_NO_OPTION) == 0) {
 					produtodao.deletarProdutoPorId(produto);
 				}
 			}
 		});
-		btnDeletar.setBounds(406, 417, 89, 23);
+		btnDeletar.setBounds(240, 417, 89, 23);
 		panel.add(btnDeletar);
-
-		JButton btnPesquisa = new JButton("");
-
-		btnPesquisa.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}
-
-				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
-				listaDeProdutos = InputDialog();
-
-				for (Produto contador : listaDeProdutos) {
-
-					row[0] = contador.getCod_produto();
-					row[1] = contador.getNome_produto();
-					row[2] = contador.getQuantidade_produto();
-					row[3] = contador.getValor_compra_produto();
-					row[4] = contador.getValor_venda_produto();
-					row[5] = contador.getCod_marca_produto();
-					row[6] = contador.getDescricao_produto();
-
-					model.addRow(row);
-				}
-
-			}
-		});
-		btnPesquisa.setIcon(new ImageIcon(Produtos.class.getResource("/Icones/lupa.png")));
-		btnPesquisa.setBounds(23, 133, 35, 30);
-		panel.add(btnPesquisa);
 
 	}
 
@@ -469,33 +545,4 @@ public class Produtos extends JInternalFrame {
 		return (true);
 
 	}
-
-	protected ArrayList<Produto> InputDialog() {
-		String[] options = { null, "Listar por Nome", "Listar Tudo" };
-		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
-		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Pesquisa",
-				JOptionPane.QUESTION_MESSAGE, icon, options, options[2]);
-		System.out.println(n);
-		// frmPrincipal principal = new frmPrincipal();
-		ArrayList<Produto> pesquisar = new ArrayList<>();
-		ProdutoDao produtodao = new ProdutoDao();
-		String opcao = n;
-		switch (opcao) {
-
-		case "Listar por Nome":
-			String nome = JOptionPane.showInputDialog("Informe o Nome: ");
-
-			pesquisar = produtodao.listarProdutoPorNome(nome);
-
-			break;
-		case "Listar Tudo":
-
-			pesquisar = produtodao.listarTodosProdutos();
-
-			break;
-
-		}
-		return pesquisar;
-	}
-
 }

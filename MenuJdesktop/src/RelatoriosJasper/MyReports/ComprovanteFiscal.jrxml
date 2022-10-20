@@ -113,6 +113,9 @@
 		<property name="com.jaspersoft.studio.field.label" value="valor_venda_produto"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="produtos"/>
 	</field>
+	<variable name="Total do Pedido" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{preco_total_item}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -330,7 +333,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a42ca2c1-00c3-4150-907c-fbc07f1b0435"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<text><![CDATA[preco_total_item]]></text>
+				<text><![CDATA[Valor Total do Item]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="90" y="31" width="111" height="15" uuid="d58f79e9-f216-4b12-aaf9-261908c1032f">
@@ -344,7 +347,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6ade4bc5-efe0-4155-a25b-42f1b932c130"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<text><![CDATA[valor_venda_produto]]></text>
+				<text><![CDATA[Valor Unitário]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="-18" y="38" width="595" height="18" uuid="2ea09e36-5de2-49bf-bbad-8f5dea6be118">
@@ -404,7 +407,7 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="79" splitType="Stretch">
+		<band height="55" splitType="Stretch">
 			<staticText>
 				<reportElement x="-20" y="0" width="595" height="18" uuid="06a583c4-d5fb-44bd-ac89-c4b43e8a940c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -415,13 +418,41 @@
 				<text><![CDATA[-----------------------------------------------------------------------------------------------------------------------------------------]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-20" y="61" width="595" height="18" uuid="69c8dd1c-7eff-4dd8-8e44-3395d4ecf961">
+				<reportElement x="-18" y="33" width="595" height="18" uuid="69c8dd1c-7eff-4dd8-8e44-3395d4ecf961">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
 					<font size="13"/>
 				</textElement>
 				<text><![CDATA[-----------------------------------------------------------------------------------------------------------------------------------------]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="464" y="10" width="100" height="15" uuid="2c4f542f-e5e0-47ef-a2ce-01c73fb50c41">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$V{Total do Pedido}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="335" y="10" width="100" height="15" uuid="c4b8e160-8832-4cd2-a53b-0128521c7a7a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<text><![CDATA[Valor total do pedido:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="464" y="25" width="100" height="15" uuid="381c94cf-0096-4160-9aca-f0708457244e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{condicao_pagamento_pedido}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="335" y="25" width="129" height="15" uuid="0ad1fc1b-59b9-440e-94d1-92171698a85e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<text><![CDATA[Condição de pagamento:]]></text>
 			</staticText>
 		</band>
 	</columnFooter>

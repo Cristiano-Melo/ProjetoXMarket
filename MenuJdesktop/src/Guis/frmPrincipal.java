@@ -880,6 +880,7 @@ public class frmPrincipal extends JFrame {
 				itemPedido.setNome_produto(contador.getNome_produto());
 				itemPedido.setValor_venda_produto(contador.getValor_venda_produto());
 				itemPedido.setPreco_total_item(contador.getPreco_total_item());
+				itemPedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
 
 				listaDePedidos.add(itemPedido);
 			}

@@ -44,7 +44,9 @@ public class PedidoDao {
 				conectabancodao.getStatement().execute(query3);
 
 			}
-
+			
+			JOptionPane.showInternalMessageDialog(null, "Pedido cadastrado com sucesso!");
+			
 		} catch (Exception e) {
 			System.out.println("ERRO: " + e.getMessage());
 		}
@@ -334,6 +336,7 @@ public class PedidoDao {
 				pedidos.setQuantidade_item(conectabancodao.getResultSet().getString("quantidade_item"));
 				pedidos.setNome_produto(conectabancodao.getResultSet().getString("nome_produto"));
 				pedidos.setValor_venda_produto(conectabancodao.getResultSet().getString("valor_venda_produto"));
+				pedidos.setCondicao_pagamento_pedido(conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
 				pedidos.setPreco_total_item(
 						Double.parseDouble(conectabancodao.getResultSet().getString("preco_total_item")));
 
@@ -367,4 +370,34 @@ public class PedidoDao {
 		
 		return ultimoPedido;
 	}
+	
+	public boolean verificaSaldoEstoque(String codigoItem, String qtdeVenda) {
+        try {
+            int quantidadeEstoque = 0;
+            int quantidadeVenda = Integer.parseInt(qtdeVenda);
+            String qtdeEstoque = "";
+            String query = "select quantidade_produto from produtos where cod_produto ='" + codigoItem + "';";
+
+            System.out.println("query seleção descrição código da marca: [" + query + "]\n");
+
+            conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+
+            if (conectabancodao.getResultSet().next()) {
+
+                qtdeEstoque = conectabancodao.getResultSet().getString("quantidade_produto");
+                quantidadeEstoque = Integer.parseInt(qtdeEstoque);
+                if ((quantidadeEstoque - quantidadeVenda) >= 0) {
+                    return (true);
+                }
+                return (false);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showInternalMessageDialog(null, "Erro na verificação da quantidade do item: [" + codigoItem
+                    + "] " + e.getMessage() + ". Verifique!");
+            return (false);
+        }
+        return (false);
+
+    }
 }

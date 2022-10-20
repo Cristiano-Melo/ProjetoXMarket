@@ -2,6 +2,8 @@ package Conexao.Dao;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import Models.Produto;
 
 public class ProdutoDao {
@@ -16,9 +18,11 @@ public class ProdutoDao {
 					+ produto.getValor_venda_produto() + "','" + produto.getDescricao_produto() + "','" + produto.getCod_marca_produto() + "');";
 			System.out.println(query);
 			conectabancodao.getStatement().execute(query);
+			JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
 
 		} catch (Exception e) {
 			System.out.println("ERRO: " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Erro no cadastro do produto ["+e.getMessage()+"]. Verifique!");
 		}
 
 	}
@@ -89,9 +93,11 @@ public class ProdutoDao {
 			String query = "delete from produtos where cod_produto = '" + produto.getCod_produto() + "';";
 			System.out.println(query);
 			conectabancodao.getStatement().execute(query); // chamamos o Dao responsável em conectar ao banco de dados e executar a query
+			JOptionPane.showMessageDialog(null, "Produto deletado com sucesso!");
 
 		} catch (Exception e) {
 			System.out.println("ERRO: " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Erro na exclusão do produto ["+e.getMessage()+"]. Verifique!");
 		}
 	}
 	
@@ -106,8 +112,10 @@ public class ProdutoDao {
 					+ "'  where cod_produto= '" + produto.getCod_produto() + "';";
 			System.out.println(query);
 			conectabancodao.getStatement().execute(query);
+			JOptionPane.showMessageDialog(null, "Cadastro alterado sucesso!");
 		} catch (Exception e) {
 			System.out.println("ERRO: " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Erro na alteração do cadastro do produto ["+e.getMessage()+"]. Verifique!");
 		}
 	}
 
