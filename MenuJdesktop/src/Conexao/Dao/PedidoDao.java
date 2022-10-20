@@ -54,7 +54,7 @@ public class PedidoDao {
 	public void excluirPedido(Pedido pedido) {
 //		ArrayList<Produto> listaItensPedido = new ArrayList<>();
 		try {
-			String query = "select * from itens_pedido where pedidos_cod_pedido = " + pedido.getCod_pedido() + "";
+			String query = "select * from itens_pedido as i join produtos as p where i.pedidos_cod_pedido = " + pedido.getCod_pedido() + "";
 			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
 			while (conectabancodao.getResultSet().next()) {
 

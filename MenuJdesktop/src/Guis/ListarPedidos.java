@@ -173,7 +173,7 @@ public class ListarPedidos extends JInternalFrame {
 				
 			}
 		});
-		btnListar.setBounds(123, 421, 139, 23);
+		btnListar.setBounds(19, 421, 139, 23);
 		panel.add(btnListar);
 		
 		JButton btnListarPorCliente = new JButton("Listar por Cliente");
@@ -206,7 +206,7 @@ public class ListarPedidos extends JInternalFrame {
 			}
 		});
 		
-		btnListarPorCliente.setBounds(272, 421, 167, 23);
+		btnListarPorCliente.setBounds(177, 421, 167, 23);
 		panel.add(btnListarPorCliente);
 		
 		JButton btnListarPorPagamento = new JButton("Listar por Pagamento");
@@ -235,8 +235,25 @@ public class ListarPedidos extends JInternalFrame {
 				
 			}
 		});
-		btnListarPorPagamento.setBounds(449, 421, 167, 23);
+		btnListarPorPagamento.setBounds(363, 421, 167, 23);
 		panel.add(btnListarPorPagamento);
+		
+		JButton btnDeletar = new JButton("Deletar");
+		btnDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PedidoDao pedidodao = new PedidoDao();
+				Pedido pedido = new Pedido();
+				pedido.setCod_pedido(textFieldCodPedidos.getText());
+
+				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					pedidodao.excluirPedido(pedido);
+				}
+				
+			}
+		});
+		btnDeletar.setBounds(549, 421, 167, 23);
+		panel.add(btnDeletar);
 	}
 	
 	protected ArrayList<ListaPedido> InputDialog() {

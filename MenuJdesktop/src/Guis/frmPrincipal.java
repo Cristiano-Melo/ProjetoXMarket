@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -35,7 +36,6 @@ import Conexao.Dao.ProdutoDao;
 import Models.Cliente;
 import Models.ListaPedido;
 import Models.Login;
-import Models.Pedido;
 import Models.Produto;
 import Relatorios.RelatorioCliente;
 import Relatorios.RelatorioPedidos;
@@ -78,7 +78,7 @@ public class frmPrincipal extends JFrame {
 	void projetoGui() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(frmPrincipal.class.getResource("/Imagens/botao.PNG")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1335, 561);
+		setBounds(100, 100, 1049, 670);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -219,19 +219,41 @@ public class frmPrincipal extends JFrame {
 		desktopPanePrincipal = new JDesktopPane();
 		desktopPanePrincipal.setBackground(new Color(204, 204, 255));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 1309, Short.MAX_VALUE).addGroup(Alignment.LEADING,
-						gl_contentPane.createSequentialGroup().addContainerGap()
-								.addComponent(desktopPanePrincipal, GroupLayout.DEFAULT_SIZE, 1289, Short.MAX_VALUE)
-								.addGap(55)));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-						.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(desktopPanePrincipal, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
-						.addContainerGap()));
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(desktopPanePrincipal, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1026, Short.MAX_VALUE)
+						.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(0))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(desktopPanePrincipal, GroupLayout.PREFERRED_SIZE, 549, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
 
-		JButton btnClientes = new JButton("Clientes");
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Imagens\\Capturar2log.PNG"));
+		GroupLayout gl_desktopPanePrincipal = new GroupLayout(desktopPanePrincipal);
+		gl_desktopPanePrincipal.setHorizontalGroup(
+			gl_desktopPanePrincipal.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_desktopPanePrincipal.createSequentialGroup()
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 1033, Short.MAX_VALUE)
+					.addGap(0))
+		);
+		gl_desktopPanePrincipal.setVerticalGroup(
+			gl_desktopPanePrincipal.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_desktopPanePrincipal.createSequentialGroup()
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 538, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		desktopPanePrincipal.setLayout(gl_desktopPanePrincipal);
+
+		JButton btnClientes = new JButton("Clientes     ");
 		btnClientes.setBackground(new Color(255, 255, 255));
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -242,7 +264,7 @@ public class frmPrincipal extends JFrame {
 		btnClientes.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/cliente.png")));
 		toolBar.add(btnClientes);
 
-		JButton btnProdutos = new JButton("Produtos");
+		JButton btnProdutos = new JButton("Produtos     ");
 		btnProdutos.setBackground(new Color(255, 255, 255));
 		btnProdutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -253,7 +275,7 @@ public class frmPrincipal extends JFrame {
 		btnProdutos.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnProdutos);
 
-		JButton btnNewButton = new JButton("Pedidos");
+		JButton btnNewButton = new JButton("Pedidos     ");
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -264,7 +286,7 @@ public class frmPrincipal extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnNewButton);
 
-		JButton btnConsultas = new JButton("Consultas");
+		JButton btnConsultas = new JButton("Consultas     ");
 		btnConsultas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InputDialog();
@@ -276,7 +298,7 @@ public class frmPrincipal extends JFrame {
 		btnConsultas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnConsultas);
 
-		JButton btnRelatorios = new JButton("Relatorios");
+		JButton btnRelatorios = new JButton("Relatorios     ");
 		btnRelatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InputDialog2();
@@ -287,7 +309,7 @@ public class frmPrincipal extends JFrame {
 		btnRelatorios.setFont(new Font("Tahoma", Font.BOLD, 14));
 		toolBar.add(btnRelatorios);
 
-		JButton btnContatos = new JButton("Contatos");
+		JButton btnContatos = new JButton("Contatos     ");
 		btnContatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carregarContatos();
@@ -410,7 +432,7 @@ public class frmPrincipal extends JFrame {
 	}
 
 	public frmPrincipal() {
-		setExtendedState(Frame.MAXIMIZED_BOTH);
+		setResizable(false);
 		projetoGui();
 	}
 
@@ -897,5 +919,4 @@ public class frmPrincipal extends JFrame {
 
 		}
 	}
-
 }
