@@ -79,7 +79,7 @@ public class frmPrincipal extends JFrame {
 	void projetoGui() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(frmPrincipal.class.getResource("/Imagens/botao.PNG")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1049, 670);
+		setBounds(100, 100, 1043, 904);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -198,8 +198,8 @@ public class frmPrincipal extends JFrame {
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(desktopPanePrincipal, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1026, Short.MAX_VALUE)
-						.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(desktopPanePrincipal, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1023, Short.MAX_VALUE)
+						.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 1023, Short.MAX_VALUE))
 					.addGap(0))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -207,24 +207,22 @@ public class frmPrincipal extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(desktopPanePrincipal, GroupLayout.PREFERRED_SIZE, 549, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(desktopPanePrincipal, GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Imagens\\Capturar2log.PNG"));
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Imagens\\Teste.jpg"));
 		GroupLayout gl_desktopPanePrincipal = new GroupLayout(desktopPanePrincipal);
 		gl_desktopPanePrincipal.setHorizontalGroup(
 			gl_desktopPanePrincipal.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_desktopPanePrincipal.createSequentialGroup()
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 1033, Short.MAX_VALUE)
-					.addGap(0))
+				.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 1039, Short.MAX_VALUE)
 		);
 		gl_desktopPanePrincipal.setVerticalGroup(
 			gl_desktopPanePrincipal.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_desktopPanePrincipal.createSequentialGroup()
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 538, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(lblNewLabel)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		desktopPanePrincipal.setLayout(gl_desktopPanePrincipal);
 

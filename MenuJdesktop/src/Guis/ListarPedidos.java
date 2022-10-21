@@ -173,7 +173,7 @@ public class ListarPedidos extends JInternalFrame {
 				
 			}
 		});
-		btnListar.setBounds(19, 421, 139, 23);
+		btnListar.setBounds(66, 421, 139, 23);
 		panel.add(btnListar);
 		
 		JButton btnListarPorCliente = new JButton("Listar por Cliente");
@@ -206,7 +206,7 @@ public class ListarPedidos extends JInternalFrame {
 			}
 		});
 		
-		btnListarPorCliente.setBounds(177, 421, 167, 23);
+		btnListarPorCliente.setBounds(271, 421, 167, 23);
 		panel.add(btnListarPorCliente);
 		
 		JButton btnListarPorPagamento = new JButton("Listar por Pagamento");
@@ -235,10 +235,11 @@ public class ListarPedidos extends JInternalFrame {
 				
 			}
 		});
-		btnListarPorPagamento.setBounds(363, 421, 167, 23);
+		btnListarPorPagamento.setBounds(504, 421, 167, 23);
 		panel.add(btnListarPorPagamento);
 		
-		JButton btnDeletar = new JButton("Deletar");
+		JButton btnDeletar = new JButton("");
+		btnDeletar.setIcon(new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Icones\\icons8-remover-100.png"));
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PedidoDao pedidodao = new PedidoDao();
@@ -252,7 +253,7 @@ public class ListarPedidos extends JInternalFrame {
 				
 			}
 		});
-		btnDeletar.setBounds(549, 421, 167, 23);
+		btnDeletar.setBounds(692, 383, 24, 23);
 		panel.add(btnDeletar);
 	}
 	

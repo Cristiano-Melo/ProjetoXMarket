@@ -47,8 +47,11 @@ public class Clientes extends JInternalFrame {
 	private JTextField textFieldEmail;
 	private JTextField textFieldCidade;
 	private JComboBox comboBox_Uf = new JComboBox();
+	
 
 	DefaultTableModel model;
+	Object[] row = new Object[11];
+	ClienteDao clientedao = new ClienteDao();
 
 	/**
 	 * Launch the application.
@@ -219,7 +222,6 @@ public class Clientes extends JInternalFrame {
 				textFieldCidade.setText(model.getValueAt(contador, 8).toString());
 				comboBox_Uf.setSelectedItem(model.getValueAt(contador, 9));
 				textFieldCep.setText(model.getValueAt(contador, 10).toString());
-
 			}
 
 		});
@@ -227,7 +229,7 @@ public class Clientes extends JInternalFrame {
 		model = new DefaultTableModel();
 		Object[] colunn = { "Codigo", "Nome", "CPF", "RG", "Email", "Telefone", "Endereço", "Bairro", "Cidade", "UF",
 				"CEP" };
-		Object[] row = new Object[11];
+	//	Object[] row = new Object[11];
 		model.setColumnIdentifiers(colunn);
 		table.setModel(model);
 
@@ -263,9 +265,15 @@ public class Clientes extends JInternalFrame {
 					cliente.setCep_cliente(textFieldCep.getText());
 
 					clienteDao.inserirCliente(cliente);
+					
+					ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+					listaDeClientes = clientedao.listarTodosClientes();
+					limpaCamposGrid();
+					montaGrid(listaDeClientes);
 
 				} catch (Exception erroCadastroCliente) {
 					JOptionPane.showMessageDialog(null, erroCadastroCliente);
+					limpaCampos();
 				}
 
 			}
@@ -276,17 +284,7 @@ public class Clientes extends JInternalFrame {
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textFieldCodCliente.setText("");
-				textFieldNome.setText("");
-				textFieldCpf.setText("");
-				textFieldRg.setText("");
-				textFieldEmail.setText("");
-				textFieldEndereco.setText("");
-				textFieldBairro.setText("");
-				textFieldCidade.setText("");
-				comboBox_Uf.setSelectedItem("");
-				textFieldCep.setText("");
-				textFieldTelefone.setText("");
+				limpaCamposGrid();
 
 			}
 		});
@@ -328,35 +326,16 @@ public class Clientes extends JInternalFrame {
 					return;
 				}
 
-				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
+				if (JOptionPane.showConfirmDialog(null, "Confirma exclusão do Cliente?", "SIM",
 						JOptionPane.YES_NO_OPTION) == 0) {
 					clientedao.deletarClientePorId(cliente);
 				}
-
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}
-
-				clientedao.listarTodosClientes();
-
+				
 				ArrayList<Cliente> listaDeClientes = new ArrayList<>();
 				listaDeClientes = clientedao.listarTodosClientes();
+				limpaCamposGrid();
+				montaGrid(listaDeClientes);
 
-				for (Cliente contador : listaDeClientes) {
-					row[0] = contador.getCod_cliente();
-					;
-					row[1] = contador.getNome_cliente();
-					row[2] = contador.getCpf_cliente();
-					row[3] = contador.getRg_cliente();
-					row[4] = contador.getEmail_cliente();
-					row[5] = contador.getTelefone_cliente();
-					row[6] = contador.getEndereco_cliente();
-					row[7] = contador.getBairro_cliente();
-					row[8] = contador.getCidade_cliente();
-					row[9] = contador.getUf_cliente();
-					row[10] = contador.getCep_cliente();
-					model.addRow(row);
-				}
 			}
 		});
 		btnDeletar.setBounds(412, 416, 89, 23);
@@ -370,6 +349,10 @@ public class Clientes extends JInternalFrame {
 					JOptionPane.showInternalMessageDialog(null, "Nenhum cliente selecionado.");
 					return;
 				}
+				
+				if (validaCampos() == false) {
+                    return;
+                }
 
 				ClienteDao clientedao = new ClienteDao();
 				Cliente cliente = new Cliente();
@@ -385,11 +368,18 @@ public class Clientes extends JInternalFrame {
 				cliente.setUf_cliente(comboBox_Uf.getSelectedItem().toString());
 				cliente.setCep_cliente(textFieldCep.getText());
 
-				if (JOptionPane.showConfirmDialog(null, "Tem certeza que deseja realizar esta alteração no cadastro?",
+				if (JOptionPane.showConfirmDialog(null, "Confirma atualização do cadastro?",
 						"SIM", JOptionPane.YES_NO_OPTION) == 0) {
 					clientedao.alterarClientePorId(cliente);
+					ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+					listaDeClientes = clientedao.listarTodosClientes();
+					limpaCamposGrid();
+					montaGrid(listaDeClientes);
 				}
+				limpaCampos();
+			
 			}
+			
 		});
 		btnAlterar.setBounds(245, 416, 89, 23);
 		panel.add(btnAlterar);
@@ -403,21 +393,7 @@ public class Clientes extends JInternalFrame {
 
 				ArrayList<Cliente> listaDeClientes = new ArrayList<>();
 				listaDeClientes = InputDialog();
-
-				for (Cliente contador : listaDeClientes) {
-					row[0] = contador.getCod_cliente();
-					row[1] = contador.getNome_cliente();
-					row[2] = contador.getCpf_cliente();
-					row[3] = contador.getRg_cliente();
-					row[4] = contador.getEmail_cliente();
-					row[5] = contador.getTelefone_cliente();
-					row[6] = contador.getEndereco_cliente();
-					row[7] = contador.getBairro_cliente();
-					row[8] = contador.getCidade_cliente();
-					row[9] = contador.getUf_cliente();
-					row[10] = contador.getCep_cliente();
-					model.addRow(row);
-				}
+				montaGrid(listaDeClientes);
 
 			}
 		});
@@ -652,11 +628,11 @@ public class Clientes extends JInternalFrame {
 		return listaDeClientes;
 	}
 
-	private ArrayList<Cliente> listarPorNome() {
+	private ArrayList<Cliente> listarPorNome(String nome) {
 		ClienteDao clientedao = new ClienteDao();
 
 		ArrayList<Cliente> listaDeClientes = new ArrayList<>();
-		listaDeClientes = clientedao.listarTodosClientes();
+		listaDeClientes = clientedao.listarClientePorNome(nome);
 
 		return listaDeClientes;
 	}
@@ -705,6 +681,58 @@ public class Clientes extends JInternalFrame {
 			System.out.println(e);
 		}
 
+	}
+	
+	void limpaCampos() {
+		textFieldCodCliente.setText("");
+		textFieldNome.setText("");
+		textFieldCpf.setText("");
+		textFieldRg.setText("");
+		textFieldEmail.setText("");
+		textFieldEndereco.setText("");
+		textFieldBairro.setText("");
+		textFieldCidade.setText("");
+		comboBox_Uf.setSelectedItem("");
+		textFieldCep.setText("");
+		textFieldTelefone.setText("");
+	}
+	
+	void limpaCamposGrid() {
+		textFieldCodCliente.setText("");
+		textFieldNome.setText("");
+		textFieldCpf.setText("");
+		textFieldRg.setText("");
+		textFieldEmail.setText("");
+		textFieldEndereco.setText("");
+		textFieldBairro.setText("");
+		textFieldCidade.setText("");
+		comboBox_Uf.setSelectedItem("");
+		textFieldCep.setText("");
+		textFieldTelefone.setText("");
+		if (model.getRowCount() != 0) {
+			model.setRowCount(0);
+		}
+	}
+	
+	void montaGrid( ArrayList<Cliente> listaCliente) {
+
+		ArrayList<Cliente> listaDeClientes = new ArrayList<>();
+		listaDeClientes = listaCliente;
+
+		for (Cliente contador : listaDeClientes) {
+			row[0] = contador.getCod_cliente();
+			row[1] = contador.getNome_cliente();
+			row[2] = contador.getCpf_cliente();
+			row[3] = contador.getRg_cliente();
+			row[4] = contador.getEmail_cliente();
+			row[5] = contador.getTelefone_cliente();
+			row[6] = contador.getEndereco_cliente();
+			row[7] = contador.getBairro_cliente();
+			row[8] = contador.getCidade_cliente();
+			row[9] = contador.getUf_cliente();
+			row[10] = contador.getCep_cliente();
+			model.addRow(row);
+		}
 	}
 
 }
