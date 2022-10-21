@@ -84,44 +84,10 @@ public class frmPrincipal extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		JMenu mnArquivos = new JMenu("Arquivos");
+		JMenu mnArquivos = new JMenu("Sistema");
 		mnArquivos.setForeground(new Color(0, 0, 0));
 		mnArquivos.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnArquivos);
-
-		JMenuItem mntmClientes = new JMenuItem("Cliente");
-		mntmClientes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				carregarClientes();
-
-			}
-		});
-
-		JMenuItem mntmNewMenuItem = new JMenuItem("Login");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// carregarLogin();
-			}
-		});
-		mntmNewMenuItem.setBackground(Color.WHITE);
-		mntmNewMenuItem.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/controle-de-acesso.png")));
-		mntmNewMenuItem.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		mnArquivos.add(mntmNewMenuItem);
-		mntmClientes.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		mntmClientes.setBackground(new Color(255, 255, 255));
-		mntmClientes.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/avatar-de-perfil.png")));
-		mnArquivos.add(mntmClientes);
-
-		JMenuItem mntmProdutos = new JMenuItem("Produtos");
-		mntmProdutos.setBackground(new Color(255, 255, 255));
-		mntmProdutos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				carregarProdutos();
-			}
-		});
-		mntmProdutos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		mntmProdutos.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/produtos-de-higiene.png")));
-		mnArquivos.add(mntmProdutos);
 
 		JMenuItem mntmSair = new JMenuItem("Sair");
 		mntmSair.setBackground(new Color(255, 255, 255));

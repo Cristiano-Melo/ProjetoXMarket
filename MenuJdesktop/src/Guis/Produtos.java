@@ -92,63 +92,63 @@ public class Produtos extends JInternalFrame {
 
 		JLabel lblCodProduto = new JLabel("Cod:");
 		lblCodProduto.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCodProduto.setBounds(23, 36, 46, 20);
+		lblCodProduto.setBounds(23, 23, 46, 20);
 		panel.add(lblCodProduto);
 
 		textFieldCod = new JTextField();
 		textFieldCod.setEditable(false);
 		textFieldCod.setBackground(new Color(225, 225, 225));
-		textFieldCod.setBounds(61, 36, 86, 20);
+		textFieldCod.setBounds(61, 23, 86, 20);
 		panel.add(textFieldCod);
 		textFieldCod.setColumns(10);
 
 		textFieldProduto = new JTextField();
 		textFieldProduto.setColumns(10);
 		textFieldProduto.setBackground(new Color(225, 225, 225));
-		textFieldProduto.setBounds(240, 34, 288, 20);
+		textFieldProduto.setBounds(240, 23, 288, 20);
 		panel.add(textFieldProduto);
 
 		JLabel lblProduto = new JLabel("Produto:");
 		lblProduto.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblProduto.setBounds(179, 36, 63, 20);
+		lblProduto.setBounds(179, 23, 63, 20);
 		panel.add(lblProduto);
 
 		JLabel lblQuantidade = new JLabel("Quantidade:");
 		lblQuantidade.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblQuantidade.setBounds(538, 36, 89, 18);
+		lblQuantidade.setBounds(538, 25, 89, 18);
 		panel.add(lblQuantidade);
 
 		textFieldQuantidade = new JTextField();
 		textFieldQuantidade.setColumns(10);
 		textFieldQuantidade.setBackground(new Color(225, 225, 225));
-		textFieldQuantidade.setBounds(627, 34, 89, 20);
+		textFieldQuantidade.setBounds(627, 23, 89, 20);
 		panel.add(textFieldQuantidade);
 
 		JLabel lblPrecoC = new JLabel("Preço Compra:");
 		lblPrecoC.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblPrecoC.setBounds(23, 67, 104, 20);
+		lblPrecoC.setBounds(23, 54, 104, 20);
 		panel.add(lblPrecoC);
 
 		textFieldCompra = new JTextField();
 		textFieldCompra.setColumns(10);
 		textFieldCompra.setBackground(new Color(225, 225, 225));
-		textFieldCompra.setBounds(116, 67, 77, 20);
+		textFieldCompra.setBounds(116, 54, 77, 20);
 		panel.add(textFieldCompra);
 
 		JLabel lblPrecoV = new JLabel("Preço Venda:");
 		lblPrecoV.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblPrecoV.setBounds(203, 67, 89, 20);
+		lblPrecoV.setBounds(203, 54, 89, 20);
 		panel.add(lblPrecoV);
 
 		textFieldVenda = new JTextField();
 		textFieldVenda.setColumns(10);
 		textFieldVenda.setBackground(new Color(225, 225, 225));
-		textFieldVenda.setBounds(295, 68, 77, 20);
+		textFieldVenda.setBounds(295, 54, 77, 20);
 		panel.add(textFieldVenda);
 
 		JLabel lblCodMarca = new JLabel("Cod_Marca:");
 		lblCodMarca.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCodMarca.setBounds(377, 69, 89, 20);
+		lblCodMarca.setBounds(377, 54, 89, 20);
 		panel.add(lblCodMarca);
 		comboBox_CodMarca.addItemListener(new ItemListener() {
 			//@Override
@@ -182,7 +182,7 @@ public class Produtos extends JInternalFrame {
 			}
 		});
 
-		comboBox_CodMarca.setBounds(463, 69, 46, 22);
+		comboBox_CodMarca.setBounds(463, 52, 46, 22);
 		panel.add(comboBox_CodMarca);
 
 		// Carrega itens no combo referente Marca
@@ -200,7 +200,7 @@ public class Produtos extends JInternalFrame {
 		}
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(23, 145, 693, 261);
+		scrollPane.setBounds(23, 158, 693, 248);
 		panel.add(scrollPane);
 
 		table = new JTable();
@@ -251,7 +251,7 @@ public class Produtos extends JInternalFrame {
 		textFieldViewMarca = new JTextField();
 		textFieldViewMarca.setEditable(false);
 		textFieldViewMarca.setBackground(new Color(225, 225, 225));
-		textFieldViewMarca.setBounds(519, 68, 197, 20);
+		textFieldViewMarca.setBounds(519, 54, 197, 20);
 		panel.add(textFieldViewMarca);
 		textFieldViewMarca.setColumns(10);
 
@@ -290,7 +290,7 @@ public class Produtos extends JInternalFrame {
 
 			}
 		});
-		btnNewButton.setBounds(23, 417, 89, 23);
+		btnNewButton.setBounds(76, 417, 89, 23);
 		panel.add(btnNewButton);
 
 		JButton btnLimpar = new JButton("Limpar");
@@ -308,36 +308,35 @@ public class Produtos extends JInternalFrame {
 
 			}
 		});
-		btnLimpar.setBounds(627, 417, 89, 23);
+		btnLimpar.setBounds(571, 417, 89, 23);
 		panel.add(btnLimpar);
 
 		JLabel lblDescricao = new JLabel("Descrição:");
 		lblDescricao.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblDescricao.setBounds(23, 102, 104, 20);
+		lblDescricao.setBounds(23, 89, 104, 20);
 		panel.add(lblDescricao);
 
 		textFieldDescricao = new JTextField();
 		textFieldDescricao.setColumns(10);
 		textFieldDescricao.setBackground(new Color(225, 225, 225));
-		textFieldDescricao.setBounds(92, 102, 624, 20);
+		textFieldDescricao.setBounds(92, 89, 624, 20);
 		panel.add(textFieldDescricao);
 
-		JButton btnListarTudo = new JButton("Listar Tudo");
-		btnListarTudo.addActionListener(new ActionListener() {
+		JButton btnPesquisar = new JButton("");
+		btnPesquisar.setBackground(new Color(192, 192, 192));
+		btnPesquisar.setIcon(new ImageIcon("C:\\Users\\weslley.leles\\Pictures\\icones\\lupinha.PNG"));
+		btnPesquisar.setMargin(new Insets(2, 3, 2, 3));
+		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				ProdutoDao produtodao = new ProdutoDao();
-
 				if (model.getRowCount() != 0) {
 					model.setRowCount(0);
 				}
 
-				produtodao.listarTodosProdutos();
-
 				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
-				listaDeProdutos = produtodao.listarTodosProdutos();
+				listaDeProdutos = InputDialog();
 
 				for (Produto contador : listaDeProdutos) {
+
 					row[0] = contador.getCod_produto();
 					row[1] = contador.getNome_produto();
 					row[2] = contador.getQuantidade_produto();
@@ -348,42 +347,12 @@ public class Produtos extends JInternalFrame {
 
 					model.addRow(row);
 				}
+
 			}
 		});
-		btnListarTudo.setBounds(485, 417, 119, 23);
-		panel.add(btnListarTudo);
-
-		JButton btnListarNome = new JButton("Listar por nome");
-		btnListarNome.setMargin(new Insets(2, 3, 2, 3));
-		btnListarNome.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Produto produto = new Produto();
-				ProdutoDao produtodao = new ProdutoDao();
-
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}
-				String nome = JOptionPane.showInputDialog("Informe o Nome: ");
-
-				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
-				listaDeProdutos = produtodao.listarProdutoPorNome(nome);
-
-				for (Produto contador : listaDeProdutos) {
-					row[0] = contador.getCod_produto();
-					row[1] = contador.getNome_produto();
-					row[2] = contador.getQuantidade_produto();
-					row[3] = contador.getValor_compra_produto();
-					row[4] = contador.getValor_venda_produto();
-					row[5] = contador.getCod_marca_produto();
-					row[6] = contador.getDescricao_produto();
-
-					model.addRow(row);
-				}
-			}
-		});
-		btnListarNome.setBounds(346, 417, 120, 23);
-		panel.add(btnListarNome);
+		btnPesquisar.setIcon(new ImageIcon(Produtos.class.getResource("/Icones/lupa.png")));
+		btnPesquisar.setBounds(23, 120, 35, 30);
+		panel.add(btnPesquisar);
 
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
@@ -414,7 +383,7 @@ public class Produtos extends JInternalFrame {
 				}
 			}
 		});
-		btnAlterar.setBounds(132, 417, 89, 23);
+		btnAlterar.setBounds(241, 417, 89, 23);
 		panel.add(btnAlterar);
 
 		JButton btnDeletar = new JButton("Deletar");
@@ -435,7 +404,7 @@ public class Produtos extends JInternalFrame {
 				}
 			}
 		});
-		btnDeletar.setBounds(240, 417, 89, 23);
+		btnDeletar.setBounds(406, 417, 89, 23);
 		panel.add(btnDeletar);
 
 	}
@@ -545,4 +514,32 @@ public class Produtos extends JInternalFrame {
 		return (true);
 
 	}
+	protected ArrayList<Produto> InputDialog() {
+		String[] options = { null, "Listar por Nome", "Listar Tudo" };
+		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
+		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Pesquisa",
+				JOptionPane.QUESTION_MESSAGE, icon, options, options[2]);
+		System.out.println(n);
+		// frmPrincipal principal = new frmPrincipal();
+		ArrayList<Produto> pesquisar = new ArrayList<>();
+		ProdutoDao produtodao = new ProdutoDao();
+		String opcao = n;
+		switch (opcao) {
+
+		case "Listar por Nome":
+			String nome = JOptionPane.showInputDialog("Informe o Nome: ");
+
+			pesquisar = produtodao.listarProdutoPorNome(nome);
+
+			break;
+		case "Listar Tudo":
+
+			pesquisar = produtodao.listarTodosProdutos();
+
+			break;
+
+		}
+		return pesquisar;
+	}
 }
+
