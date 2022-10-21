@@ -3,15 +3,11 @@ package Guis;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.beans.PropertyVetoException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,20 +16,14 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
-import Conexao.Dao.ClienteDao;
 import Conexao.Dao.PedidoDao;
-import Conexao.Dao.ProdutoDao;
-import Models.Cliente;
-import Models.ItemPedido;
 import Models.ListaPedido;
 import Models.Pedido;
 import Models.Produto;
 
-import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -47,9 +37,10 @@ public class ListarPedidos extends JInternalFrame {
 	double calculaValorTotal = 0;
 
 	private JTable table;
-	private String tipoPedido = "";
-	
+
 	DefaultTableModel model;
+	Object[] row = new Object[11];
+
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +60,7 @@ public class ListarPedidos extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	
 	public ListarPedidos() {
 		try {
 			setMaximum(false);
@@ -96,31 +87,31 @@ public class ListarPedidos extends JInternalFrame {
 
 		textFieldCodPedidos = new JTextField();
 		textFieldCodPedidos.setBackground(new Color(225, 225, 225));
-		textFieldCodPedidos.setBounds(71, 10, 67, 20);
+		textFieldCodPedidos.setBounds(82, 10, 67, 20);
 		panel.add(textFieldCodPedidos);
 		textFieldCodPedidos.setColumns(10);
-		
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(23, 41, 693, 331);
 		panel.add(scrollPane);
-		
+
 		table = new JTable();
-		
+
 		table.setEnabled(false);
 		scrollPane.setViewportView(table);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 				int contador1 = table.getSelectedRow();
 				textFieldCodPedidos.setText(model.getValueAt(contador1, 0).toString());
 
 			}
-		});		
-		
+		});
+
 		model = new DefaultTableModel();
-		Object[] colunn = {"Codigo","Data","Condição","Cod. Cliente","Cliente","Cod. Produto", "Produto", "Qtde.","Valor Item"};
+		Object[] colunn = { "Codigo", "Data", "Condição", "Cod. Cliente", "Cliente", "Cod. Produto", "Produto", "Qtde.",
+				"Valor Item" };
 		Object[] row = new Object[9];
 		model.setColumnIdentifiers(colunn);
 		table.setModel(model);
@@ -131,115 +122,21 @@ public class ListarPedidos extends JInternalFrame {
 		table.getColumnModel().getColumn(5).setMaxWidth(50);
 		table.getColumnModel().getColumn(7).setMaxWidth(50);
 		table.getColumnModel().getColumn(8).setMaxWidth(80);
-		
+
 //		table.setBackground(UIManager.getColor("Button.light"));
 //		table.setForeground(SystemColor.activeCaption);
-		
+
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
-		
-		JLabel lblCodigo = new JLabel("Codigo:");
+
+		JLabel lblCodigo = new JLabel("Codigo*:");
 		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCodigo.setBounds(23, 10, 54, 20);
+		lblCodigo.setBounds(23, 10, 67, 20);
 		panel.add(lblCodigo);
-		
-		JButton btnListar = new JButton("Listar por Data");
-		btnListar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				PedidoDao pedidoDao = new PedidoDao();
-				
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}	
-				
-				String data = JOptionPane.showInputDialog("Informe a Data: ");
-				
-				ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
-				listaDePedidos = pedidoDao.listarPedidoPorData(data);
 
-				for (ListaPedido contador : listaDePedidos) {
-					row[0] = contador.getCod_pedido();
-					row[1] = contador.getData_pedido();
-					row[2] = contador.getCondicao_pagamento_pedido();
-					row[3] = contador.getClientes_cod_cliente();
-					row[4] = contador.getNome_cliente();
-					row[5] = contador.getCod_produto();
-					row[6] = contador.getNome_produto();
-					row[7] = contador.getQuantidade_item();
-					row[8] = contador.getPreco_total_item();
-					model.addRow(row);
-				}
-				
-			}
-		});
-		btnListar.setBounds(66, 421, 139, 23);
-		panel.add(btnListar);
-		
-		JButton btnListarPorCliente = new JButton("Listar por Cliente");
-		btnListarPorCliente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PedidoDao pedidoDao = new PedidoDao();
-				
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}	
-				
-				String nome = JOptionPane.showInputDialog("Informe o Nome do Cliente: ");
-				
-				ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
-				listaDePedidos = pedidoDao.listarPedidoPorNomeCliente(nome);
-
-				for (ListaPedido contador : listaDePedidos) {
-					row[0] = contador.getCod_pedido();
-					row[1] = contador.getData_pedido();
-					row[2] = contador.getCondicao_pagamento_pedido();
-					row[3] = contador.getClientes_cod_cliente();
-					row[4] = contador.getNome_cliente();
-					row[5] = contador.getCod_produto();
-					row[6] = contador.getNome_produto();
-					row[7] = contador.getQuantidade_item();
-					row[8] = contador.getPreco_total_item();
-					model.addRow(row);
-				}
-				
-			}
-		});
-		
-		btnListarPorCliente.setBounds(271, 421, 167, 23);
-		panel.add(btnListarPorCliente);
-		
-		JButton btnListarPorPagamento = new JButton("Listar por Pagamento");
-		btnListarPorPagamento.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				if (model.getRowCount() != 0) {
-					model.setRowCount(0);
-				}	
-				ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
-				
-				listaDePedidos = InputDialog();
-				
-				for (ListaPedido contador : listaDePedidos) {
-					row[0] = contador.getCod_pedido();
-					row[1] = contador.getData_pedido();
-					row[2] = contador.getCondicao_pagamento_pedido();
-					row[3] = contador.getClientes_cod_cliente();
-					row[4] = contador.getNome_cliente();
-					row[5] = contador.getCod_produto();
-					row[6] = contador.getNome_produto();
-					row[7] = contador.getQuantidade_item();
-					row[8] = contador.getPreco_total_item();
-					model.addRow(row);
-				}
-				
-			}
-		});
-		btnListarPorPagamento.setBounds(504, 421, 167, 23);
-		panel.add(btnListarPorPagamento);
-		
-		JButton btnDeletar = new JButton("");
-		btnDeletar.setIcon(new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Icones\\icons8-remover-100.png"));
+		JButton btnDeletar = new JButton("Excluir Pedido");
+		btnDeletar.setIcon(new ImageIcon(
+				"C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Icones\\icons8-remover-100.png"));
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PedidoDao pedidodao = new PedidoDao();
@@ -250,19 +147,53 @@ public class ListarPedidos extends JInternalFrame {
 						JOptionPane.YES_NO_OPTION) == 0) {
 					pedidodao.excluirPedido(pedido);
 				}
-				
+
 			}
 		});
-		btnDeletar.setBounds(692, 383, 24, 23);
+		btnDeletar.setBounds(518, 397, 139, 34);
 		panel.add(btnDeletar);
-	}
-	
-	protected ArrayList<ListaPedido> InputDialog() {
+
+		JLabel lblNewLabel_1 = new JLabel("* Preenchimento obrigatório para excluir o pedido");
+		lblNewLabel_1.setBounds(154, 13, 251, 14);
+		panel.add(lblNewLabel_1);
+
+		JButton btnNewButton = new JButton("Relatórios");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InputDialog2();
+			}
+		});
+		btnNewButton.setIcon(
+				new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Icones\\icons8-verificar-100.png"));
+		btnNewButton.setBounds(299, 397, 139, 34);
+		panel.add(btnNewButton);
 		
+		JButton btnConsultaPedido = new JButton("Consulta Pedido");
+		btnConsultaPedido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+
+				ArrayList<ListaPedido> listaPedido = new ArrayList<>();
+				
+				listaPedido = InputDialog3();
+				
+				montaGrid(listaPedido);
+
+			}
+		});
+		btnConsultaPedido.setIcon(new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Icones\\lupa.png"));
+		btnConsultaPedido.setBounds(80, 397, 139, 34);
+		panel.add(btnConsultaPedido);
+	}
+
+	protected ArrayList<ListaPedido> InputDialog() {
+
 		PedidoDao pedidoDao = new PedidoDao();
 		ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
-		
-		
+
 		String[] options = { null, "Dinheiro", "Pix", "Débito", "Credito" };
 		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
 		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Condição de Pagamento",
@@ -273,10 +204,10 @@ public class ListarPedidos extends JInternalFrame {
 		switch (opcao) {
 
 		case "Dinheiro":
-			
+
 			listaDePedidos = pedidoDao.listarPedidoPorCondicaoPagamento(opcao);
 			break;
-			
+
 		case "Pix":
 
 			listaDePedidos = pedidoDao.listarPedidoPorCondicaoPagamento(opcao);
@@ -295,5 +226,167 @@ public class ListarPedidos extends JInternalFrame {
 		}
 		
 		return listaDePedidos;
+	}
+
+	protected void InputDialog2() {
+		frmPrincipal frame = new frmPrincipal();
+		try {
+			String[] options = { "Selecione uma opção", "Relatório Todos os Pedidos", "Relatório Pedidos por CPF",
+					"Relatório Pedidos por Nome", "Relatório Pedidos por Data", "Relatório Pedidos Entre Datas",
+					"Relatório Pedidos Opção de Pagamento" };
+			ImageIcon icon = new ImageIcon("src/icones/lupa.png");
+			String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Relatórios",
+					JOptionPane.QUESTION_MESSAGE, icon, options, options[0]);
+			System.out.println(n);
+			String opcao = n;
+			switch (opcao) {
+
+			case "Selecione uma opção":
+				JOptionPane.showMessageDialog(null, "Selecione uma opção válida!");
+				break;
+
+			case "Relatório Todos os Pedidos":
+				System.out.println("Relatório Pedidos");
+				frame.relatorioPedido();
+				break;
+
+			case "Relatório Pedidos por CPF":
+				System.out.println();
+				frame.relatorioPedidoPorCpf();
+				break;
+
+			case "Relatório Pedidos por Data":
+				
+				System.out.println("Relatório Pedidos por Data");
+				frame.relatorioPedidoPorData();
+				break;
+
+			case "Relatório Pedidos Entre Datas":
+				System.out.println("Relatório Pedidos Entre Datas");
+				frame.relatorioPedidoEntreDatas();
+				break;
+
+			case "Relatório Pedidos por Nome":
+				System.out.println("Relatório Pedidos por Nome");
+				frame.relatorioPedidoPorNome();
+				break;
+
+			case "Relatório Pedidos Opção de Pagamento":
+				System.out.println("Relatório Pedidos Opção de Pagamento");
+				frame.relatorioPedidoOpcaoPagamento();
+				break;
+			}
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Opção não pode estar vazia!");
+		}
+	}
+	
+	protected ArrayList<ListaPedido> InputDialog3() {
+		PedidoDao pedidoDao = new PedidoDao();
+		ArrayList<ListaPedido> listaPedido = new ArrayList<>();
+		
+		try {
+			String[] options = { "Selecione uma opção", "Relatório Todos os Pedidos", "Relatório Pedidos por CPF",
+					"Relatório Pedidos por Nome", "Relatório Pedidos por Data", "Relatório Pedidos Entre Datas",
+					"Relatório Pedidos Opção de Pagamento" };
+			ImageIcon icon = new ImageIcon("src/icones/lupa.png");
+			String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Relatórios",
+					JOptionPane.QUESTION_MESSAGE, icon, options, options[0]);
+			System.out.println(n);
+			String opcao = n;
+			switch (opcao) {
+
+			case "Selecione uma opção":
+				JOptionPane.showMessageDialog(null, "Selecione uma opção válida!");
+				break;
+
+			case "Relatório Todos os Pedidos":
+				
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+				
+				listaPedido = pedidoDao.listarTodosPedidos();
+				break;
+
+			case "Relatório Pedidos por CPF":
+				
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+				
+				String cpf = JOptionPane.showInputDialog(null, "Digite o CPF");
+				listaPedido = pedidoDao.listarPedidoPorCpfCliente(cpf);
+				break;
+				
+			case "Relatório Pedidos por Data":
+				
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+				
+				String data = JOptionPane.showInputDialog(null, "Insira a data no seguinte formato 'AAAA-MM-DD':");
+				listaPedido = pedidoDao.listarPedidoPorData(data);
+				break;
+
+			case "Relatório Pedidos Entre Datas":
+				
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+				
+				data = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'AAAA-MM-DD':");
+				String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'AAAA-MM-DD':");
+				listaPedido = pedidoDao.listarPedidoEntreDatas(data, data2);
+				break;
+
+			case "Relatório Pedidos por Nome":
+				
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+				
+				String nome = JOptionPane.showInputDialog("Insira o nome do cliente: ");
+				listaPedido = pedidoDao.listarPedidoPorNomeCliente(nome);				
+				break;
+
+			case "Relatório Pedidos Opção de Pagamento":
+				
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+				
+				listaPedido = InputDialog();
+				
+				break;
+			}
+			
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Opção não pode estar vazia!");
+		}
+		
+		return listaPedido;
+		
+	}
+	
+	void montaGrid( ArrayList<ListaPedido> listaPedido) {
+
+		ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
+		listaDePedidos = listaPedido;
+
+		for (ListaPedido contador : listaDePedidos) {
+			row[0] = contador.getCod_pedido();
+			row[1] = contador.getData_pedido();
+			row[2] = contador.getCondicao_pagamento_pedido();
+			row[3] = contador.getClientes_cod_cliente();
+			row[4] = contador.getNome_cliente();
+			row[5] = contador.getCod_produto();
+			row[6] = contador.getNome_produto();
+			row[7] = contador.getQuantidade_item();
+			row[8] = contador.getPreco_total_item();
+			model.addRow(row);
+		}
 	}
 }

@@ -206,17 +206,19 @@ public class Pedidos extends JInternalFrame {
 		});
 
 		mdlProdutosVda = new DefaultTableModel();
-		Object[] colunn = { "Cod.Produto", "Des.Produto", "Quantidade", "Marca", "Des.Marca", "Vlr.Venda" };
-		Object[] row = new Object[6];
+		Object[] colunn = { "Cod.Prod.", "Des.Produto", "Quantidade", "Marca", "Des.Marca", "Vlr.Venda","Vlr.Tot.Item" };
+		Object[] row = new Object[7];
 		mdlProdutosVda.setColumnIdentifiers(colunn);
 		tblProdutosVenda.setModel(mdlProdutosVda);
-		tblProdutosVenda.getColumnModel().getColumn(0).setMaxWidth(100);
+		tblProdutosVenda.getColumnModel().getColumn(0).setMaxWidth(80);
 		tblProdutosVenda.getColumnModel().getColumn(1).setMaxWidth(600);
 		tblProdutosVenda.getColumnModel().getColumn(2).setMaxWidth(80);
 		tblProdutosVenda.getColumnModel().getColumn(3).setMaxWidth(50);
 		tblProdutosVenda.getColumnModel().getColumn(4).setMaxWidth(400);
-		tblProdutosVenda.getColumnModel().getColumn(5).setMaxWidth(150);
+		tblProdutosVenda.getColumnModel().getColumn(5).setMaxWidth(125);
+		tblProdutosVenda.getColumnModel().getColumn(6).setMaxWidth(140);
 		tblProdutosVenda.getColumnModel().getColumn(5).setCellRenderer(direita);
+		tblProdutosVenda.getColumnModel().getColumn(6).setCellRenderer(direita);
 
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
@@ -399,8 +401,7 @@ public class Pedidos extends JInternalFrame {
 		JButton btnInserir = new JButton("+");
 		btnInserir.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e) {// Início botão +
-														// ========================================================================AQUI
+			public void actionPerformed(ActionEvent e) {
 
 				PedidoDao pedidodao = new PedidoDao();
 
@@ -455,6 +456,10 @@ public class Pedidos extends JInternalFrame {
 						return;
 					}
 				}
+				
+				Double qtdItem = Double.parseDouble(textSelQtdItem.getText());
+				Double valorVenda = Double.parseDouble(textSelValorVenda.getText());
+				Double valorTotalItem=(qtdItem*valorVenda);
 
 				row[0] = textSelCodProduto.getText();
 				row[1] = textSelNomeProduto.getText();
@@ -462,12 +467,13 @@ public class Pedidos extends JInternalFrame {
 				row[3] = textSelCodMarca.getText();
 				row[4] = textSelDesMarca.getText();
 				row[5] = textSelValorVenda.getText();
-
+				row[6] = valorTotalItem;
+				
 				mdlProdutosVda.addRow(row);
 
-				Double qtdItem = Double.parseDouble(textSelQtdItem.getText());
-				Double valorVenda = Double.parseDouble(textSelValorVenda.getText());
-				valorTotalPedido += (qtdItem * valorVenda);
+				valorTotalPedido += valorTotalItem;  
+			
+				//valorTotalPedido += (qtdItem * valorVenda);
 				textValorTotal.setText(String.valueOf(valorTotalPedido));
 
 				textQtdItens.setText(String.valueOf(nrolinhas + 1));
@@ -479,8 +485,7 @@ public class Pedidos extends JInternalFrame {
 				textSelCodMarca.setText("");
 				textSelDesMarca.setText("");
 			}
-		});// Fim botão +
-			// ============================================================================================================AQUI
+		});
 		btnInserir.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnInserir.setBounds(672, 206, 44, 23);
 		panel.add(btnInserir);

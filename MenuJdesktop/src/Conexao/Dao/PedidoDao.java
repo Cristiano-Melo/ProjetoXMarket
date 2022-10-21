@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 import Models.ItemPedido;
 import Models.ListaPedido;
 import Models.Pedido;
-import Models.Produto;
 
 public class PedidoDao {
 
@@ -254,6 +253,7 @@ public class PedidoDao {
 
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
 				pedidos.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				pedidos.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
 				pedidos.setCondicao_pagamento_pedido(
 						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
