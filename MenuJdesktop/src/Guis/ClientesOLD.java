@@ -8,9 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -27,12 +25,10 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
 import Conexao.Dao.ClienteDao;
+import Conexao.Dao.ProdutoDao;
 import Models.Cliente;
+import Models.Produto;
 
 public class Clientes extends JInternalFrame {
 	private JTextField textFieldCodCliente;
@@ -66,6 +62,8 @@ public class Clientes extends JInternalFrame {
 			}
 		});
 	}
+
+	
 
 	/**
 	 * Create the frame.
@@ -136,13 +134,13 @@ public class Clientes extends JInternalFrame {
 		panel.add(lblEndereco);
 
 		textFieldRg = new JTextField();
-		textFieldRg.setBounds(54, 125, 126, 20);
+		textFieldRg.setBounds(54, 60, 126, 20);
 		textFieldRg.setColumns(10);
 		textFieldRg.setBackground(new Color(225, 225, 225));
 		panel.add(textFieldRg);
 
 		JLabel lblRg = new JLabel("RG:");
-		lblRg.setBounds(10, 125, 104, 20);
+		lblRg.setBounds(10, 60, 104, 20);
 		lblRg.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblRg);
 
@@ -169,25 +167,21 @@ public class Clientes extends JInternalFrame {
 		panel.add(textFieldTelefone);
 
 		textFieldCep = new JTextField();
-		textFieldCep.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buscarCep();
-
-			}
-		});
-		textFieldCep.setBounds(54, 61, 126, 20);
+		textFieldCep.setBounds(54, 125, 126, 20);
 		textFieldCep.setColumns(10);
 		textFieldCep.setBackground(new Color(225, 225, 225));
 		panel.add(textFieldCep);
 
 		JLabel lblCep = new JLabel("CEP:");
-		lblCep.setBounds(10, 60, 104, 20);
+		lblCep.setBounds(10, 124, 104, 20);
 		lblCep.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panel.add(lblCep);
 
-		comboBox_Uf.setModel(new DefaultComboBoxModel(
-				new String[] { "", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA",
-						"PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
+		comboBox_Uf.setModel(new DefaultComboBoxModel(new String[] { "", "Acre", "Alagoas", "Amapá", "Amazonas",
+				"Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso",
+				"Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí",
+				"Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina",
+				"São Paulo", "Sergipe", "Tocantins" }));
 		comboBox_Uf.setBounds(599, 92, 126, 22);
 		panel.add(comboBox_Uf);
 
@@ -242,7 +236,7 @@ public class Clientes extends JInternalFrame {
 					if (validaCampos() == false) {
 						return;
 					}
-					String valida = textFieldCodCliente.getText();
+					String valida= textFieldCodCliente.getText();
 					if (!valida.equals("")) {
 						JOptionPane.showInternalMessageDialog(null, "Cliente já cadastrado. Operação inválida");
 						return;
@@ -393,7 +387,7 @@ public class Clientes extends JInternalFrame {
 		});
 		btnAlterar.setBounds(245, 416, 89, 23);
 		panel.add(btnAlterar);
-
+		
 		JButton btnPesquisa_1 = new JButton("");
 		btnPesquisa_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -419,6 +413,7 @@ public class Clientes extends JInternalFrame {
 					model.addRow(row);
 				}
 
+				
 			}
 		});
 		btnPesquisa_1.setIcon(new ImageIcon(Clientes.class.getResource("/Icones/lupa.png")));
@@ -614,14 +609,14 @@ public class Clientes extends JInternalFrame {
 		return (true);
 
 	}
-
+	
 	protected ArrayList<Cliente> InputDialog() {
 		String[] options = { null, "Listar por Nome", "Listar Tudo" };
 		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
 		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Pesquisa",
 				JOptionPane.QUESTION_MESSAGE, icon, options, options[2]);
 		System.out.println(n);
-
+		
 		ArrayList<Cliente> pesquisar = new ArrayList<>();
 		ClienteDao clientedao = new ClienteDao();
 		String opcao = n;
@@ -660,51 +655,8 @@ public class Clientes extends JInternalFrame {
 
 		return listaDeClientes;
 	}
-
-	private void buscarCep() {
-		String logradouro = "";
-		String tipoLogradouro = "";
-		String resultado = null;
-		String cep = textFieldCep.getText();
-		try {
-			URL url = new URL("http://cep.republicavirtual.com.br/web_cep.php?cep=" + cep + "&formato=xml");
-			SAXReader xml = new SAXReader();
-			Document documento = xml.read(url);
-			Element root = documento.getRootElement();
-			for (Iterator<Element> it = root.elementIterator(); it.hasNext();) {
-				Element element = it.next();
-				if (element.getQualifiedName().equals("cidade")) {
-					textFieldCidade.setText(element.getText());
-				}
-				if (element.getQualifiedName().equals("bairro")) {
-					textFieldBairro.setText(element.getText());
-				}
-				if (element.getQualifiedName().equals("endereço")) {
-					textFieldEndereco.setText(element.getText());
-
-				}
-				if (element.getQualifiedName().equals("logradouro")) {
-					logradouro = element.getText();
-				}
-				if (element.getQualifiedName().equals("uf")) {
-					comboBox_Uf.setSelectedItem(element.getText());
-					System.out.println(element.getText());
-				}
-				if (element.getQualifiedName().equals("resultado")) {
-					resultado = element.getText();
-					if (resultado.equals("1")) {
-
-					} else {
-						JOptionPane.showMessageDialog(null, "CEP não encontrado");
-					}
-				}
-
-				textFieldEndereco.setText(tipoLogradouro + " " + logradouro);
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-	}
-
+	
 }
+
+
+

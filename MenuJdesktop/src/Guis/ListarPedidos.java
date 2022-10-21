@@ -245,7 +245,7 @@ public class ListarPedidos extends JInternalFrame {
 				Pedido pedido = new Pedido();
 				pedido.setCod_pedido(textFieldCodPedidos.getText());
 
-				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Cliente?", "SIM",
+				if (JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Pedido?", "SIM",
 						JOptionPane.YES_NO_OPTION) == 0) {
 					pedidodao.excluirPedido(pedido);
 				}

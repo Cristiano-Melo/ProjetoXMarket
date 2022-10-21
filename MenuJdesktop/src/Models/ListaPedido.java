@@ -21,7 +21,14 @@ public class ListaPedido {
 	String cod_produto;
 	String nome_produto;
 	String valor_venda_produto;
+	String quantidade_produto;
 	
+	public String getQuantidade_produto() {
+		return quantidade_produto;
+	}
+	public void setQuantidade_produto(String quantidade_produto) {
+		this.quantidade_produto = quantidade_produto;
+	}
 	String quantidade_item;
 	Double preco_total_item;
 	String cod_itens_pedido;
