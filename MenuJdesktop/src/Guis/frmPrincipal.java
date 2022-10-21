@@ -405,6 +405,7 @@ public class frmPrincipal extends JFrame {
 	}
 
 	public frmPrincipal() {
+		setTitle("PDV - XMarket");
 		setResizable(false);
 		projetoGui();
 	}

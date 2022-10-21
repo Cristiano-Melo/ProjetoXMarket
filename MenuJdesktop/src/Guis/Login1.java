@@ -47,6 +47,7 @@ public class Login1 extends JFrame {
 	 * Create the frame.
 	 */
 	public Login1() {
+		setTitle("PDV - XMarket");
 		setFocusable(true);
 		setBounds(100, 100, 499, 365);
 		getContentPane().setLayout(null);
