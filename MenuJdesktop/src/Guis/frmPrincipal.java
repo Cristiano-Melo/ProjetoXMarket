@@ -160,7 +160,7 @@ public class frmPrincipal extends JFrame {
 		mnRelatorio.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnRelatorio);
 
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Vendas");
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("2ª Via Cupom Fiscal");
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			
 			@Override
@@ -171,10 +171,6 @@ public class frmPrincipal extends JFrame {
 		});
 		mntmNewMenuItem_4.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/relatorio.png")));
 		mnRelatorio.add(mntmNewMenuItem_4);
-
-		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Gerencial");
-		mntmNewMenuItem_5.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/icons8-verificar-100.png")));
-		mnRelatorio.add(mntmNewMenuItem_5);
 
 		JMenu mnNewMenu_4 = new JMenu("Ajuda");
 		mnNewMenu_4.setForeground(new Color(0, 0, 0));

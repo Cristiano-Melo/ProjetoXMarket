@@ -69,14 +69,14 @@ public class ListarPedidos extends JInternalFrame {
 		}
 		setClosable(true);
 		setFrameIcon(new ImageIcon(ListarPedidos.class.getResource("/Icones/relatorio.png")));
-		setTitle("Gestão de Pedidos");
+		setTitle("Consulta de Pedidos");
 		setBounds(100, 100, 770, 538);
 		getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Pedidos/Orçamentos");
+		JLabel lblNewLabel = new JLabel("Pedido");
 		lblNewLabel.setForeground(new Color(255, 0, 0));
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 24));
-		lblNewLabel.setBounds(250, 0, 259, 48);
+		lblNewLabel.setBounds(299, 0, 128, 48);
 		getContentPane().add(lblNewLabel);
 
 		JPanel panel = new JPanel();
@@ -150,7 +150,7 @@ public class ListarPedidos extends JInternalFrame {
 
 			}
 		});
-		btnDeletar.setBounds(518, 397, 139, 34);
+		btnDeletar.setBounds(518, 397, 160, 34);
 		panel.add(btnDeletar);
 
 		JLabel lblNewLabel_1 = new JLabel("* Preenchimento obrigatório para excluir o pedido");
@@ -165,7 +165,7 @@ public class ListarPedidos extends JInternalFrame {
 		});
 		btnNewButton.setIcon(
 				new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Icones\\icons8-verificar-100.png"));
-		btnNewButton.setBounds(299, 397, 139, 34);
+		btnNewButton.setBounds(299, 397, 160, 34);
 		panel.add(btnNewButton);
 		
 		JButton btnConsultaPedido = new JButton("Consulta Pedido");
@@ -185,7 +185,7 @@ public class ListarPedidos extends JInternalFrame {
 			}
 		});
 		btnConsultaPedido.setIcon(new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Icones\\lupa.png"));
-		btnConsultaPedido.setBounds(80, 397, 139, 34);
+		btnConsultaPedido.setBounds(80, 397, 160, 34);
 		panel.add(btnConsultaPedido);
 	}
 
