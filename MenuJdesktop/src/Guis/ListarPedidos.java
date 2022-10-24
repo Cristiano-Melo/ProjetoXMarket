@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.beans.PropertyVetoException;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -326,8 +328,12 @@ public class ListarPedidos extends JInternalFrame {
 					model.setRowCount(0);
 				}
 				
-				String data = JOptionPane.showInputDialog(null, "Insira a data no seguinte formato 'AAAA-MM-DD':");
-				listaPedido = pedidoDao.listarPedidoPorData(data);
+				SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");				
+				String data = JOptionPane.showInputDialog(null, "Insira a data no seguinte formato 'DD/MM/AAAA':");
+				
+				String dataFormatada = formatoData.format(new Date(data));
+				
+				listaPedido = pedidoDao.listarPedidoPorData(dataFormatada);
 				break;
 
 			case "Relatório Pedidos Entre Datas":

@@ -69,6 +69,7 @@ public class frmPrincipal extends JFrame {
 				try {
 					frmPrincipal frame = new frmPrincipal();
 					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -208,7 +209,8 @@ public class frmPrincipal extends JFrame {
 		);
 
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Imagens\\Teste.jpg"));
+		//lblNewLabel.setIcon(new ImageIcon("C:\\Users\\00787671\\Documents\\GitHub\\ProjetoXMarket-main\\MenuJdesktop\\src\\Imagens\\Teste.jpg"));
+		lblNewLabel.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Imagens/Teste.jpg")));
 		GroupLayout gl_desktopPanePrincipal = new GroupLayout(desktopPanePrincipal);
 		gl_desktopPanePrincipal.setHorizontalGroup(
 			gl_desktopPanePrincipal.createParallelGroup(Alignment.LEADING)
@@ -216,9 +218,7 @@ public class frmPrincipal extends JFrame {
 		);
 		gl_desktopPanePrincipal.setVerticalGroup(
 			gl_desktopPanePrincipal.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_desktopPanePrincipal.createSequentialGroup()
-					.addComponent(lblNewLabel)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
 		);
 		desktopPanePrincipal.setLayout(gl_desktopPanePrincipal);
 
