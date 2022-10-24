@@ -592,29 +592,45 @@ public class Clientes extends JInternalFrame {
 	}
 
 	protected ArrayList<Cliente> InputDialog() {
-		String[] options = { null, "Listar por Nome", "Listar Tudo" };
+		String[] options = { "Selecione uma opção", "Listar por Nome", "Listar Tudo", "Listar por CPF"};
 		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
 		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Pesquisa",
-				JOptionPane.QUESTION_MESSAGE, icon, options, options[2]);
+				JOptionPane.QUESTION_MESSAGE, icon, options, options[0]);
 		System.out.println(n);
-
 		ArrayList<Cliente> pesquisar = new ArrayList<>();
 		ClienteDao clientedao = new ClienteDao();
 		String opcao = n;
 		switch (opcao) {
-
+		
+		case "Selecione uma opção":
+			JOptionPane.showMessageDialog(null, "Selecione uma opção válida!");
+			break;
+			
+		case "Listar por CPF":
+			try {
+				String cpf = JOptionPane.showInputDialog("Informe o CPF: ");
+				if (!cpf.equals("")) {
+					pesquisar = clientedao.listarClientePorCpf(cpf);
+				}else {
+					JOptionPane.showMessageDialog(null, "CPF não pode estar vazio!");
+				}
+				
+			} catch (Exception e) {
+				JOptionPane.showInputDialog(e);
+			}
+			
+			break;
 		case "Listar por Nome":
 			String nome = JOptionPane.showInputDialog("Informe o Nome: ");
-
-			pesquisar = clientedao.listarClientePorNome(nome);
-
+			if (!nome.equals("")) {
+				pesquisar = clientedao.listarClientePorNome(nome);
+			}else {
+				JOptionPane.showMessageDialog(null, "NOME não pode estar vazio!");
+			}
 			break;
 		case "Listar Tudo":
-
 			pesquisar = clientedao.listarTodosClientes();
-
 			break;
-
 		}
 		return pesquisar;
 	}

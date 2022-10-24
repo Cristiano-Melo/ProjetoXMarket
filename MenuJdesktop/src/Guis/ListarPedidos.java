@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.beans.PropertyVetoException;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -192,39 +192,30 @@ public class ListarPedidos extends JInternalFrame {
 	}
 
 	protected ArrayList<ListaPedido> InputDialog() {
-
 		PedidoDao pedidoDao = new PedidoDao();
 		ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
-
-		String[] options = { null, "Dinheiro", "Pix", "Débito", "Credito" };
+		String[] options = { "Selecione a forma de pagamento", "Dinheiro", "Pix", "Débito", "Credito" };
 		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
 		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Condição de Pagamento",
-				JOptionPane.QUESTION_MESSAGE, icon, options, options[4]);
+				JOptionPane.QUESTION_MESSAGE, icon, options, options[0]);
 		System.out.println(n);
-
 		String opcao = n;
 		switch (opcao) {
-
+		case "Selecione a forma de pagamento":
+			JOptionPane.showMessageDialog(null, "Selecione uma opção válida!");
+			break;
 		case "Dinheiro":
-
 			listaDePedidos = pedidoDao.listarPedidoPorCondicaoPagamento(opcao);
 			break;
-
 		case "Pix":
-
 			listaDePedidos = pedidoDao.listarPedidoPorCondicaoPagamento(opcao);
 			break;
-
 		case "Débito":
-
 			listaDePedidos = pedidoDao.listarPedidoPorCondicaoPagamento(opcao);
 			break;
-
 		case "Credito":
-
 			listaDePedidos = pedidoDao.listarPedidoPorCondicaoPagamento(opcao);
 			break;
-
 		}
 		
 		return listaDePedidos;
@@ -284,9 +275,12 @@ public class ListarPedidos extends JInternalFrame {
 		}
 	}
 	
+
 	protected ArrayList<ListaPedido> InputDialog3() {
 		PedidoDao pedidoDao = new PedidoDao();
 		ArrayList<ListaPedido> listaPedido = new ArrayList<>();
+		String dataFormatada;
+		SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
 			String[] options = { "Selecione uma opção", "Relatório Todos os Pedidos", "Relatório Pedidos por CPF",
@@ -328,10 +322,14 @@ public class ListarPedidos extends JInternalFrame {
 					model.setRowCount(0);
 				}
 				
-				SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");				
+								
 				String data = JOptionPane.showInputDialog(null, "Insira a data no seguinte formato 'DD/MM/AAAA':");
 				
-				String dataFormatada = formatoData.format(new Date(data));
+				System.out.println(data);
+				
+				dataFormatada = formatoData.format(new Date(data));
+				
+				System.out.println(dataFormatada);
 				
 				listaPedido = pedidoDao.listarPedidoPorData(dataFormatada);
 				break;
@@ -342,9 +340,11 @@ public class ListarPedidos extends JInternalFrame {
 					model.setRowCount(0);
 				}
 				
-				data = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'AAAA-MM-DD':");
-				String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'AAAA-MM-DD':");
-				listaPedido = pedidoDao.listarPedidoEntreDatas(data, data2);
+				String data1 = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'DD/MM/AAAA':");
+				String dataFormatada1 = formatoData.format(new Date(data1));
+				String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'DD/MM/AAAA':");
+				String dataFormatada2 = formatoData.format(new Date(data2));
+				listaPedido = pedidoDao.listarPedidoEntreDatas(dataFormatada1, dataFormatada2);
 				break;
 
 			case "Relatório Pedidos por Nome":
@@ -367,7 +367,7 @@ public class ListarPedidos extends JInternalFrame {
 				
 				break;
 			}
-			
+			dataFormatada = "null";
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Opção não pode estar vazia!");
