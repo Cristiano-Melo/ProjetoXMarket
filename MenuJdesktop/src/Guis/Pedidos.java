@@ -163,8 +163,6 @@ public class Pedidos extends JInternalFrame {
 		scrollPane.setBounds(23, 267, 693, 110);
 		panel.add(scrollPane);
 
-		
-
 		rdbtnPedido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rdbtnPedido.isSelected()) {
@@ -181,7 +179,7 @@ public class Pedidos extends JInternalFrame {
 				if (rdbtnOrcamento.isSelected()) {
 					rdbtnPedido.setSelected(false);
 				}
-				tipoPedido = "0";
+				tipoPedido = "O";
 				pedido.setTipo_pedido(tipoPedido);
 				tipoPedido = "";
 			}
@@ -206,7 +204,8 @@ public class Pedidos extends JInternalFrame {
 		});
 
 		mdlProdutosVda = new DefaultTableModel();
-		Object[] colunn = { "Cod.Prod.", "Des.Produto", "Quantidade", "Marca", "Des.Marca", "Vlr.Venda","Vlr.Tot.Item" };
+		Object[] colunn = { "Cod.Prod.", "Des.Produto", "Quantidade", "Marca", "Des.Marca", "Vlr.Venda",
+				"Vlr.Tot.Item" };
 		Object[] row = new Object[7];
 		mdlProdutosVda.setColumnIdentifiers(colunn);
 		tblProdutosVenda.setModel(mdlProdutosVda);
@@ -232,8 +231,8 @@ public class Pedidos extends JInternalFrame {
 		JButton btnGravar = new JButton("Gravar");
 		btnGravar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if(validaDados()==false) {
+
+				if (validaDados() == false) {
 					return;
 				}
 
@@ -258,35 +257,16 @@ public class Pedidos extends JInternalFrame {
 
 				pedidodao.inserirPedido(pedido, listaItensPedido);
 				
-				//Chamada de Cupom de Venda
+				// Limpeza de todos os dados e variáveis após gravar o pedido
+				limpaCampos();
+
+				// Chamada de Cupom de Venda
 				frmPrincipal frame = new frmPrincipal();
 				Integer cod_pedido = pedidodao.listarUltimoPedido();
 				frame.relatorioComprovanteFiscal(cod_pedido);
+
 				
-				//Limpeza de todos os dados e variáveis após gravar o pedido
-				valorTotalPedido = 0.00;
-				textCPFCliente.setText("");
-				textFieldNomeCliente.setText("");
-				textQtdItens.setText("");
-				textValorTotal.setText("");
-				textSelCodProduto.setText("");
-				textSelQtdItem.setText("");
-				textSelNomeProduto.setText("");
-				textSelCodMarca.setText("");
-				textSelValorVenda.setText("");
-				textSelDesMarca.setText("");
-				comboBoxCondicaoPagamento.setSelectedIndex(-1);
-				rdbtnOrcamento.setSelected(false);
-				rdbtnPedido.setSelected(false);
-				textCodCliente.setText("");
-
-				if (mdlProdutosSel.getRowCount() != 0) {
-					mdlProdutosSel.setRowCount(0);
-				}
-
-				if (mdlProdutosVda.getRowCount() != 0) {
-					mdlProdutosVda.setRowCount(0);
-				}
+				
 			}
 		});
 		btnGravar.setBounds(258, 421, 89, 23);
@@ -295,31 +275,8 @@ public class Pedidos extends JInternalFrame {
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textCPFCliente.setText("");
-				textFieldNomeCliente.setText("");
-				textQtdItens.setText("");
-				textValorTotal.setText("");
-				textSelCodProduto.setText("");
-				textSelQtdItem.setText("");
-				textSelNomeProduto.setText("");
-				textSelValorVenda.setText("");
-				textSelCodMarca.setText("");
-				textSelDesMarca.setText("");
-				comboBoxCondicaoPagamento.setSelectedIndex(-1);
-				rdbtnOrcamento.setSelected(false);
-				rdbtnPedido.setSelected(false);
-				textCodCliente.setText("");
 				
-				comboBoxCondicaoPagamento.setModel(new DefaultComboBoxModel(new String[] { "", "Dinheiro", "Pix", "Débito", "Credito" }));
-
-				if (mdlProdutosSel.getRowCount() != 0) {
-					mdlProdutosSel.setRowCount(0);
-				}
-
-				if (mdlProdutosVda.getRowCount() != 0) {
-					mdlProdutosVda.setRowCount(0);
-				}
-
+				limpaCampos();
 			}
 		});
 		btnLimpar.setBounds(381, 421, 89, 23);
@@ -438,8 +395,6 @@ public class Pedidos extends JInternalFrame {
 				int nrolinhas = mdlProdutosVda.getRowCount();
 
 				for (int i = 0; i < nrolinhas; i++) {
-					System.out.println("Passou 'i' vale:[" + i + "]");
-					System.out.println("Passou 'nrolinhas' vale:[" + nrolinhas + "]");
 
 					if ((mdlProdutosVda.getValueAt(i, 0).toString()).equals(itemSelecionado)) {
 						JOptionPane.showInternalMessageDialog(null, "Item já selecionado para o orçamento/pedido.");
@@ -451,30 +406,29 @@ public class Pedidos extends JInternalFrame {
 						textSelValorVenda.setText("");
 						textSelCodMarca.setText("");
 						textSelDesMarca.setText("");
-						System.out.println("Item da lista [" + mdlProdutosVda.getValueAt(i, 0).toString()
-								+ "] Item Selecionado [" + itemSelecionado + "]");
 						return;
 					}
 				}
-				
-				Double qtdItem = Double.parseDouble(textSelQtdItem.getText());
-				Double valorVenda = Double.parseDouble(textSelValorVenda.getText());
-				Double valorTotalItem=(qtdItem*valorVenda);
+
+				int qtdItem = Integer.parseInt(textSelQtdItem.getText());
+				// Double valorVenda = Double.parseDouble(textSelValorVenda.getText());
+				ProdutoDao produtodao = new ProdutoDao();
+				Double valorVenda = Double.parseDouble(produtodao.buscaPrecoVenda(textSelCodProduto.getText()));
+				Double valorTotalItem = (qtdItem * valorVenda);
 
 				row[0] = textSelCodProduto.getText();
 				row[1] = textSelNomeProduto.getText();
 				row[2] = textSelQtdItem.getText();
 				row[3] = textSelCodMarca.getText();
 				row[4] = textSelDesMarca.getText();
-				row[5] = textSelValorVenda.getText();
-				row[6] = valorTotalItem;
-				
+				row[5] = FormataDecimal.duasCasas(produtodao.buscaPrecoVenda(textSelCodProduto.getText()));
+				row[6] = FormataDecimal.duasCasas(String.valueOf(valorTotalItem));
+
 				mdlProdutosVda.addRow(row);
 
-				valorTotalPedido += valorTotalItem;  
-			
-				//valorTotalPedido += (qtdItem * valorVenda);
-				textValorTotal.setText(String.valueOf(valorTotalPedido));
+				valorTotalPedido += valorTotalItem;
+
+				textValorTotal.setText(FormataDecimal.duasCasas(String.valueOf(valorTotalPedido)));
 
 				textQtdItens.setText(String.valueOf(nrolinhas + 1));
 
@@ -495,15 +449,20 @@ public class Pedidos extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				String itemSelecionado = textSelCodProduto.getText();
-				String qtdeSelecionada = textSelQtdItem.getText();
+				// String qtdeSelecionada = textSelQtdItem.getText();
+				int nrolinhas = mdlProdutosVda.getRowCount();
+
+				if (nrolinhas <= 0) {
+					JOptionPane.showInternalMessageDialog(null, "Não existe item para ser excluído. Verifique!");
+					textSelQtdItem.setText("");
+					return;
+				}
 
 				if (itemSelecionado.equals("")) {
 					JOptionPane.showInternalMessageDialog(null, "Nenhum produto selecionado. Verifique!");
 					textSelQtdItem.setText("");
 					return;
 				}
-
-				int nrolinhas = mdlProdutosVda.getRowCount();
 
 				for (int i = 0; i < nrolinhas; i++) {
 					if ((mdlProdutosVda.getValueAt(i, 0).toString()).equals(itemSelecionado)) {
@@ -626,14 +585,17 @@ public class Pedidos extends JInternalFrame {
 
 				ArrayList<Produto> listaDeProdutos = new ArrayList<>();
 				listaDeProdutos = produtodao.listarProdutoPorNome(nome);
+				String valorVenda = "";
 
 				for (Produto contador : listaDeProdutos) {
+					valorVenda = FormataDecimal.duasCasas(contador.getValor_venda_produto());
 					row1[0] = contador.getCod_produto();
 					row1[1] = contador.getNome_produto();
 					row1[3] = contador.getCod_marca_produto();
 					row1[2] = contador.getQuantidade_produto();
 					row1[4] = contador.getNome_marca_produto();
-					row1[5] = contador.getValor_venda_produto();
+					// row1[5] = contador.getValor_venda_produto();
+					row1[5] = valorVenda;
 					mdlProdutosSel.addRow(row1);
 				}
 			}
@@ -653,28 +615,61 @@ public class Pedidos extends JInternalFrame {
 			comboBoxCondicaoPagamento.requestFocus();
 			return (false);
 		}
-		
-		
-		if(!rdbtnPedido.isSelected()){
-			if(!rdbtnOrcamento.isSelected()) {
+
+		if (!rdbtnPedido.isSelected()) {
+			if (!rdbtnOrcamento.isSelected()) {
 				JOptionPane.showInternalMessageDialog(null, "Selecione 'Orçamento' ou 'Pedido'");
 				return (false);
 			}
 		}
-		
-		
-		
-		if(textCPFCliente.getText().equals("")) {
+
+		if (textCPFCliente.getText().equals("")) {
 			JOptionPane.showInternalMessageDialog(null, "Nenhum cliente informado.");
 			return (false);
 		}
-		
-		if ((textQtdItens.getText().equals(""))||(textValorTotal.getText().equals(""))) {
+
+		if ((textQtdItens.getText().equals("")) || (textValorTotal.getText().equals(""))) {
 			JOptionPane.showInternalMessageDialog(null, "Pedido não contém Itens ou Valor Total válidos");
 			return (false);
 		}
 
 		return (true);
-
 	}
+	
+	void limpaCampos() {
+		
+		textCPFCliente.setText("");
+		textFieldNomeCliente.setText("");
+		textQtdItens.setText("");
+		textValorTotal.setText("");
+		textSelCodProduto.setText("");
+		textSelQtdItem.setText("");
+		textSelNomeProduto.setText("");
+		textSelValorVenda.setText("");
+		textSelCodMarca.setText("");
+		textSelDesMarca.setText("");
+		comboBoxCondicaoPagamento.setSelectedIndex(-1);
+		rdbtnOrcamento.setSelected(false);
+		rdbtnPedido.setSelected(false);
+		textCodCliente.setText("");
+
+		comboBoxCondicaoPagamento.setModel(
+				new DefaultComboBoxModel(new String[] { "", "Dinheiro", "Pix", "Débito", "Credito" }));
+
+		if (mdlProdutosSel.getRowCount() != 0) {
+			mdlProdutosSel.setRowCount(0);
+		}
+
+		if (mdlProdutosVda.getRowCount() != 0) {
+			mdlProdutosVda.setRowCount(0);
+		}
+		
+		valorTotalPedido=0.0;
+		
+	}
+	
+	
 }
+
+
+

@@ -560,7 +560,7 @@ public class Produtos extends JInternalFrame {
 		ProdutoDao produtodao = new ProdutoDao();
 		((DefaultTableModel) model).setRowCount(0);
 		
-		row[0] = produtodao.buscaCodigoProduto();
+		row[0] = produtodao.buscaCodigoUltimoProdutoCadastrado();
 		row[1] = produto.getNome_produto();
 		row[2] = produto.getQuantidade_produto();
 		valorCompra= FormataDecimal.duasCasas(produto.getValor_compra_produto());
@@ -571,7 +571,6 @@ public class Produtos extends JInternalFrame {
 		row[6] = produto.getDescricao_produto();
 		model.addRow(row);
 		
-		System.out.println("Chamou...");
 	}
 
 }

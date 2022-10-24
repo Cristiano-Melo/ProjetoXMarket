@@ -106,7 +106,7 @@ public class ProdutoDao {
 				listaDeProdutos.add(produto); // por fim pegamos o objeto produto criado acima e alocamos ele dentro de
 												// um Array para listar futuramente no Scroll Pane
 			}
-		//	System.out.println(listaDeProdutos);
+			// System.out.println(listaDeProdutos);
 		} catch (Exception e) {
 			System.out.println("ERRO: " + e.getMessage());
 		}
@@ -119,7 +119,7 @@ public class ProdutoDao {
 														// banco de dados
 		try {
 			String query = "delete from produtos where cod_produto = '" + produto.getCod_produto() + "';";
-			System.out.println("Query exclusãoProduto: "+query);
+			System.out.println("Query exclusãoProduto: " + query);
 			conectabancodao.getStatement().execute(query); // chamamos o Dao responsável em conectar ao banco de dados e
 															// executar a query
 			JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!");
@@ -134,13 +134,13 @@ public class ProdutoDao {
 														// cadastro de produto usando o ID e buscamos todos os dados
 														// digitados no Windows Builder
 		try {
-		
+
 			String query = "update produtos set nome_produto='" + produto.getNome_produto() + "', quantidade_produto='"
 					+ produto.getQuantidade_produto() + "',valor_compra_produto='" + produto.getValor_compra_produto()
 					+ "',valor_venda_produto='" + produto.getValor_venda_produto() + "',descricao_produto='"
 					+ produto.getDescricao_produto() + "',cod_marca_produto='" + produto.getCod_marca_produto()
 					+ "'  where cod_produto= '" + produto.getCod_produto() + "';";
-			
+
 			System.out.println(query);
 			conectabancodao.getStatement().execute(query);
 			JOptionPane.showMessageDialog(null, "Cadastro alterado sucesso!");
@@ -150,75 +150,75 @@ public class ProdutoDao {
 					"Erro na alteração do cadastro do produto [" + e.getMessage() + "]. Verifique!");
 		}
 	}
-	
-	//Método que retorna o valor de compra do produto
+
+	// Método que retorna o valor de compra do produto
 	public String buscaPrecoCompra(String codProduto) {
-		
+
 		try {
 			String query = "select valor_compra_produto from produtos where cod_produto = '" + codProduto + "';";
-			System.out.println("Query buscaPrecoCompra: "+query);
-			conectabancodao.getStatement().execute(query); 
-				
+			System.out.println("Query buscaPrecoCompra: " + query);
+			conectabancodao.getStatement().execute(query);
+
 			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
-			
-			if(conectabancodao.getResultSet().next()){
-				String valorCompra=conectabancodao.getResultSet().getString("valor_compra_produto");
-				return(valorCompra);
+
+			if (conectabancodao.getResultSet().next()) {
+				String valorCompra = conectabancodao.getResultSet().getString("valor_compra_produto");
+				return (valorCompra);
 			}
-			return("-1.00");
-	
+			return ("-1.00");
+
 		} catch (Exception e) {
 			System.out.println("ERRO: " + e.getMessage());
 			JOptionPane.showMessageDialog(null, "Erro na buscaPrecoCompra [" + e.getMessage() + "]. Verifique!");
-			return(e.getMessage());
+			return (e.getMessage());
 		}
-		
+
 	}
-	
-public String buscaPrecoVenda(String codProduto) {
-		
+
+	public String buscaPrecoVenda(String codProduto) {
+
 		try {
 			String query = "select valor_venda_produto from produtos where cod_produto = '" + codProduto + "';";
-			System.out.println("Query buscaPrecoVenda: "+query);
-			conectabancodao.getStatement().execute(query); 
-				
+			System.out.println("Query buscaPrecoVenda: " + query);
+			conectabancodao.getStatement().execute(query);
+
 			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
-			
-			if(conectabancodao.getResultSet().next()){
-				String valorVenda=conectabancodao.getResultSet().getString("valor_venda_produto");
-				return(valorVenda);
+
+			if (conectabancodao.getResultSet().next()) {
+				String valorVenda = conectabancodao.getResultSet().getString("valor_venda_produto");
+				return (valorVenda);
 			}
-			return("-1.00");
-	
+			return ("-1.00");
+
 		} catch (Exception e) {
 			System.out.println("ERRO: " + e.getMessage());
 			JOptionPane.showMessageDialog(null, "Erro na buscaPrecoVenda [" + e.getMessage() + "]. Verifique!");
-			return(e.getMessage());
+			return (e.getMessage());
 		}
-		
+
 	}
 
-public String buscaCodigoProduto() {
-	
-	try {
-		String query = "select max(cod_produto) as cod_produto from produtos;";
-		System.out.println("Query buscaCodigoProduto: "+query);
-		conectabancodao.getStatement().execute(query); 
-			
-		conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
-		
-		if(conectabancodao.getResultSet().next()){
-			String codigoProduto=conectabancodao.getResultSet().getString("cod_produto");
-			return(codigoProduto);
-		}
-		return("-1.00");
+	public String buscaCodigoUltimoProdutoCadastrado() {
 
-	} catch (Exception e) {
-		System.out.println("ERRO: " + e.getMessage());
-		JOptionPane.showMessageDialog(null, "Erro na buscaCodigoProduto [" + e.getMessage() + "]. Verifique!");
-		return(e.getMessage());
+		try {
+			String query = "select max(cod_produto) as cod_produto from produtos;";
+			System.out.println("Query buscaCodigoProduto: " + query);
+			conectabancodao.getStatement().execute(query);
+
+			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+
+			if (conectabancodao.getResultSet().next()) {
+				String codigoProduto = conectabancodao.getResultSet().getString("cod_produto");
+				return (codigoProduto);
+			}
+			return ("-1.00");
+
+		} catch (Exception e) {
+			System.out.println("ERRO: " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Erro na buscaCodigoProduto [" + e.getMessage() + "]. Verifique!");
+			return (e.getMessage());
+		}
+
 	}
-	
-}
 
 }

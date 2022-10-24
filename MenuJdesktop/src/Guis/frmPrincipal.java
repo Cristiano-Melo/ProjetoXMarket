@@ -49,7 +49,7 @@ public class frmPrincipal extends JFrame {
 	private Clientes c;
 	private Produtos p;
 	private Pedidos pedidos;
-	private ListarPedidos lp;
+	//private ListarPedidos lp;
 	private Marcas m;
 	private Login login;
 	private Contatos con;
@@ -299,33 +299,48 @@ public class frmPrincipal extends JFrame {
 
 	}
 
-	protected void InputDialog() {
-		String[] options = { null, "Consulta Clientes", "Consulta Produtos", "Consulta Pedidos" };
+	protected ArrayList<Cliente> InputDialog() {
+		String[] options = { "Selecione uma opção", "Listar por Nome", "Listar Tudo", "Listar por CPF"};
 		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
-		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Consultas",
-				JOptionPane.QUESTION_MESSAGE, icon, options, options[3]);
+		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Pesquisa",
+				JOptionPane.QUESTION_MESSAGE, icon, options, options[0]);
 		System.out.println(n);
-
+		ArrayList<Cliente> pesquisar = new ArrayList<>();
+		ClienteDao clientedao = new ClienteDao();
 		String opcao = n;
 		switch (opcao) {
-
-		case "Consulta Clientes":
-			System.out.println("Consulta Clientes");
-			carregarClientes();
-
+		
+		case "Selecione uma opção":
+			JOptionPane.showMessageDialog(null, "Selecione uma opção válida!");
 			break;
-		case "Consulta Produtos":
-			System.out.println("Consulta Produtos");
-			carregarProdutos();
+			
+		case "Listar por CPF":
+			try {
+				String cpf = JOptionPane.showInputDialog("Informe o CPF: ");
+				if (!cpf.equals("")) {
+					pesquisar = clientedao.listarClientePorCpf(cpf);
+				}else {
+					JOptionPane.showMessageDialog(null, "CPF não pode estar vazio!");
+				}
+				
+			} catch (Exception e) {
+				JOptionPane.showInputDialog(e);
+			}
+			
 			break;
-
-		case "Consulta Pedidos":
-			System.out.println("Consulta Pedidos");
-			listarPedidos();
+		case "Listar por Nome":
+			String nome = JOptionPane.showInputDialog("Informe o Nome: ");
+			if (!nome.equals("")) {
+				pesquisar = clientedao.listarClientePorNome(nome);
+			}else {
+				JOptionPane.showMessageDialog(null, "NOME não pode estar vazio!");
+			}
 			break;
-
+		case "Listar Tudo":
+			pesquisar = clientedao.listarTodosClientes();
+			break;
 		}
-
+		return pesquisar;
 	}
 
 	protected void InputDialog2() {
@@ -917,15 +932,15 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 
-	void listarPedidos() {
-		if (lp == null || lp.isClosed()) {
-			lp = new ListarPedidos();
-			desktopPanePrincipal.add(lp);
-			Dimension tf = lp.getSize();// Metodo que centraliza no meio da tela a janela produtos
-			lp.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
-					(desktopPanePrincipal.getHeight() - tf.height) / 2);
-			lp.show();
-
-		}
-	}
+//	void listarPedidos() {
+//		if (lp == null || lp.isClosed()) {
+//			lp = new ListarPedidos();
+//			desktopPanePrincipal.add(lp);
+//			Dimension tf = lp.getSize();// Metodo que centraliza no meio da tela a janela produtos
+//			lp.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
+//					(desktopPanePrincipal.getHeight() - tf.height) / 2);
+//			lp.show();
+//
+//		}
+//	}
 }
