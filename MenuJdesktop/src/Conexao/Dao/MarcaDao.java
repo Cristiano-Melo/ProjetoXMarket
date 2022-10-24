@@ -69,7 +69,7 @@ public class MarcaDao {
 		}
 	}
 
-	public void alterarMarcaPorId(Marca marca) { // Mesmo processo do Delete, porém aqui realizamos o update do cadastro
+	public void alterarMarcaPorCodigo(Marca marca) { // Mesmo processo do Delete, porém aqui realizamos o update do cadastro
 													// de marca usando o ID e buscamos todos os dados digitados no
 													// Windows Builder
 		try {

@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -22,8 +24,10 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import Conexao.Dao.ClienteDao;
@@ -47,9 +51,17 @@ public class Produtos extends JInternalFrame {
 	private static JTextField textFieldViewMarca;
 	private JTextField textFieldDescricao;
 	JComboBox comboBox_CodMarca = new JComboBox();
-	
+
+	// Para centralizar conteúdo das células nos grids
+	DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+	DefaultTableCellRenderer direita = new DefaultTableCellRenderer();
+	DefaultTableCellRenderer esquerda = new DefaultTableCellRenderer();
+
+	// Para formatação de duas casas decimais
 
 	DefaultTableModel model;
+	Object[] row = new Object[7];
+	
 
 	/**
 	 * Launch the application.
@@ -71,13 +83,19 @@ public class Produtos extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public Produtos() {
+
+		// Alinhamento das células nas JTables
+		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+		esquerda.setHorizontalAlignment(SwingConstants.LEFT);
+		direita.setHorizontalAlignment(SwingConstants.RIGHT);
+
 		setClosable(true);
 		setFrameIcon(new ImageIcon(Produtos.class.getResource("/Icones/produtos.png")));
 		setTitle("Gestão de Produtos");
 		setBounds(100, 100, 770, 538);
 		getContentPane().setLayout(null);
 		textFieldViewMarca = new JTextField();
-		
+
 		JLabel lblNewLabel = new JLabel("Produtos");
 		lblNewLabel.setForeground(new Color(255, 0, 0));
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -146,47 +164,15 @@ public class Produtos extends JInternalFrame {
 		textFieldVenda.setBounds(295, 54, 77, 20);
 		panel.add(textFieldVenda);
 
-		JLabel lblCodMarca = new JLabel("Cod_Marca:");
+		JLabel lblCodMarca = new JLabel("Marca:");
 		lblCodMarca.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCodMarca.setBounds(377, 54, 89, 20);
+		lblCodMarca.setBounds(379, 54, 46, 20);
 		panel.add(lblCodMarca);
-		comboBox_CodMarca.addItemListener(new ItemListener() {
-			//@Override
-			public void itemStateChanged(ItemEvent e) {
 
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-
-					String descricao_marca = "";
-					String codigo_marca = "";
-
-					MarcaDao marcadao = new MarcaDao();
-					codigo_marca = comboBox_CodMarca.getSelectedItem().toString();
-
-					if (codigo_marca.equals("")) {
-						textFieldViewMarca.setText("");
-					}
-					else {
-						
-						descricao_marca = marcadao.buscaDescricaoCodMarca(codigo_marca);
-						textFieldViewMarca.setText(descricao_marca);
-					}
-
-				}
-
-			}
-
-		});
-		comboBox_CodMarca.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-
-		comboBox_CodMarca.setBounds(463, 52, 46, 22);
+		comboBox_CodMarca.setBounds(434, 52, 282, 22);
 		panel.add(comboBox_CodMarca);
 
 		// Carrega itens no combo referente Marca
-		//Marca marca = new Marca();
 		MarcaDao marcadao = new MarcaDao();
 
 		marcadao.listarTodasMarcas();
@@ -195,8 +181,11 @@ public class Produtos extends JInternalFrame {
 		listaDeMarcas = marcadao.listarTodasMarcas();
 		comboBox_CodMarca.addItem("");
 
+		String codigoMaisMarca = "";
+
 		for (Marca contador : listaDeMarcas) {
-			comboBox_CodMarca.addItem(contador.getCodigoMarca());
+			codigoMaisMarca = contador.getCodigoMarca() + " - " + contador.getDescricaoMarca();
+			comboBox_CodMarca.addItem(codigoMaisMarca);
 		}
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -209,84 +198,81 @@ public class Produtos extends JInternalFrame {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				MarcaDao marcadao = new MarcaDao();
-				int contador = table.getSelectedRow();
-				String descricao_marca="";
-				descricao_marca = marcadao.buscaDescricaoCodMarca(model.getValueAt(contador,5).toString());
-				
 
-				
+				ProdutoDao produtoDao = new ProdutoDao();
+				MarcaDao marcadao = new MarcaDao();
+
+				int contador = table.getSelectedRow();
+				String descricaoMarca = "";
+				descricaoMarca = marcadao.buscaDescricaoCodMarca(model.getValueAt(contador, 5).toString());
+				String codMarca = model.getValueAt(contador, 5).toString();
+				String marcaMaisDescricao = codMarca + " - " + descricaoMarca;
 				textFieldCod.setText(model.getValueAt(contador, 0).toString());
 				textFieldProduto.setText(model.getValueAt(contador, 1).toString());
-				textFieldQuantidade.setText(model.getValueAt(contador,2).toString());
-				textFieldCompra.setText(model.getValueAt(contador,3).toString());
-				textFieldVenda.setText(model.getValueAt(contador,4).toString());
-				comboBox_CodMarca.setSelectedItem(model.getValueAt(contador,5).toString());
-				textFieldDescricao.setText(model.getValueAt(contador,6).toString());
-				textFieldViewMarca.setText(descricao_marca);
-				
-				
-				
-				
-				
+				textFieldQuantidade.setText(model.getValueAt(contador, 2).toString());
+				textFieldCompra.setText(produtoDao.buscaPrecoCompra(model.getValueAt(contador, 0).toString()));
+				textFieldVenda.setText(produtoDao.buscaPrecoVenda(model.getValueAt(contador, 0).toString()));
+				comboBox_CodMarca.setSelectedItem(marcaMaisDescricao);
+				textFieldDescricao.setText(model.getValueAt(contador, 6).toString());
+
 			}
 		});
 
 		model = new DefaultTableModel();
-		Object[] colunn = { "Codigo", "Produto", "Quantidade", "Preço compra", "Preço venda", "Código marca",
-				"Descrição" };
-		Object[] row = new Object[7];
+		Object[] colunn = { "Cod.", "Produto", "Quant.", "P.Compra", "P.Venda", "Cód.Marca", "Descrição" };
+
 		model.setColumnIdentifiers(colunn);
 		table.setModel(model);
 
-		// Retirada da cor da fonte apresentada no grid da tela estava muito clara.
-		// Retirando as linhas ficou fonte black
-		// table.setBackground(UIManager.getColor("Button.light"));
-		// table.setForeground(SystemColor.activeCaption);
+		table.getColumnModel().getColumn(0).setMaxWidth(40);
+		table.getColumnModel().getColumn(1).setMaxWidth(150);
+		table.getColumnModel().getColumn(2).setMaxWidth(40);
+		table.getColumnModel().getColumn(3).setMaxWidth(80);
+		table.getColumnModel().getColumn(4).setMaxWidth(80);
+		table.getColumnModel().getColumn(5).setMaxWidth(70);
+		table.getColumnModel().getColumn(6).setMaxWidth(250);
+		table.getColumnModel().getColumn(3).setCellRenderer(direita);
+		table.getColumnModel().getColumn(4).setCellRenderer(direita);
 
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
 
-		textFieldViewMarca = new JTextField();
-		textFieldViewMarca.setEditable(false);
-		textFieldViewMarca.setBackground(new Color(225, 225, 225));
-		textFieldViewMarca.setBounds(519, 54, 197, 20);
-		panel.add(textFieldViewMarca);
-		textFieldViewMarca.setColumns(10);
-
 		JButton btnNewButton = new JButton("Gravar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String xmarca = comboBox_CodMarca.getSelectedItem().toString();
 
-				System.out.println("Conteudo do campo: [" + xmarca + "]\n");
+				String codigoProduto = textFieldCod.getText();
+				if (!codigoProduto.equals("")) {
+					JOptionPane.showInternalMessageDialog(null, "Produto já cadastrado. Operação inválida");
+					return;
+				}
 
 				if (validaCampos() == false) {
 					return;
 				}
+
+				// Captura código da marca.
+				String auxCodMarca = comboBox_CodMarca.getSelectedItem().toString();
+
+				int posicao = auxCodMarca.indexOf("-");
+				String codMarca = auxCodMarca.substring(0, posicao - 1);
+				String descMarca = auxCodMarca.substring(posicao + 2);
 
 				Produto produto = new Produto();
 				ProdutoDao produtoDao = new ProdutoDao();
 
 				produto.setNome_produto(textFieldProduto.getText());
 				produto.setQuantidade_produto(textFieldQuantidade.getText());
-				produto.setValor_compra_produto(textFieldCompra.getText());
-				produto.setValor_venda_produto(textFieldVenda.getText());
+				produto.setValor_compra_produto(textFieldCompra.getText().replace(",", "."));
+				produto.setValor_venda_produto(textFieldVenda.getText().replace(",", "."));
 				produto.setDescricao_produto(textFieldDescricao.getText());
-				produto.setCod_marca_produto(comboBox_CodMarca.getSelectedItem().toString());
+				produto.setCod_marca_produto(codMarca);
 
 				produtoDao.inserirProduto(produto);
-				
-				//Limpa os campos após gravação do produto
-				textFieldCod.setText("");
-				textFieldProduto.setText("");
-				textFieldQuantidade.setText("");
-				textFieldCompra.setText("");
-				textFieldVenda.setText("");
-				comboBox_CodMarca.setSelectedIndex(-1);
-				textFieldDescricao.setText("");
-				textFieldViewMarca.setText("");
+
+				// Limpa os campos após gravação do produto
+				limpaCampos();
+				montaGrid(produto);
 
 			}
 		});
@@ -297,14 +283,7 @@ public class Produtos extends JInternalFrame {
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				textFieldCod.setText("");
-				textFieldProduto.setText("");
-				textFieldQuantidade.setText("");
-				textFieldCompra.setText("");
-				textFieldVenda.setText("");
-				textFieldDescricao.setText("");
-				comboBox_CodMarca.setSelectedItem("");
-				((DefaultTableModel) model).setRowCount(0);
+				limpaCampos();
 
 			}
 		});
@@ -357,30 +336,39 @@ public class Produtos extends JInternalFrame {
 		JButton btnAlterar = new JButton("Alterar");
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if(textFieldCod.getText().equals("")){
+
+				if (textFieldCod.getText().equals("")) {
 					JOptionPane.showInternalMessageDialog(null, "Nenhum produto selecionado.");
 					return;
 				}
-				
+
 				if (validaCampos() == false) {
 					return;
 				}
+
+				String auxCodMarca = comboBox_CodMarca.getSelectedItem().toString();
+
+				int posicao = auxCodMarca.indexOf("-");
+				String codMarca = auxCodMarca.substring(0, posicao - 1);
+
 				ProdutoDao produtodao = new ProdutoDao();
 				Produto produto = new Produto();
 
 				produto.setCod_produto(textFieldCod.getText());
 				produto.setNome_produto(textFieldProduto.getText());
 				produto.setQuantidade_produto(textFieldQuantidade.getText());
-				produto.setValor_compra_produto(textFieldCompra.getText());
-				produto.setValor_venda_produto(textFieldVenda.getText());
+				produto.setValor_compra_produto(textFieldCompra.getText().replace(",", "."));
+				produto.setValor_venda_produto(textFieldVenda.getText().replace(",", "."));
 				produto.setDescricao_produto(textFieldDescricao.getText());
-				produto.setCod_marca_produto(comboBox_CodMarca.getSelectedItem().toString());
+				produto.setCod_marca_produto(codMarca);
 
-				if (JOptionPane.showConfirmDialog(null, "Confirma alteração no cadastro do produto?",
-						"SIM", JOptionPane.YES_NO_OPTION) == 0) {
+				if (JOptionPane.showConfirmDialog(null, "Confirma alteração no cadastro do produto?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
 					produtodao.alterarProdutoPorId(produto);
+					limpaCampos();
 				}
+				limpaCampos();
+				montaGrid(produtodao.listarTodosProdutos());
 			}
 		});
 		btnAlterar.setBounds(241, 417, 89, 23);
@@ -389,8 +377,8 @@ public class Produtos extends JInternalFrame {
 		JButton btnDeletar = new JButton("Deletar");
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if(textFieldCod.getText().equals("")){
+
+				if (textFieldCod.getText().equals("")) {
 					JOptionPane.showInternalMessageDialog(null, "Nenhum produto selecionado.");
 					return;
 				}
@@ -398,10 +386,13 @@ public class Produtos extends JInternalFrame {
 				Produto produto = new Produto();
 				produto.setCod_produto(textFieldCod.getText());
 
-				if (JOptionPane.showConfirmDialog(null, "Confirma esclusão do Produto?", "SIM",
+				if (JOptionPane.showConfirmDialog(null, "Confirma exclusão do Produto?", "SIM",
 						JOptionPane.YES_NO_OPTION) == 0) {
 					produtodao.deletarProdutoPorId(produto);
+					limpaCampos();
 				}
+				limpaCampos();
+				montaGrid(produtodao.listarTodosProdutos());
 			}
 		});
 		btnDeletar.setBounds(406, 417, 89, 23);
@@ -414,26 +405,11 @@ public class Produtos extends JInternalFrame {
 		String produto = textFieldProduto.getText();
 		String quantidade = textFieldQuantidade.getText();
 		String precoCompra = textFieldCompra.getText();
-		precoCompra = precoCompra.replace(",", ".");
 		String precoVenda = textFieldVenda.getText();
+		precoCompra = precoCompra.replace(",", ".");
 		precoVenda = precoVenda.replace(",", ".");
 		String descricao = textFieldDescricao.getText();
-
 		String marca = comboBox_CodMarca.getSelectedItem().toString();
-
-//		// Valida código produto
-//		if (codigo.equals("")) {
-//			JOptionPane.showInternalMessageDialog(null, "Campo Codigo é preenchimento obrigatório.");
-//			textFieldCod.requestFocus();
-//			return (false);
-//		}
-
-//		if (ValidaEntrada.temLetra(codigo)) {
-//			JOptionPane.showInternalMessageDialog(null, "Campo Codigo somente números.");
-//			textFieldCod.setText("");
-//			textFieldCod.requestFocus();
-//			return (false);
-//		}
 
 		// Validação nome produto
 		if (produto.equals("")) {
@@ -477,7 +453,7 @@ public class Produtos extends JInternalFrame {
 		}
 
 		if (!ValidaEntrada.isFloat(precoCompra)) {
-			JOptionPane.showInternalMessageDialog(null, "Preço Compra somente número.");
+			JOptionPane.showInternalMessageDialog(null, "Preço Compra somente número. Decimal com '.'");
 			textFieldCompra.setText("");
 			textFieldCompra.requestFocus();
 			return (false);
@@ -491,7 +467,7 @@ public class Produtos extends JInternalFrame {
 		}
 
 		if (!ValidaEntrada.isFloat(precoVenda)) {
-			JOptionPane.showInternalMessageDialog(null, "Preço Compra somente número.");
+			JOptionPane.showInternalMessageDialog(null, "Preço Venda somente número. Decimal com '.'");
 			textFieldVenda.setText("");
 			textFieldVenda.requestFocus();
 			return (false);
@@ -514,13 +490,13 @@ public class Produtos extends JInternalFrame {
 		return (true);
 
 	}
+
 	protected ArrayList<Produto> InputDialog() {
 		String[] options = { null, "Listar por Nome", "Listar Tudo" };
 		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
 		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Pesquisa",
 				JOptionPane.QUESTION_MESSAGE, icon, options, options[2]);
-		System.out.println(n);
-		// frmPrincipal principal = new frmPrincipal();
+
 		ArrayList<Produto> pesquisar = new ArrayList<>();
 		ProdutoDao produtodao = new ProdutoDao();
 		String opcao = n;
@@ -541,5 +517,61 @@ public class Produtos extends JInternalFrame {
 		}
 		return pesquisar;
 	}
-}
 
+	public void limpaCampos() {
+		textFieldCod.setText("");
+		textFieldProduto.setText("");
+		textFieldQuantidade.setText("");
+		textFieldCompra.setText("");
+		textFieldVenda.setText("");
+		textFieldDescricao.setText("");
+		comboBox_CodMarca.setSelectedItem("");
+		((DefaultTableModel) model).setRowCount(0);
+	}
+
+	void montaGrid(ArrayList<Produto> listaProdutos) {
+		
+		String valorCompra="";
+		String valorVenda="";
+		ArrayList<Produto> listaDeProdutos = new ArrayList<>();
+		listaDeProdutos = listaProdutos;
+		((DefaultTableModel) model).setRowCount(0);
+		
+
+		for (Produto contador : listaDeProdutos) {
+			row[0] = contador.getCod_produto();
+			row[1] = contador.getNome_produto();
+			row[2] = contador.getQuantidade_produto();
+			valorCompra= FormataDecimal.duasCasas(contador.getValor_compra_produto());
+			row[3] = valorCompra;
+			valorVenda = FormataDecimal.duasCasas(contador.getValor_venda_produto());
+			row[4] = valorVenda;
+			System.out.println("Venda: "+valorVenda);
+			row[5] = contador.getCod_marca_produto();
+			row[6] = contador.getDescricao_produto();
+			model.addRow(row);
+		}
+	}
+
+	void montaGrid(Produto produto) {
+		
+		String valorVenda="";
+		String valorCompra="";
+		ProdutoDao produtodao = new ProdutoDao();
+		((DefaultTableModel) model).setRowCount(0);
+		
+		row[0] = produtodao.buscaCodigoProduto();
+		row[1] = produto.getNome_produto();
+		row[2] = produto.getQuantidade_produto();
+		valorCompra= FormataDecimal.duasCasas(produto.getValor_compra_produto());
+		row[3] = valorCompra;
+		valorVenda = FormataDecimal.duasCasas(produto.getValor_venda_produto());
+		row[4] = valorVenda;
+		row[5] = produto.getCod_marca_produto();
+		row[6] = produto.getDescricao_produto();
+		model.addRow(row);
+		
+		System.out.println("Chamou...");
+	}
+
+}
