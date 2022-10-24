@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.beans.PropertyVetoException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -238,8 +239,7 @@ public class Pedidos extends JInternalFrame {
 
 				ArrayList<ItemPedido> listaItensPedido = new ArrayList<>();
 				PedidoDao pedidodao = new PedidoDao();
-
-				pedido.setData_pedido(LocalDate.now().toString());
+				pedido.setData_pedido(LocalDate.now());
 				pedido.setClientes_cod_cliente(textCodCliente.getText());
 				pedido.setCondicao_pagamento_pedido(comboBoxCondicaoPagamento.getSelectedItem().toString());
 				pedido.setTipo_pedido(pedido.getTipo_pedido());

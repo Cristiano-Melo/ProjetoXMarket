@@ -1,6 +1,9 @@
 package Conexao.Dao;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
@@ -103,7 +106,7 @@ public class PedidoDao {
 				ListaPedido pedidos = new ListaPedido();
 
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
 				pedidos.setCondicao_pagamento_pedido(
 						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
@@ -139,7 +142,7 @@ public class PedidoDao {
 				ListaPedido pedidos = new ListaPedido();
 
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
 				pedidos.setCondicao_pagamento_pedido(
 						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
@@ -176,7 +179,7 @@ public class PedidoDao {
 				ListaPedido pedidos = new ListaPedido();
 
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
 				pedidos.setCondicao_pagamento_pedido(
 						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
@@ -214,7 +217,7 @@ public class PedidoDao {
 			while (conectabancodao.getResultSet().next()) {
 				ListaPedido pedidos = new ListaPedido();
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
 				pedidos.setCondicao_pagamento_pedido(
 						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
@@ -252,7 +255,7 @@ public class PedidoDao {
 				ListaPedido pedidos = new ListaPedido();
 
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
 				pedidos.setCondicao_pagamento_pedido(
@@ -288,7 +291,7 @@ public class PedidoDao {
 			while (conectabancodao.getResultSet().next()) {
 				ListaPedido pedidos = new ListaPedido();
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(conectabancodao.getResultSet().getString("data_pedido"));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
 				pedidos.setCondicao_pagamento_pedido(
 						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));

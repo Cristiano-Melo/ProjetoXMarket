@@ -9,7 +9,25 @@ public class Produto {
 	String descricao_produto;
 	String cod_marca_produto;
 	String nome_marca_produto;
+	String cod_marca;
+	String nome_marca;
 	
+	public String getNome_marca() {
+		return nome_marca;
+	}
+
+	public void setNome_marca(String nome_marca) {
+		this.nome_marca = nome_marca;
+	}
+
+	public String getCod_marca() {
+		return cod_marca;
+	}
+
+	public void setCod_marca(String cod_marca) {
+		this.cod_marca = cod_marca;
+	}
+
 	public Produto(String cod_produto, String nome_produto, String quantidade_produto, String valor_compra_produto,
 			String valor_venda_produto, String descricao_produto, String cod_marca_pedido, String nome_marca_produto) {
 		super();

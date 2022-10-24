@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +37,6 @@ import Conexao.Dao.PedidoDao;
 import Conexao.Dao.ProdutoDao;
 import Models.Cliente;
 import Models.ListaPedido;
-import Models.Login;
 import Models.Produto;
 import Relatorios.ComprovanteFiscal;
 import Relatorios.RelatorioCliente;
@@ -43,20 +44,22 @@ import Relatorios.RelatorioPedidos;
 import Relatorios.RelatorioProdutos;
 import net.sf.jasperreports.engine.JRException;
 
+@SuppressWarnings("serial")
 public class frmPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private Clientes c;
 	private Produtos p;
 	private Pedidos pedidos;
-	//private ListarPedidos lp;
+	private ListarPedidos lp;
 	private Marcas m;
-	private Login login;
 	private Contatos con;
 	private JDesktopPane desktopPanePrincipal; // classe do painel deskttoppanel
 	protected AbstractButton textFieldCodCliente;
 	protected AbstractButton textFieldNomeCliente;
 	protected AbstractButton textFieldCpf;
+	
+	DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	ArrayList<Cliente> listacliente = new ArrayList<Cliente>();
 
@@ -299,48 +302,32 @@ public class frmPrincipal extends JFrame {
 
 	}
 
-	protected ArrayList<Cliente> InputDialog() {
-		String[] options = { "Selecione uma opção", "Listar por Nome", "Listar Tudo", "Listar por CPF"};
+	protected void InputDialog() {
+		String[] options = { null, "Consulta Clientes", "Consulta Produtos", "Consulta Pedidos" };
 		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
-		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Pesquisa",
-				JOptionPane.QUESTION_MESSAGE, icon, options, options[0]);
+		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Consultas",
+				JOptionPane.QUESTION_MESSAGE, icon, options, options[3]);
 		System.out.println(n);
-		ArrayList<Cliente> pesquisar = new ArrayList<>();
-		ClienteDao clientedao = new ClienteDao();
+
 		String opcao = n;
 		switch (opcao) {
-		
-		case "Selecione uma opção":
-			JOptionPane.showMessageDialog(null, "Selecione uma opção válida!");
+
+		case "Consulta Clientes":
+			System.out.println("Consulta Clientes");
+			carregarClientes();
 			break;
 			
-		case "Listar por CPF":
-			try {
-				String cpf = JOptionPane.showInputDialog("Informe o CPF: ");
-				if (!cpf.equals("")) {
-					pesquisar = clientedao.listarClientePorCpf(cpf);
-				}else {
-					JOptionPane.showMessageDialog(null, "CPF não pode estar vazio!");
-				}
-				
-			} catch (Exception e) {
-				JOptionPane.showInputDialog(e);
-			}
-			
+		case "Consulta Produtos":
+			System.out.println("Consulta Produtos");
+			carregarProdutos();
 			break;
-		case "Listar por Nome":
-			String nome = JOptionPane.showInputDialog("Informe o Nome: ");
-			if (!nome.equals("")) {
-				pesquisar = clientedao.listarClientePorNome(nome);
-			}else {
-				JOptionPane.showMessageDialog(null, "NOME não pode estar vazio!");
-			}
-			break;
-		case "Listar Tudo":
-			pesquisar = clientedao.listarTodosClientes();
+
+		case "Consulta Pedidos":
+			System.out.println("Consulta Pedidos");
+			listarPedidos();
 			break;
 		}
-		return pesquisar;
+
 	}
 
 	protected void InputDialog2() {
@@ -421,10 +408,10 @@ public class frmPrincipal extends JFrame {
 		projetoGui();
 	}
 
-	void relatorioPedido() {
+	void relatorioPedido() throws ParseException {
 
 		RelatorioPedidos relatorio = new RelatorioPedidos();
-
+		
 		try {
 			PedidoDao pedidodao = new PedidoDao();
 			List<ListaPedido> listaDePedidos = new ArrayList<>();
@@ -436,8 +423,8 @@ public class frmPrincipal extends JFrame {
 			for (ListaPedido contador : arraypedido) {
 
 				ListaPedido pedido = new ListaPedido();
-
-				pedido.setCod_pedido(contador.getCod_pedido());
+				
+				pedido.setCod_pedido(contador.getCod_pedido());				
 				pedido.setData_pedido(contador.getData_pedido());
 				pedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
 				pedido.setTipo_pedido(contador.getTipo_pedido());
@@ -610,11 +597,17 @@ public class frmPrincipal extends JFrame {
 			List<ListaPedido> listaDePedidos = new ArrayList<>();
 
 			ArrayList<ListaPedido> arraypedido = new ArrayList<>();
+			
+			String data1 = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'DD/MM/AAAA':");
+			LocalDate dataFormatada1 = LocalDate.parse(data1,formatoData);
+			String dataBanco1 = String.valueOf(dataFormatada1);
 
-			String data = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'AAAA-MM-DD':");
-			String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'AAAA-MM-DD':");
+			String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'DD/MM/AAAA':");
+			LocalDate dataFormatada2 = LocalDate.parse(data2,formatoData);
+			String dataBanco2 = String.valueOf(dataFormatada2);
 
-			arraypedido = pedidodao.listarPedidoEntreDatas(data, data2);
+
+			arraypedido = pedidodao.listarPedidoEntreDatas(dataBanco1, dataBanco2);
 
 			for (ListaPedido contador : arraypedido) {
 				ListaPedido pedido = new ListaPedido();
@@ -636,7 +629,7 @@ public class frmPrincipal extends JFrame {
 			relatorio.gerarRelatorio(listaDePedidos);
 
 		} catch (JRException e1) {
-			JOptionPane.showMessageDialog(null, "Tempo entre essas datas não possui nada!");
+			JOptionPane.showMessageDialog(null, "Tempo entre essas datas não possui nenhum pedido!");
 		}
 	}
 
@@ -648,10 +641,12 @@ public class frmPrincipal extends JFrame {
 			List<ListaPedido> listaDePedidos = new ArrayList<>();
 
 			ArrayList<ListaPedido> arraypedido = new ArrayList<>();
-
-			String data = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'AAAA-MM-DD':");
-
-			arraypedido = pedidodao.listarPedidoPorData(data);
+			
+			String data = JOptionPane.showInputDialog("Insira a data no seguinte formato 'DD/MM/AAAA':");
+			LocalDate dataFormatada = LocalDate.parse(data,formatoData);
+			String dataBanco = String.valueOf(dataFormatada);
+			
+			arraypedido = pedidodao.listarPedidoPorData(dataBanco);
 
 			for (ListaPedido contador : arraypedido) {
 				ListaPedido pedido = new ListaPedido();
@@ -673,7 +668,7 @@ public class frmPrincipal extends JFrame {
 			relatorio.gerarRelatorio(listaDePedidos);
 
 		} catch (JRException e1) {
-			JOptionPane.showMessageDialog(null, "Tempo entre essas datas não possui nada!");
+			JOptionPane.showMessageDialog(null, "Nenhum pedido da data solicitada");
 		}
 	}
 
@@ -932,15 +927,15 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 
-//	void listarPedidos() {
-//		if (lp == null || lp.isClosed()) {
-//			lp = new ListarPedidos();
-//			desktopPanePrincipal.add(lp);
-//			Dimension tf = lp.getSize();// Metodo que centraliza no meio da tela a janela produtos
-//			lp.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
-//					(desktopPanePrincipal.getHeight() - tf.height) / 2);
-//			lp.show();
-//
-//		}
-//	}
+	void listarPedidos() {
+		if (lp == null || lp.isClosed()) {
+			lp = new ListarPedidos();
+			desktopPanePrincipal.add(lp);
+			Dimension tf = lp.getSize();// Metodo que centraliza no meio da tela a janela produtos
+			lp.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
+					(desktopPanePrincipal.getHeight() - tf.height) / 2);
+			lp.show();
+
+		}
+	}
 }

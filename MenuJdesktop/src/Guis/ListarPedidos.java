@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.beans.PropertyVetoException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,7 +33,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
-@SuppressWarnings("serial")
 public class ListarPedidos extends JInternalFrame {
 	private JTextField textFieldCodPedidos;
 	Pedido pedido = new Pedido();
@@ -279,8 +280,7 @@ public class ListarPedidos extends JInternalFrame {
 	protected ArrayList<ListaPedido> InputDialog3() {
 		PedidoDao pedidoDao = new PedidoDao();
 		ArrayList<ListaPedido> listaPedido = new ArrayList<>();
-		String dataFormatada;
-		SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
+		DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
 		
 		try {
 			String[] options = { "Selecione uma opção", "Relatório Todos os Pedidos", "Relatório Pedidos por CPF",
@@ -325,13 +325,11 @@ public class ListarPedidos extends JInternalFrame {
 								
 				String data = JOptionPane.showInputDialog(null, "Insira a data no seguinte formato 'DD/MM/AAAA':");
 				
-				System.out.println(data);
+				LocalDate dataFormatada = LocalDate.parse(data,formatoData);
 				
-				dataFormatada = formatoData.format(new Date(data));
+				String dataBanco = String.valueOf(dataFormatada);
 				
-				System.out.println(dataFormatada);
-				
-				listaPedido = pedidoDao.listarPedidoPorData(dataFormatada);
+				listaPedido = pedidoDao.listarPedidoPorData(dataBanco);
 				break;
 
 			case "Relatório Pedidos Entre Datas":
@@ -341,10 +339,14 @@ public class ListarPedidos extends JInternalFrame {
 				}
 				
 				String data1 = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'DD/MM/AAAA':");
-				String dataFormatada1 = formatoData.format(new Date(data1));
+				LocalDate dataFormatada1 = LocalDate.parse(data1,formatoData);
+				String dataBanco1 = String.valueOf(dataFormatada1);
+				
 				String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'DD/MM/AAAA':");
-				String dataFormatada2 = formatoData.format(new Date(data2));
-				listaPedido = pedidoDao.listarPedidoEntreDatas(dataFormatada1, dataFormatada2);
+				LocalDate dataFormatada2 = LocalDate.parse(data2,formatoData);
+				String dataBanco2 = String.valueOf(dataFormatada2);
+				
+				listaPedido = pedidoDao.listarPedidoEntreDatas(dataBanco1, dataBanco2);
 				break;
 
 			case "Relatório Pedidos por Nome":
@@ -367,7 +369,7 @@ public class ListarPedidos extends JInternalFrame {
 				
 				break;
 			}
-			dataFormatada = "null";
+
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Opção não pode estar vazia!");
@@ -381,10 +383,13 @@ public class ListarPedidos extends JInternalFrame {
 
 		ArrayList<ListaPedido> listaDePedidos = new ArrayList<>();
 		listaDePedidos = listaPedido;
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+		String dataFormatada;
 
 		for (ListaPedido contador : listaDePedidos) {
 			row[0] = contador.getCod_pedido();
-			row[1] = contador.getData_pedido();
+			dataFormatada = formatador.format(contador.getData_pedido());
+			row[1] = dataFormatada;
 			row[2] = contador.getCondicao_pagamento_pedido();
 			row[3] = contador.getClientes_cod_cliente();
 			row[4] = contador.getNome_cliente();

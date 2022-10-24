@@ -691,7 +691,7 @@ public class Clientes extends JInternalFrame {
 					}
 				}
 
-				textFieldEndereco.setText(tipoLogradouro + " " + logradouro);
+				textFieldEndereco.setText(tipoLogradouro + logradouro);
 			}
 		} catch (Exception e) {
 			System.out.println(e);
