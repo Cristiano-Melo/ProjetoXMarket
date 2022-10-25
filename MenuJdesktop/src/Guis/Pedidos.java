@@ -335,7 +335,8 @@ public class Pedidos extends JInternalFrame {
 		textCodCliente.setBounds(608, 41, 46, 20);
 		panel.add(textCodCliente);
 
-		JButton btnPesquisaCliente = new JButton("Pesquisar Cliente");
+		JButton btnPesquisaCliente = new JButton("");
+		btnPesquisaCliente.setIcon(new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Icones\\lupa.png"));
 		btnPesquisaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -352,7 +353,7 @@ public class Pedidos extends JInternalFrame {
 				}
 			}
 		});
-		btnPesquisaCliente.setBounds(672, 41, 46, 23);
+		btnPesquisaCliente.setBounds(679, 41, 37, 33);
 		panel.add(btnPesquisaCliente);
 
 		JButton btnInserir = new JButton("+");
