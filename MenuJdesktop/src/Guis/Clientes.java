@@ -470,8 +470,8 @@ public class Clientes extends JInternalFrame {
 			return (false);
 		}
 
-		if (rg.length() > 8) {
-			JOptionPane.showInternalMessageDialog(null, "Campo RG máximo 8 dígitos.");
+		if (rg.length() > 11) {
+			JOptionPane.showInternalMessageDialog(null, "Campo RG máximo 11 dígitos.");
 			textFieldRg.requestFocus();
 			return (false);
 		}

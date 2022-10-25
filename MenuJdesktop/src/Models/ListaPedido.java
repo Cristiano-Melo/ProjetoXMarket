@@ -26,6 +26,21 @@ public class ListaPedido {
 	String valor_venda_produto;
 	String quantidade_produto;
 	
+	String cod_marca;
+	String descricao_marca;
+	
+	public String getCod_marca() {
+		return cod_marca;
+	}
+	public void setCod_marca(String cod_marca) {
+		this.cod_marca = cod_marca;
+	}
+	public String getDescricao_marca() {
+		return descricao_marca;
+	}
+	public void setDescricao_marca(String descricao_marca) {
+		this.descricao_marca = descricao_marca;
+	}
 	public String getQuantidade_produto() {
 		return quantidade_produto;
 	}

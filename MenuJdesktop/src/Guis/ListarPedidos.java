@@ -32,6 +32,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
 
 public class ListarPedidos extends JInternalFrame {
 	private JTextField textFieldCodPedidos;
@@ -99,17 +100,16 @@ public class ListarPedidos extends JInternalFrame {
 		panel.add(scrollPane);
 
 		table = new JTable();
-
-		table.setEnabled(false);
+		table.setColumnSelectionAllowed(false);
+		table.setCellSelectionEnabled(false);
 		scrollPane.setViewportView(table);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
 				int contador1 = table.getSelectedRow();
 				textFieldCodPedidos.setText(model.getValueAt(contador1, 0).toString());
-
 			}
+			
 		});
 
 		model = new DefaultTableModel();
@@ -157,7 +157,7 @@ public class ListarPedidos extends JInternalFrame {
 		panel.add(btnDeletar);
 
 		JLabel lblNewLabel_1 = new JLabel("* Preenchimento obrigatório para excluir o pedido");
-		lblNewLabel_1.setBounds(154, 13, 251, 14);
+		lblNewLabel_1.setBounds(154, 13, 320, 14);
 		panel.add(lblNewLabel_1);
 
 		JButton btnNewButton = new JButton("Relatórios");
@@ -225,7 +225,7 @@ public class ListarPedidos extends JInternalFrame {
 	protected void InputDialog2() {
 		frmPrincipal frame = new frmPrincipal();
 		try {
-			String[] options = { "Selecione uma opção", "Relatório Todos os Pedidos", "Relatório Pedidos por CPF",
+			String[] options = { "Selecione uma opção", "Relatório Todos os Pedidos","Relatório por Código do Pedido", "Relatório Pedidos por CPF",
 					"Relatório Pedidos por Nome", "Relatório Pedidos por Data", "Relatório Pedidos Entre Datas",
 					"Relatório Pedidos Opção de Pagamento" };
 			ImageIcon icon = new ImageIcon("src/icones/lupa.png");
@@ -238,10 +238,15 @@ public class ListarPedidos extends JInternalFrame {
 			case "Selecione uma opção":
 				JOptionPane.showMessageDialog(null, "Selecione uma opção válida!");
 				break;
-
+				
 			case "Relatório Todos os Pedidos":
 				System.out.println("Relatório Pedidos");
 				frame.relatorioPedido();
+				break;
+				
+			case "Relatório por Código do Pedido":
+				
+				frame.relatorioPedidoPorCodigo();
 				break;
 
 			case "Relatório Pedidos por CPF":
@@ -281,11 +286,12 @@ public class ListarPedidos extends JInternalFrame {
 		PedidoDao pedidoDao = new PedidoDao();
 		ArrayList<ListaPedido> listaPedido = new ArrayList<>();
 		DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy"); 
+		frmPrincipal frame1 = new frmPrincipal();
 		
 		try {
-			String[] options = { "Selecione uma opção", "Relatório Todos os Pedidos", "Relatório Pedidos por CPF",
-					"Relatório Pedidos por Nome", "Relatório Pedidos por Data", "Relatório Pedidos Entre Datas",
-					"Relatório Pedidos Opção de Pagamento" };
+			String[] options = { "Selecione uma opção", "Listar Todos os Pedidos","Listar Pedidos por Código", "Listar Pedidos por CPF",
+					"Listar Pedidos por Nome", "Listar Pedidos por Data", "Listar Pedidos Entre Datas",
+					"Listar Pedidos Opção de Pagamento" };
 			ImageIcon icon = new ImageIcon("src/icones/lupa.png");
 			String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Relatórios",
 					JOptionPane.QUESTION_MESSAGE, icon, options, options[0]);
@@ -297,16 +303,39 @@ public class ListarPedidos extends JInternalFrame {
 				JOptionPane.showMessageDialog(null, "Selecione uma opção válida!");
 				break;
 
-			case "Relatório Todos os Pedidos":
+			case "Listar Todos os Pedidos":
 				
 				if (model.getRowCount() != 0) {
 					model.setRowCount(0);
 				}
 				
 				listaPedido = pedidoDao.listarTodosPedidos();
+				
+				if (JOptionPane.showConfirmDialog(null, "Deseja emitir um relatório desta consulta?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					frame1.relatorioPedido();
+				}
+				
 				break;
 
-			case "Relatório Pedidos por CPF":
+			case "Listar Pedidos por Código":
+				
+				if (model.getRowCount() != 0) {
+					model.setRowCount(0);
+				}
+				
+				Integer cod_pedido = Integer.valueOf(JOptionPane.showInputDialog(null, "Digite o CPF"));
+				listaPedido = pedidoDao.listarPedidoPorCodigo(cod_pedido);
+				
+				if (JOptionPane.showConfirmDialog(null, "Deseja emitir um relatório desta consulta?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					frame1.relatorioPedidoPorCodigo();
+				}
+				
+				
+				break;	
+				
+			case "Listar Pedidos por CPF":
 				
 				if (model.getRowCount() != 0) {
 					model.setRowCount(0);
@@ -314,9 +343,16 @@ public class ListarPedidos extends JInternalFrame {
 				
 				String cpf = JOptionPane.showInputDialog(null, "Digite o CPF");
 				listaPedido = pedidoDao.listarPedidoPorCpfCliente(cpf);
+				
+				if (JOptionPane.showConfirmDialog(null, "Deseja emitir um relatório desta consulta?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					frame1.relatorioPedidoPorCpf();
+				}
+				
+				
 				break;
 				
-			case "Relatório Pedidos por Data":
+			case "Listar Pedidos por Data":
 				
 				if (model.getRowCount() != 0) {
 					model.setRowCount(0);
@@ -330,9 +366,16 @@ public class ListarPedidos extends JInternalFrame {
 				String dataBanco = String.valueOf(dataFormatada);
 				
 				listaPedido = pedidoDao.listarPedidoPorData(dataBanco);
+				
+				if (JOptionPane.showConfirmDialog(null, "Deseja emitir um relatório desta consulta?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					frame1.relatorioPedidoPorData();
+				}
+				
+				
 				break;
 
-			case "Relatório Pedidos Entre Datas":
+			case "Listar Pedidos Entre Datas":
 				
 				if (model.getRowCount() != 0) {
 					model.setRowCount(0);
@@ -347,25 +390,45 @@ public class ListarPedidos extends JInternalFrame {
 				String dataBanco2 = String.valueOf(dataFormatada2);
 				
 				listaPedido = pedidoDao.listarPedidoEntreDatas(dataBanco1, dataBanco2);
+				
+				if (JOptionPane.showConfirmDialog(null, "Deseja emitir um relatório desta consulta?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					frame1.relatorioPedidoEntreDatas();
+				}
+				
+				
 				break;
 
-			case "Relatório Pedidos por Nome":
+			case "Listar Pedidos por Nome":
 				
 				if (model.getRowCount() != 0) {
 					model.setRowCount(0);
 				}
 				
 				String nome = JOptionPane.showInputDialog("Insira o nome do cliente: ");
-				listaPedido = pedidoDao.listarPedidoPorNomeCliente(nome);				
+				listaPedido = pedidoDao.listarPedidoPorNomeCliente(nome);
+				
+				if (JOptionPane.showConfirmDialog(null, "Deseja emitir um relatório desta consulta?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					frame1.relatorioPedidoPorNome();
+				}
+				
+				
 				break;
 
-			case "Relatório Pedidos Opção de Pagamento":
+			case "Listar Pedidos Opção de Pagamento":
 				
 				if (model.getRowCount() != 0) {
 					model.setRowCount(0);
 				}
 				
 				listaPedido = InputDialog();
+				
+				if (JOptionPane.showConfirmDialog(null, "Deseja emitir um relatório desta consulta?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					frame1.relatorioPedidoOpcaoPagamento();
+				}
+				
 				
 				break;
 			}

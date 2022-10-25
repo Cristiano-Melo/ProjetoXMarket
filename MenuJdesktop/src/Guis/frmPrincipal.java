@@ -334,7 +334,7 @@ public class frmPrincipal extends JFrame {
 
 		try {
 			String[] options = { "Selecione uma opção", "Relatório Clientes", "Relatório Clientes por Nome",
-					"Relatório Clientes por CPF", "Relatório Produtos", "Relatório Pedidos",
+					"Relatório Clientes por CPF", "Relatório Produtos", "Relatório Pedidos","Relatório Pedidos por Código",
 					"Relatório Pedidos por CPF", "Relatório Pedidos por Nome", "Relatório Pedidos por Data",
 					"Relatório Pedidos Entre Datas", "Relatório Pedidos Opção de Pagamento" };
 			ImageIcon icon = new ImageIcon("src/icones/lupa.png");
@@ -366,9 +366,15 @@ public class frmPrincipal extends JFrame {
 				System.out.println("Relatório Produtos");
 				relatorioProduto();
 				break;
+				
 			case "Relatório Pedidos":
 				System.out.println("Relatório Pedidos");
 				relatorioPedido();
+				break;
+				
+			case "Relatório Código":
+				System.out.println("Relatório Clientes");
+				relatorioPedidoPorCodigo();
 				break;
 
 			case "Relatório Pedidos por CPF":
@@ -526,6 +532,43 @@ public class frmPrincipal extends JFrame {
 			String nome = JOptionPane.showInputDialog("Insira o nome do cliente: ");
 
 			arraypedido = pedidodao.listarPedidoPorNomeCliente(nome);
+
+			for (ListaPedido contador : arraypedido) {
+				ListaPedido pedido = new ListaPedido();
+
+				pedido.setCod_pedido(contador.getCod_pedido());
+				pedido.setData_pedido(contador.getData_pedido());
+				pedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
+				pedido.setTipo_pedido(contador.getTipo_pedido());
+				pedido.setNome_cliente(contador.getNome_cliente());
+				pedido.setCpf_cliente(contador.getCpf_cliente());
+				pedido.setNome_produto(contador.getNome_produto());
+				pedido.setQuantidade_item(contador.getQuantidade_item());
+				pedido.setPreco_total_item(contador.getPreco_total_item());
+				pedido.setValor_venda_produto(contador.getValor_venda_produto());
+
+				listaDePedidos.add(pedido);
+			}
+
+			relatorio.gerarRelatorio(listaDePedidos);
+
+		} catch (JRException e1) {
+			JOptionPane.showMessageDialog(null, e1);
+		}
+	}
+	
+	void relatorioPedidoPorCodigo() {
+		RelatorioPedidos relatorio = new RelatorioPedidos();
+
+		try {
+			PedidoDao pedidodao = new PedidoDao();
+			List<ListaPedido> listaDePedidos = new ArrayList<>();
+
+			ArrayList<ListaPedido> arraypedido = new ArrayList<>();
+
+			Integer codigo = Integer.valueOf(JOptionPane.showInputDialog("Insira o código do pedido: "));
+
+			arraypedido = pedidodao.listarPedidoPorCodigo(codigo);
 
 			for (ListaPedido contador : arraypedido) {
 				ListaPedido pedido = new ListaPedido();
