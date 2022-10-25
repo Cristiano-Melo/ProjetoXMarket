@@ -165,7 +165,7 @@
 			</textField>
 			<image>
 				<reportElement x="10" y="8" width="110" height="62" uuid="c4d1b0d7-359a-4ce4-a36f-1a51d25131c2"/>
-				<imageExpression><![CDATA["C:/Users/00787663/Desktop/ProjetoXMarket/MenuJdesktop/bin/Imagens/Capturar2log.PNG"]]></imageExpression>
+				<imageExpression><![CDATA["../bin/Imagens/Capturar2log.PNG"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement mode="Opaque" x="238" y="10" width="326" height="60" uuid="ac143dc5-fa21-43b9-b062-6097dcea06d0"/>

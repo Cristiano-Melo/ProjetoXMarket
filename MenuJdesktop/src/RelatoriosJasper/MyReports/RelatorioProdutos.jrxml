@@ -84,7 +84,7 @@ ON p.cod_marca_produto = m.cod_marca]]>
 			</staticText>
 			<image>
 				<reportElement x="10" y="10" width="100" height="61" uuid="4708a8f1-1329-45f5-908d-8cd8cc626b5e"/>
-				<imageExpression><![CDATA["C:/Users/00787663/Desktop/ProjetoXMarket/MenuJdesktop/src/Imagens/Capturar2log.PNG"]]></imageExpression>
+				<imageExpression><![CDATA["../bin/Imagens/Capturar2log.PNG"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="602" y="-2" width="100" height="20" uuid="9a424f29-390e-4d89-aafa-1f9cdb696c1a"/>
