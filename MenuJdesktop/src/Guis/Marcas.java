@@ -36,6 +36,7 @@ public class Marcas extends JInternalFrame {
 	private JTable tblMarcas;;
 
 	DefaultTableModel mdlMarcas;
+	Object[] row = new Object[2];
 
 	/**
 	 * Launch the application.
@@ -118,7 +119,7 @@ public class Marcas extends JInternalFrame {
 		mdlMarcas = new DefaultTableModel();
 
 		Object[] colunn = { "Código", "Descrição" };
-		Object[] row = new Object[2];
+
 		mdlMarcas.setColumnIdentifiers(colunn);
 		tblMarcas.setModel(mdlMarcas);
 		((DefaultTableModel) mdlMarcas).setRowCount(0);
@@ -145,6 +146,7 @@ public class Marcas extends JInternalFrame {
 					marcadao.inserirMarca(marca);
 					textCodigoMarca.setText("");
 					textDescricaoMarca.setText("");
+					montaGrid(marca);
 
 				} catch (Exception erroCadastroMarca) {
 					JOptionPane.showMessageDialog(null, erroCadastroMarca);
@@ -174,22 +176,8 @@ public class Marcas extends JInternalFrame {
 		JButton btnListarTudo = new JButton("Listar");
 		btnListarTudo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				montaGrid();
 
-				Marca marca = new Marca();
-				MarcaDao marcadao = new MarcaDao();
-
-				marcadao.listarTodasMarcas();
-				((DefaultTableModel) mdlMarcas).setRowCount(0);
-
-				ArrayList<Marca> listaDeMarcas = new ArrayList<>();
-				listaDeMarcas = marcadao.listarTodasMarcas();
-
-				for (Marca contador : listaDeMarcas) {
-					row[0] = contador.getCodigoMarca();
-					row[1] = contador.getDescricaoMarca();
-
-					mdlMarcas.addRow(row);
-				}
 			}
 		});
 		btnListarTudo.setBounds(348, 417, 119, 23);
@@ -292,6 +280,38 @@ public class Marcas extends JInternalFrame {
 		}
 
 		return (true);
+
+	}
+
+	public void montaGrid() {
+		Marca marca = new Marca();
+		MarcaDao marcadao = new MarcaDao();
+		
+		mdlMarcas.setRowCount(0);
+
+		marcadao.listarTodasMarcas();
+		((DefaultTableModel) mdlMarcas).setRowCount(0);
+
+		ArrayList<Marca> listaDeMarcas = new ArrayList<>();
+		listaDeMarcas = marcadao.listarTodasMarcas();
+
+		for (Marca contador : listaDeMarcas) {
+			row[0] = contador.getCodigoMarca();
+			row[1] = contador.getDescricaoMarca();
+
+			mdlMarcas.addRow(row);
+		}
+
+	}
+
+	public void montaGrid(Marca marca) {
+		
+		mdlMarcas.setRowCount(0);
+
+		row[0] = marca.getCodigoMarca();
+		row[1] = marca.getDescricaoMarca();
+
+		mdlMarcas.addRow(row);
 
 	}
 

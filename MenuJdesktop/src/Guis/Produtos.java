@@ -217,6 +217,7 @@ public class Produtos extends JInternalFrame {
 
 			}
 		});
+	
 
 		model = new DefaultTableModel();
 		Object[] colunn = { "Cod.", "Produto", "Quant.", "P.Compra", "P.Venda", "Cód.Marca", "Descrição" };

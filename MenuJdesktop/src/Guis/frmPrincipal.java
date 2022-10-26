@@ -4,13 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +35,7 @@ import Conexao.Dao.PedidoDao;
 import Conexao.Dao.ProdutoDao;
 import Models.Cliente;
 import Models.ListaPedido;
+import Models.Login;
 import Models.Produto;
 import Relatorios.ComprovanteFiscal;
 import Relatorios.RelatorioCliente;
@@ -44,22 +43,20 @@ import Relatorios.RelatorioPedidos;
 import Relatorios.RelatorioProdutos;
 import net.sf.jasperreports.engine.JRException;
 
-@SuppressWarnings("serial")
 public class frmPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private Clientes c;
 	private Produtos p;
 	private Pedidos pedidos;
-	private ListarPedidos lp;
+	//private ListarPedidos lp;
 	private Marcas m;
+	private Login login;
 	private Contatos con;
 	private JDesktopPane desktopPanePrincipal; // classe do painel deskttoppanel
 	protected AbstractButton textFieldCodCliente;
 	protected AbstractButton textFieldNomeCliente;
 	protected AbstractButton textFieldCpf;
-	
-	DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	ArrayList<Cliente> listacliente = new ArrayList<Cliente>();
 
@@ -315,8 +312,8 @@ public class frmPrincipal extends JFrame {
 		case "Consulta Clientes":
 			System.out.println("Consulta Clientes");
 			carregarClientes();
+
 			break;
-			
 		case "Consulta Produtos":
 			System.out.println("Consulta Produtos");
 			carregarProdutos();
@@ -324,8 +321,9 @@ public class frmPrincipal extends JFrame {
 
 		case "Consulta Pedidos":
 			System.out.println("Consulta Pedidos");
-			listarPedidos();
+	//		listarPedidos();
 			break;
+
 		}
 
 	}
@@ -334,7 +332,7 @@ public class frmPrincipal extends JFrame {
 
 		try {
 			String[] options = { "Selecione uma opção", "Relatório Clientes", "Relatório Clientes por Nome",
-					"Relatório Clientes por CPF", "Relatório Produtos", "Relatório Pedidos","Relatório Pedidos por Código",
+					"Relatório Clientes por CPF", "Relatório Produtos", "Relatório Pedidos",
 					"Relatório Pedidos por CPF", "Relatório Pedidos por Nome", "Relatório Pedidos por Data",
 					"Relatório Pedidos Entre Datas", "Relatório Pedidos Opção de Pagamento" };
 			ImageIcon icon = new ImageIcon("src/icones/lupa.png");
@@ -366,15 +364,9 @@ public class frmPrincipal extends JFrame {
 				System.out.println("Relatório Produtos");
 				relatorioProduto();
 				break;
-				
 			case "Relatório Pedidos":
 				System.out.println("Relatório Pedidos");
 				relatorioPedido();
-				break;
-				
-			case "Relatório Código":
-				System.out.println("Relatório Clientes");
-				relatorioPedidoPorCodigo();
 				break;
 
 			case "Relatório Pedidos por CPF":
@@ -414,10 +406,10 @@ public class frmPrincipal extends JFrame {
 		projetoGui();
 	}
 
-	void relatorioPedido() throws ParseException {
+	void relatorioPedido() {
 
 		RelatorioPedidos relatorio = new RelatorioPedidos();
-		
+
 		try {
 			PedidoDao pedidodao = new PedidoDao();
 			List<ListaPedido> listaDePedidos = new ArrayList<>();
@@ -429,8 +421,8 @@ public class frmPrincipal extends JFrame {
 			for (ListaPedido contador : arraypedido) {
 
 				ListaPedido pedido = new ListaPedido();
-				
-				pedido.setCod_pedido(contador.getCod_pedido());				
+
+				pedido.setCod_pedido(contador.getCod_pedido());
 				pedido.setData_pedido(contador.getData_pedido());
 				pedido.setCondicao_pagamento_pedido(contador.getCondicao_pagamento_pedido());
 				pedido.setTipo_pedido(contador.getTipo_pedido());
@@ -594,6 +586,7 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 
+
 	void relatorioPedidoPorCpf() {
 
 		RelatorioPedidos relatorio = new RelatorioPedidos();
@@ -640,17 +633,11 @@ public class frmPrincipal extends JFrame {
 			List<ListaPedido> listaDePedidos = new ArrayList<>();
 
 			ArrayList<ListaPedido> arraypedido = new ArrayList<>();
-			
-			String data1 = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'DD/MM/AAAA':");
-			LocalDate dataFormatada1 = LocalDate.parse(data1,formatoData);
-			String dataBanco1 = String.valueOf(dataFormatada1);
 
-			String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'DD/MM/AAAA':");
-			LocalDate dataFormatada2 = LocalDate.parse(data2,formatoData);
-			String dataBanco2 = String.valueOf(dataFormatada2);
+			String data = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'AAAA-MM-DD':");
+			String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'AAAA-MM-DD':");
 
-
-			arraypedido = pedidodao.listarPedidoEntreDatas(dataBanco1, dataBanco2);
+			arraypedido = pedidodao.listarPedidoEntreDatas(data, data2);
 
 			for (ListaPedido contador : arraypedido) {
 				ListaPedido pedido = new ListaPedido();
@@ -672,7 +659,7 @@ public class frmPrincipal extends JFrame {
 			relatorio.gerarRelatorio(listaDePedidos);
 
 		} catch (JRException e1) {
-			JOptionPane.showMessageDialog(null, "Tempo entre essas datas não possui nenhum pedido!");
+			JOptionPane.showMessageDialog(null, "Tempo entre essas datas não possui nada!");
 		}
 	}
 
@@ -684,12 +671,10 @@ public class frmPrincipal extends JFrame {
 			List<ListaPedido> listaDePedidos = new ArrayList<>();
 
 			ArrayList<ListaPedido> arraypedido = new ArrayList<>();
-			
-			String data = JOptionPane.showInputDialog("Insira a data no seguinte formato 'DD/MM/AAAA':");
-			LocalDate dataFormatada = LocalDate.parse(data,formatoData);
-			String dataBanco = String.valueOf(dataFormatada);
-			
-			arraypedido = pedidodao.listarPedidoPorData(dataBanco);
+
+			String data = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'AAAA-MM-DD':");
+
+			arraypedido = pedidodao.listarPedidoPorData(data);
 
 			for (ListaPedido contador : arraypedido) {
 				ListaPedido pedido = new ListaPedido();
@@ -711,7 +696,7 @@ public class frmPrincipal extends JFrame {
 			relatorio.gerarRelatorio(listaDePedidos);
 
 		} catch (JRException e1) {
-			JOptionPane.showMessageDialog(null, "Nenhum pedido da data solicitada");
+			JOptionPane.showMessageDialog(null, "Tempo entre essas datas não possui nada!");
 		}
 	}
 
@@ -970,15 +955,15 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 
-	void listarPedidos() {
-		if (lp == null || lp.isClosed()) {
-			lp = new ListarPedidos();
-			desktopPanePrincipal.add(lp);
-			Dimension tf = lp.getSize();// Metodo que centraliza no meio da tela a janela produtos
-			lp.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
-					(desktopPanePrincipal.getHeight() - tf.height) / 2);
-			lp.show();
-
-		}
-	}
+//	void listarPedidos() {
+//		if (lp == null || lp.isClosed()) {
+//			lp = new ListarPedidos();
+//			desktopPanePrincipal.add(lp);
+//			Dimension tf = lp.getSize();// Metodo que centraliza no meio da tela a janela produtos
+//			lp.setLocation((desktopPanePrincipal.getWidth() - tf.width) / 2,
+//					(desktopPanePrincipal.getHeight() - tf.height) / 2);
+//			lp.show();
+//
+//		}
+//	}
 }

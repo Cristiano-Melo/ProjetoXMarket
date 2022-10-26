@@ -6,7 +6,7 @@ import java.awt.Font;
 import java.beans.PropertyVetoException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -26,10 +26,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import Conexao.Dao.ClienteDao;
+import Conexao.Dao.MarcaDao;
 import Conexao.Dao.PedidoDao;
 import Conexao.Dao.ProdutoDao;
 import Models.Cliente;
 import Models.ItemPedido;
+import Models.ListaPedido;
+import Models.Marca;
 import Models.Pedido;
 import Models.Produto;
 
@@ -40,11 +43,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import java.awt.Component;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 @SuppressWarnings("serial")
 public class Pedidos extends JInternalFrame {
 	private JTextField textCPFCliente;
-	private JTextField textFieldNomeCliente;
+	private JTextField textNomeCliente;
 	private JTextField textSelCodProduto;
 	private JTable tblProdutosVenda;
 	private JTable tblProdutosSelecao;
@@ -59,6 +64,8 @@ public class Pedidos extends JInternalFrame {
 	DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
 	DefaultTableCellRenderer direita = new DefaultTableCellRenderer();
 	DefaultTableCellRenderer esquerda = new DefaultTableCellRenderer();
+	DefaultTableCellRenderer backgroundVerde = new DefaultTableCellRenderer();
+	DefaultTableCellRenderer fonteVermelha = new DefaultTableCellRenderer();
 
 	DefaultTableModel mdlProdutosVda, mdlProdutosSel;
 	private JTextField textCodCliente;
@@ -69,6 +76,11 @@ public class Pedidos extends JInternalFrame {
 	private JComboBox comboBoxCondicaoPagamento = new JComboBox();
 	JRadioButton rdbtnOrcamento = new JRadioButton("Orçamento");
 	JRadioButton rdbtnPedido = new JRadioButton("Pedido");
+	JComboBox cmbBoxOrcamento = new JComboBox();
+	JButton btnExcluiOrcamento = new JButton("Exclui Orçamento");
+
+	ProdutoDao produtodao = new ProdutoDao();
+	PedidoDao pedidodao = new PedidoDao();
 
 	/**
 	 * Launch the application.
@@ -100,6 +112,8 @@ public class Pedidos extends JInternalFrame {
 		centralizado.setHorizontalAlignment(SwingConstants.CENTER);
 		esquerda.setHorizontalAlignment(SwingConstants.LEFT);
 		direita.setHorizontalAlignment(SwingConstants.RIGHT);
+		backgroundVerde.setBackground(Color.GREEN);
+		fonteVermelha.setForeground(Color.RED);
 
 		setClosable(true);
 		setFrameIcon(new ImageIcon(Pedidos.class.getResource("/Icones/relatorio.png")));
@@ -131,12 +145,12 @@ public class Pedidos extends JInternalFrame {
 		panel.add(textCPFCliente);
 		textCPFCliente.setColumns(10);
 
-		textFieldNomeCliente = new JTextField();
-		textFieldNomeCliente.setEditable(false);
-		textFieldNomeCliente.setColumns(10);
-		textFieldNomeCliente.setBackground(new Color(225, 225, 225));
-		textFieldNomeCliente.setBounds(229, 41, 318, 20);
-		panel.add(textFieldNomeCliente);
+		textNomeCliente = new JTextField();
+		textNomeCliente.setEditable(false);
+		textNomeCliente.setColumns(10);
+		textNomeCliente.setBackground(new Color(225, 225, 225));
+		textNomeCliente.setBounds(229, 41, 318, 20);
+		panel.add(textNomeCliente);
 
 		textSelCodProduto = new JTextField();
 		textSelCodProduto.setEditable(false);
@@ -146,7 +160,7 @@ public class Pedidos extends JInternalFrame {
 		panel.add(textSelCodProduto);
 
 		comboBoxCondicaoPagamento
-				.setModel(new DefaultComboBoxModel(new String[] { "", "Dinheiro", "Pix", "Débito", "Credito" }));
+				.setModel(new DefaultComboBoxModel(new String[] { "", "Dinheiro", "Pix", "Débito", "Crédito" }));
 		comboBoxCondicaoPagamento.setBounds(179, 10, 94, 18);
 		panel.add(comboBoxCondicaoPagamento);
 
@@ -165,9 +179,28 @@ public class Pedidos extends JInternalFrame {
 		panel.add(scrollPane);
 
 		rdbtnPedido.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
+				int codigoPedido = Integer.parseInt(cmbBoxOrcamento.getSelectedItem().toString());
+				if (codigoPedido > 0) {
+					if (JOptionPane.showConfirmDialog(null, "Confirma geração do pedido a partir do Orçamento?", "SIM",
+							JOptionPane.YES_NO_OPTION) == 0) {
+						pedidodao.geraPedidoAtravesOrcamento(codigoPedido);
+						rdbtnOrcamento.setSelected(false);
+						rdbtnPedido.setSelected(true);
+					}
+					else {
+						rdbtnPedido.setSelected(false);
+						return;
+					}
+				}
+
+				
 				if (rdbtnPedido.isSelected()) {
+					cmbBoxOrcamento.removeAllItems();
 					rdbtnOrcamento.setSelected(false);
+					cmbBoxOrcamento.setVisible(false);
+
 				}
 				tipoPedido = "P";
 				pedido.setTipo_pedido(tipoPedido);
@@ -175,9 +208,18 @@ public class Pedidos extends JInternalFrame {
 			}
 		});
 
+		// ***************************************************************************************######################################################
+
 		rdbtnOrcamento.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
+				limpaCampos("O");
 				if (rdbtnOrcamento.isSelected()) {
+					cmbBoxOrcamento.setVisible(true);
+
+					// Carrega dados comboBox orçamentos
+					carregaComboBoxOrcamento();
+
 					rdbtnPedido.setSelected(false);
 				}
 				tipoPedido = "O";
@@ -205,9 +247,9 @@ public class Pedidos extends JInternalFrame {
 		});
 
 		mdlProdutosVda = new DefaultTableModel();
-		Object[] colunn = { "Cod.Prod.", "Des.Produto", "Quantidade", "Marca", "Des.Marca", "Vlr.Venda",
-				"Vlr.Tot.Item" };
-		Object[] row = new Object[7];
+		Object[] colunn = { "Cod.Prod.", "Des.Produto", "Quantidade", "Marca", "Des.Marca", "Vlr.Venda", "Vlr.Tot.Item",
+				"#" };
+		Object[] row = new Object[8];
 		mdlProdutosVda.setColumnIdentifiers(colunn);
 		tblProdutosVenda.setModel(mdlProdutosVda);
 		tblProdutosVenda.getColumnModel().getColumn(0).setMaxWidth(80);
@@ -217,8 +259,12 @@ public class Pedidos extends JInternalFrame {
 		tblProdutosVenda.getColumnModel().getColumn(4).setMaxWidth(400);
 		tblProdutosVenda.getColumnModel().getColumn(5).setMaxWidth(125);
 		tblProdutosVenda.getColumnModel().getColumn(6).setMaxWidth(140);
+		tblProdutosVenda.getColumnModel().getColumn(7).setMaxWidth(20);
+		tblProdutosVenda.getColumnModel().getColumn(7).setCellRenderer(centralizado);
 		tblProdutosVenda.getColumnModel().getColumn(5).setCellRenderer(direita);
 		tblProdutosVenda.getColumnModel().getColumn(6).setCellRenderer(direita);
+
+		// tblProdutosVenda.getColumnModel().getColumn(1).setCellRenderer(backgroundVerde);
 
 		JScrollBar scrollBar = new JScrollBar();
 		scrollPane.setRowHeaderView(scrollBar);
@@ -238,7 +284,8 @@ public class Pedidos extends JInternalFrame {
 				}
 
 				ArrayList<ItemPedido> listaItensPedido = new ArrayList<>();
-				PedidoDao pedidodao = new PedidoDao();
+				// PedidoDao pedidodao = new PedidoDao();
+
 				pedido.setData_pedido(LocalDate.now());
 				pedido.setClientes_cod_cliente(textCodCliente.getText());
 				pedido.setCondicao_pagamento_pedido(comboBoxCondicaoPagamento.getSelectedItem().toString());
@@ -256,17 +303,17 @@ public class Pedidos extends JInternalFrame {
 				}
 
 				pedidodao.inserirPedido(pedido, listaItensPedido);
-				
+
 				// Limpeza de todos os dados e variáveis após gravar o pedido
 				limpaCampos();
 
 				// Chamada de Cupom de Venda
-				frmPrincipal frame = new frmPrincipal();
-				Integer cod_pedido = pedidodao.listarUltimoPedido();
-				frame.relatorioComprovanteFiscal(cod_pedido);
+				if (pedido.getTipo_pedido().equals("P")) {
+					frmPrincipal frame = new frmPrincipal();
+					Integer cod_pedido = pedidodao.listarUltimoPedido();
+					frame.relatorioComprovanteFiscal(cod_pedido);
+				}
 
-				
-				
 			}
 		});
 		btnGravar.setBounds(258, 421, 89, 23);
@@ -275,17 +322,17 @@ public class Pedidos extends JInternalFrame {
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				limpaCampos();
 			}
 		});
 		btnLimpar.setBounds(381, 421, 89, 23);
 		panel.add(btnLimpar);
 
-		rdbtnPedido.setBounds(293, 7, 90, 23);
+		rdbtnPedido.setBounds(293, 7, 64, 23);
 		panel.add(rdbtnPedido);
 
-		rdbtnOrcamento.setBounds(385, 7, 109, 23);
+		rdbtnOrcamento.setBounds(359, 7, 98, 23);
 		panel.add(rdbtnOrcamento);
 
 		JLabel lblProduto = new JLabel("Nome Produto:");
@@ -348,12 +395,12 @@ public class Pedidos extends JInternalFrame {
 
 				for (Cliente contador : cliente) {
 					textCodCliente.setText(contador.getCod_cliente());
-					textFieldNomeCliente.setText(contador.getNome_cliente());
+					textNomeCliente.setText(contador.getNome_cliente());
 					textCPFCliente.setText(contador.getCpf_cliente());
 				}
 			}
 		});
-		btnPesquisaCliente.setBounds(679, 41, 37, 33);
+		btnPesquisaCliente.setBounds(672, 41, 26, 20);
 		panel.add(btnPesquisaCliente);
 
 		JButton btnInserir = new JButton("+");
@@ -361,7 +408,7 @@ public class Pedidos extends JInternalFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
-				PedidoDao pedidodao = new PedidoDao();
+				// PedidoDao pedidodao = new PedidoDao();
 
 				String itemSelecionado = textSelCodProduto.getText();
 				String qtdeSelecionada = textSelQtdItem.getText();
@@ -413,7 +460,7 @@ public class Pedidos extends JInternalFrame {
 
 				int qtdItem = Integer.parseInt(textSelQtdItem.getText());
 				// Double valorVenda = Double.parseDouble(textSelValorVenda.getText());
-				ProdutoDao produtodao = new ProdutoDao();
+				// ProdutoDao produtodao = new ProdutoDao();
 				Double valorVenda = Double.parseDouble(produtodao.buscaPrecoVenda(textSelCodProduto.getText()));
 				Double valorTotalItem = (qtdItem * valorVenda);
 
@@ -530,8 +577,15 @@ public class Pedidos extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				textSelQtdItem.setEditable(true);
 				int contador1 = tblProdutosSelecao.getSelectedRow();
+				int quantidadeItemDisponível = Integer.parseInt(mdlProdutosSel.getValueAt(contador1, 2).toString());
+
+				if (quantidadeItemDisponível <= 0) {
+					JOptionPane.showInternalMessageDialog(null, "Item com saldo zero no estoque.");
+					return;
+				}
+
+				textSelQtdItem.setEditable(true);
 				textSelCodProduto.setText(mdlProdutosSel.getValueAt(contador1, 0).toString());
 				textSelNomeProduto.setText(mdlProdutosSel.getValueAt(contador1, 1).toString());
 				textSelCodMarca.setText(mdlProdutosSel.getValueAt(contador1, 3).toString());
@@ -577,7 +631,7 @@ public class Pedidos extends JInternalFrame {
 		btnBuscaProdutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Produto();
-				ProdutoDao produtodao = new ProdutoDao();
+				// ProdutoDao produtodao = new ProdutoDao();
 
 				if (mdlProdutosSel.getRowCount() != 0) {
 					mdlProdutosSel.setRowCount(0);
@@ -604,6 +658,110 @@ public class Pedidos extends JInternalFrame {
 		});
 		btnBuscaProdutos.setBounds(23, 72, 136, 23);
 		panel.add(btnBuscaProdutos);
+		cmbBoxOrcamento.setVisible(false);
+		cmbBoxOrcamento.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				boolean mudancaPreco = false;
+				btnExcluiOrcamento.setVisible(false);
+
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+
+					String codigoPedido = cmbBoxOrcamento.getSelectedItem().toString();
+
+					if (!codigoPedido.equals("")) {
+						btnExcluiOrcamento.setVisible(true);
+
+						if (JOptionPane.showConfirmDialog(null, "Deseja recuperar Orçamento?", "SIM",
+								JOptionPane.YES_NO_OPTION) == 0) {
+
+							// PedidoDao pedidodao = new PedidoDao();
+
+							ArrayList<ListaPedido> Pedido = new ArrayList();
+							Pedido = pedidodao.listarPedidoPorCodigo(Integer.parseInt(codigoPedido));
+
+							int quantidadeTotalItens = 0;
+
+							for (ListaPedido pedido : Pedido) {
+
+								textCodCliente.setText(pedido.getCod_cliente());
+								textNomeCliente.setText(pedido.getNome_cliente());
+								textCPFCliente.setText(pedido.getCpf_cliente());
+
+								int qtdItem = Integer.parseInt(pedido.getQuantidade_item());
+
+								String valorVendaOrcamentoSt = pedido.getPreco_total_item().toString();
+
+								Double valorVendaOrcamento = (Double.parseDouble(valorVendaOrcamentoSt) / qtdItem);
+								Double valorTotalItem = (qtdItem * valorVendaOrcamento);
+
+								String codigoProduto = pedido.getCod_produto().toString();
+								Double precoVendaProduto = Double
+										.parseDouble(produtodao.buscaPrecoVenda(codigoProduto));
+
+//								System.out.println("Valor venda Orcamento: " + valorVendaOrcamento
+//										+ " Valor Venda Produto: " + precoVendaProduto);
+
+								// Verifica alteração do preço de venda
+
+								if ((valorVendaOrcamento - precoVendaProduto) != 0) {
+									row[7] = "*";
+									mudancaPreco = true;
+								//	System.out.println("Valor da operação: " + (valorVendaOrcamento - precoVendaProduto));
+								} else {
+									row[7] = "";
+								}
+
+								row[0] = pedido.getCod_produto();
+								row[1] = pedido.getNome_produto();
+								row[2] = qtdItem;
+								row[3] = pedido.getCod_marca();
+								row[4] = pedido.getDescricao_marca();
+								row[5] = FormataDecimal.duasCasas(valorVendaOrcamento.toString());
+								row[6] = FormataDecimal.duasCasas(String.valueOf(valorTotalItem));
+
+								valorTotalPedido += valorTotalItem;
+
+								textValorTotal.setText(FormataDecimal.duasCasas(String.valueOf(valorTotalPedido)));
+
+								mdlProdutosVda.addRow(row);
+
+								quantidadeTotalItens = mdlProdutosVda.getRowCount();
+
+								textQtdItens.setText(String.valueOf(quantidadeTotalItens));
+
+							}
+
+						}
+
+						if (mudancaPreco) {
+							JOptionPane.showMessageDialog(null,
+									"Preço de venda do produtos sinalizados com '*' foi alterado no cadastro. Verifique!");
+						}
+					}
+				}
+			}
+		});
+
+		cmbBoxOrcamento.setBounds(477, 10, 67, 18);
+		panel.add(cmbBoxOrcamento);
+
+		btnExcluiOrcamento.setVisible(false);
+		btnExcluiOrcamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String codigoPedido = cmbBoxOrcamento.getSelectedItem().toString();
+				if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão do Orçamento?", "SIM",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					if (pedidodao.excluirOrcamento(codigoPedido)) {
+						JOptionPane.showInternalMessageDialog(null, "Orçamento [" + codigoPedido + "] excluído.");
+					}
+				}
+
+			}
+		});
+		btnExcluiOrcamento.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnExcluiOrcamento.setMargin(new Insets(2, 3, 2, 3));
+		btnExcluiOrcamento.setBounds(588, 8, 128, 23);
+		panel.add(btnExcluiOrcamento);
 
 	}
 
@@ -636,11 +794,11 @@ public class Pedidos extends JInternalFrame {
 
 		return (true);
 	}
-	
+
 	void limpaCampos() {
-		
+
 		textCPFCliente.setText("");
-		textFieldNomeCliente.setText("");
+		textNomeCliente.setText("");
 		textQtdItens.setText("");
 		textValorTotal.setText("");
 		textSelCodProduto.setText("");
@@ -654,23 +812,59 @@ public class Pedidos extends JInternalFrame {
 		rdbtnPedido.setSelected(false);
 		textCodCliente.setText("");
 
-		comboBoxCondicaoPagamento.setModel(
-				new DefaultComboBoxModel(new String[] { "", "Dinheiro", "Pix", "Débito", "Credito" }));
+		cmbBoxOrcamento.setSelectedItem("");
+		comboBoxCondicaoPagamento.setSelectedItem("");
 
-		if (mdlProdutosSel.getRowCount() != 0) {
-			mdlProdutosSel.setRowCount(0);
+		mdlProdutosSel.setRowCount(0);
+		mdlProdutosVda.setRowCount(0);
+
+		valorTotalPedido = 0.0;
+
+	}
+
+	void limpaCampos(String PedidoOrcamento) {
+
+		if (PedidoOrcamento.equals("P")) {
+			rdbtnOrcamento.setSelected(false);
+		}
+		if (PedidoOrcamento.equals("O")) {
+			rdbtnPedido.setSelected(false);
 		}
 
-		if (mdlProdutosVda.getRowCount() != 0) {
-			mdlProdutosVda.setRowCount(0);
-		}
-		
-		valorTotalPedido=0.0;
-		
+		textCodCliente.setText("");
+		textCPFCliente.setText("");
+		textNomeCliente.setText("");
+		textQtdItens.setText("");
+		textValorTotal.setText("");
+		textSelCodProduto.setText("");
+		textSelQtdItem.setText("");
+		textSelNomeProduto.setText("");
+		textSelValorVenda.setText("");
+		textSelCodMarca.setText("");
+		textSelDesMarca.setText("");
+		comboBoxCondicaoPagamento.setSelectedIndex(-1);
+		comboBoxCondicaoPagamento.setSelectedItem("");
+
+		mdlProdutosSel.setRowCount(0);
+		mdlProdutosVda.setRowCount(0);
+
+		valorTotalPedido = 0.0;
+
 	}
 	
-	
+	public void carregaComboBoxOrcamento() {
+		pedidodao.listarTodosOrcamentos();
+
+		ArrayList<Integer> listaDeOrcamentos = new ArrayList<>();
+		listaDeOrcamentos = pedidodao.listarTodosOrcamentos();
+
+		cmbBoxOrcamento.removeAllItems();
+
+		cmbBoxOrcamento.addItem("");
+
+		for (Integer contador : listaDeOrcamentos) {
+			cmbBoxOrcamento.addItem(contador);
+		}
+
+	}
 }
-
-
-

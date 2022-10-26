@@ -1,11 +1,8 @@
 package Models;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 public class ListaPedido {
 	String cod_pedido;
-	Date data_pedido;
+	String data_pedido;
 	String condicao_pagamento_pedido;
 	String clientes_cod_cliente;
 	String tipo_pedido;
@@ -29,6 +26,11 @@ public class ListaPedido {
 	String cod_marca;
 	String descricao_marca;
 	
+	
+	String quantidade_item;
+	Double preco_total_item;
+	String cod_itens_pedido;
+	
 	public String getCod_marca() {
 		return cod_marca;
 	}
@@ -41,15 +43,15 @@ public class ListaPedido {
 	public void setDescricao_marca(String descricao_marca) {
 		this.descricao_marca = descricao_marca;
 	}
+	
+	
 	public String getQuantidade_produto() {
 		return quantidade_produto;
 	}
 	public void setQuantidade_produto(String quantidade_produto) {
 		this.quantidade_produto = quantidade_produto;
 	}
-	String quantidade_item;
-	Double preco_total_item;
-	String cod_itens_pedido;
+	
 	
 	
 	public String getCod_itens_pedido() {
@@ -130,10 +132,10 @@ public class ListaPedido {
 	public void setCod_pedido(String cod_pedido) {
 		this.cod_pedido = cod_pedido;
 	}
-	public Date getData_pedido() {
+	public String getData_pedido() {
 		return data_pedido;
 	}
-	public void setData_pedido(Date data_pedido) {
+	public void setData_pedido(String data_pedido) {
 		this.data_pedido = data_pedido;
 	}
 	public String getCondicao_pagamento_pedido() {
