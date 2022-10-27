@@ -1,6 +1,7 @@
 package Guis;
 
 import java.math.RoundingMode;
+
 import java.text.DecimalFormat;
 
 public class FormataDecimal {
@@ -13,6 +14,7 @@ public class FormataDecimal {
 		double valorRetorno = Double.parseDouble(numero);
 
 		return (formatoDecimal.format(valorRetorno));
+
 	}
 
 }

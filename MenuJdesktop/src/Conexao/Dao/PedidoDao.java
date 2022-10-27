@@ -1,12 +1,14 @@
 package Conexao.Dao;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 import Models.ItemPedido;
 import Models.ListaPedido;
+import Models.Marca;
 import Models.Pedido;
 
 public class PedidoDao {
@@ -113,7 +115,8 @@ public class PedidoDao {
 				ListaPedido pedidos = new ListaPedido();
 
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
+						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
 						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
@@ -151,7 +154,8 @@ public class PedidoDao {
 				ListaPedido pedidos = new ListaPedido();
 
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
+						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
 						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
@@ -187,10 +191,11 @@ public class PedidoDao {
 			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
 
 			while (conectabancodao.getResultSet().next()) {
-				ListaPedido pedidos = new ListaPedido();
+					ListaPedido pedidos = new ListaPedido();
 
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
+						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
 						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
@@ -230,7 +235,8 @@ public class PedidoDao {
 			while (conectabancodao.getResultSet().next()) {
 				ListaPedido pedidos = new ListaPedido();
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
+						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
 						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
@@ -270,7 +276,8 @@ public class PedidoDao {
 				ListaPedido pedidos = new ListaPedido();
 
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
+						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
 						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
@@ -308,7 +315,8 @@ public class PedidoDao {
 			while (conectabancodao.getResultSet().next()) {
 				ListaPedido pedidos = new ListaPedido();
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
-				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd").parse(conectabancodao.getResultSet().getString("data_pedido")));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
+						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
 						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
@@ -491,46 +499,136 @@ public class PedidoDao {
 
 	}
 
-	public boolean excluirOrcamento(String codigoPedido) {
+	public boolean alteraOrcamentoItens(String codigoOrcamentoBase, String codigoOrcamentoNovo) {
 
 		try {
-			
-			String query = "delete from itens_pedido where pedidos_cod_pedido=" + codigoPedido + ";";
+
+			String query = "delete from itens_pedido where pedidos_cod_pedido=" + codigoOrcamentoBase + ";";
 			System.out.println("Query deleta orçamentos(itens): [" + query + "]\n");
 			conectabancodao.getStatement().execute(query);
 
-			String query1 = "delete from pedidos where cod_pedido=" + codigoPedido + ";";
-			System.out.println("Query deleta orçamentos(pedidos): [" + query1 + "]\n");
+			String query1 = "update itens_pedido set pedidos_cod_pedido = '" + codigoOrcamentoBase
+					+ "' where pedidos_cod_pedido='" + codigoOrcamentoNovo + "';";
+			System.out.println("Query altera orçamentos(itens): [" + query1 + "]\n");
 			conectabancodao.getStatement().execute(query1);
 
 			return (true);
 		} catch (Exception e) {
-			JOptionPane.showInternalMessageDialog(null,
-					"Erro na exclusão do Orcamento [" + codigoPedido + "] Erro: [" + e.getMessage() + "]. Verifique!");
-					
+			JOptionPane.showInternalMessageDialog(null, "Erro Alteração ItensPedido [" + codigoOrcamentoBase
+					+ "] Erro: [" + e.getMessage() + "]. Verifique!");
+
 			return (false);
 		}
 
 	}
 	
-	public boolean geraPedidoAtravesOrcamento(int codigoPedido) {
+	public boolean alteraOrcamentoPedido(Pedido pedido, String codigoOrcamentoBase) {
 
 		try {
 
-			String query = "update pedidos set tipo_pedido='P' where cod_pedido=" + codigoPedido + ";";
+			String codPedido = pedido.getCod_pedido();
+			LocalDate dataPedido = pedido.getData_pedido();
+			String clientesCodCliente = pedido.getClientes_cod_cliente();
+			String condicaoPagamentoPedido = pedido.getCondicao_pagamento_pedido();
+			String tipoPedido = pedido.getTipo_pedido();
 
-			System.out.println("Query deleta orçamentos(pedidos): [" + query + "]\n");
+			System.out.println("At.Pedido codPedido: " + codPedido);
+			System.out.println("At.Pedido dataPedido: " + dataPedido);
+			System.out.println("At.Pedido clientesCodCliente: " + clientesCodCliente);
+			System.out.println("At.Pedido condicaoPagamentoPedido: " + condicaoPagamentoPedido);
+			System.out.println("At.Pedido tipoPedido: " + tipoPedido);
+
+			String query = "update pedidos set data_pedido='" + dataPedido + "', clientes_cod_cliente='"
+					+ clientesCodCliente + "',condicao_pagamento_pedido='" + condicaoPagamentoPedido + "',tipo_pedido='"
+					+ tipoPedido + "' where cod_pedido='" + codigoOrcamentoBase + "';";
+			System.out.println("Query update orçamentos(pedido): [" + query + "]\n");
+
 			conectabancodao.getStatement().execute(query);
-			
+
+			String query1 = "delete from pedidos where cod_pedido='" + codPedido + "';";
+			conectabancodao.getStatement().execute(query1);
+
 			return (true);
 		} catch (Exception e) {
 			JOptionPane.showInternalMessageDialog(null,
-					"Erro na geraçaõ do Pedido [" + codigoPedido + "] Erro: [" + e.getMessage() + "]. Verifique!");
+					"Erro atualização Pedido [" + codigoOrcamentoBase + "] Erro: [" + e.getMessage() + "]. Verifique!");
 
 			return (false);
 		}
 
 	}
 
+	// *************************************
+
+	public String buscaCodigoUltimoPedido() {
+
+		try {
+			String codigoPedido = "";
+			String query = "select max(cod_pedido) as codPedido from pedidos;";
+			System.out.println("Query buscaCodigoUltimoPedido: [" + query + "]\n");
+
+			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+
+			if (conectabancodao.getResultSet().next()) {
+				codigoPedido = (conectabancodao.getResultSet().getString("codPedido"));
+			}
+			return (codigoPedido);
+		} catch (Exception e) {
+			JOptionPane.showInternalMessageDialog(null, "Erro na pesquisa: [" + e.getMessage() + "]. Verifique!");
+
+			return ("");
+		}
+	}
+
+	public double buscaPrecoVendaItens(String codpedido, String itemPedido) {
+
+		try {
+			double precoVenda = 0.00;
+			String query = "select preco_total_item from itens_pedido where produtos_cod_produto='" + itemPedido
+					+ "' and pedidos_cod_pedido='" + codpedido + "';";
+
+			System.out.println("Query buscaPrecoVendaItens: [" + query + "]\n");
+
+			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
+
+			if (conectabancodao.getResultSet().next()) {
+				precoVenda = Double.parseDouble(conectabancodao.getResultSet().getString("preco_total_item"));
+			}
+
+			System.out.println("Dao-Código Pedido: " + codpedido);
+			System.out.println("Dao-Item Pedido: " + itemPedido);
+			System.out.println("Dao-precoVenda: " + precoVenda);
+
+			return (precoVenda);
+		} catch (Exception e) {
+			JOptionPane.showInternalMessageDialog(null,
+					"Erro na buscaPrecoVendaItens: [" + e.getMessage() + "]. Verifique!");
+
+			return (0.0);
+		}
+
+	}
+
+	public boolean excluirOrcamento(String codigoOrcamento) {
+
+		try {
+
+			String query = "delete from itens_pedido where pedidos_cod_pedido=" + codigoOrcamento + ";";
+			System.out.println("Query itens orçamento(itens): [" + query + "]\n");
+			conectabancodao.getStatement().execute(query);
+
+			String query1 = "delete from pedidos where cod_pedido=" + codigoOrcamento + ";";
+			System.out.println("Query deleta orçamento: [" + query1 + "]\n");
+			conectabancodao.getStatement().execute(query1);
+
+			return (true);
+		} catch (Exception e) {
+			JOptionPane.showInternalMessageDialog(null, "Erro na exclusão do Orcamento [" + codigoOrcamento
+					+ "] Erro: [" + e.getMessage() + "]. Verifique!");
+
+			return (false);
+		}
+
+	}
 
 }
