@@ -1,6 +1,5 @@
 package Guis;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -10,6 +9,8 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,6 @@ import Relatorios.RelatorioCliente;
 import Relatorios.RelatorioPedidos;
 import Relatorios.RelatorioProdutos;
 import net.sf.jasperreports.engine.JRException;
-//import br.com.jm.jframes.JFrameWithBackground;
 
 public class frmPrincipal extends JFrame {
 
@@ -61,6 +61,7 @@ public class frmPrincipal extends JFrame {
 	protected AbstractButton textFieldCpf;
 
 	ArrayList<Cliente> listacliente = new ArrayList<Cliente>();
+	DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	/**
 	 * Launch the application.
@@ -82,7 +83,7 @@ public class frmPrincipal extends JFrame {
 	void projetoGui() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(frmPrincipal.class.getResource("/Imagens/botao.PNG")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1037, 907);
+		setBounds(100, 100, 1043, 904);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -179,17 +180,7 @@ public class frmPrincipal extends JFrame {
 		mnNewMenu_4.setForeground(new Color(0, 0, 0));
 		mnNewMenu_4.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		menuBar.add(mnNewMenu_4);
-		
-		
-		
-		contentPane = new JPanel(new BorderLayout());
-//		JFrameWithBackground jFrame = new JFrameWithBackground("/Imagens/Teste.jpg");
-//        jFrame.setLayout(new BorderLayout());
-//        jFrame.getContentPane().add(jPanel3, BorderLayout.NORTH);
-//        jFrame.setVisible(true);
-		
-		
-		
+		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.inactiveCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -220,17 +211,17 @@ public class frmPrincipal extends JFrame {
 					.addContainerGap())
 		);
 
-		JLabel lblNewLabel = new JLabel("");
+		JLabel lblNewLabel = new JLabel("New label");
 		//lblNewLabel.setIcon(new ImageIcon("C:\\Users\\00787671\\Documents\\GitHub\\ProjetoXMarket-main\\MenuJdesktop\\src\\Imagens\\Teste.jpg"));
 		lblNewLabel.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Imagens/Teste.jpg")));
 		GroupLayout gl_desktopPanePrincipal = new GroupLayout(desktopPanePrincipal);
 		gl_desktopPanePrincipal.setHorizontalGroup(
 			gl_desktopPanePrincipal.createParallelGroup(Alignment.LEADING)
-				.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 1654, Short.MAX_VALUE)
+				.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 1039, Short.MAX_VALUE)
 		);
 		gl_desktopPanePrincipal.setVerticalGroup(
 			gl_desktopPanePrincipal.createParallelGroup(Alignment.LEADING)
-				.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
 		);
 		desktopPanePrincipal.setLayout(gl_desktopPanePrincipal);
 
@@ -340,13 +331,13 @@ public class frmPrincipal extends JFrame {
 
 	}
 
-	protected void InputDialog2() {
+	protected ArrayList<ListaPedido> InputDialog2() {
 
 		try {
 			String[] options = { "Selecione uma opção", "Relatório Clientes", "Relatório Clientes por Nome",
 					"Relatório Clientes por CPF", "Relatório Produtos", "Relatório Pedidos",
 					"Relatório Pedidos por CPF", "Relatório Pedidos por Nome", "Relatório Pedidos por Data",
-					"Relatório Pedidos Entre Datas", "Relatório Pedidos Opção de Pagamento" };
+					"Relatório Pedidos Entre Datas", "Relatório Pedidos Opção de Pagamento", "Relatório Pedido por Código" };
 			ImageIcon icon = new ImageIcon("src/icones/lupa.png");
 			String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Relatórios",
 					JOptionPane.QUESTION_MESSAGE, icon, options, options[0]);
@@ -380,29 +371,50 @@ public class frmPrincipal extends JFrame {
 				System.out.println("Relatório Pedidos");
 				relatorioPedido();
 				break;
+				
+			case "Relatório Pedido por Código":
+				Integer codigo = Integer.valueOf(JOptionPane.showInputDialog("Insira o código do pedido: "));
+				relatorioPedidoPorCodigo(codigo);
+				break;
 
 			case "Relatório Pedidos por CPF":
 				System.out.println();
-				relatorioPedidoPorCpf();
+				String cpf = JOptionPane.showInputDialog("Insira o cpf do cliente: ");
+				relatorioPedidoPorCpf(cpf);
 				break;
 
 			case "Relatório Pedidos por Data":
-				System.out.println("Relatório Pedidos por Data");
-				relatorioPedidoPorData();
+				System.out.println("Relatório Pedidos por Data");String data = JOptionPane.showInputDialog(null, "Insira a data no seguinte formato 'DD/MM/AAAA':");
+				
+				LocalDate dataFormatada = LocalDate.parse(data,formatoData);
+				
+				String dataBanco = String.valueOf(dataFormatada);
+				
+				relatorioPedidoPorData(dataBanco);
 				break;
 
 			case "Relatório Pedidos Entre Datas":
 				System.out.println("Relatório Pedidos Entre Datas");
-				relatorioPedidoEntreDatas();
+				
+				String data1 = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'DD/MM/AAAA':");
+				LocalDate dataFormatada1 = LocalDate.parse(data1,formatoData);
+				String dataBanco1 = String.valueOf(dataFormatada1);
+				
+				String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'DD/MM/AAAA':");
+				LocalDate dataFormatada2 = LocalDate.parse(data2,formatoData);
+				String dataBanco2 = String.valueOf(dataFormatada2);
+				relatorioPedidoEntreDatas(dataBanco1, dataBanco2);
 				break;
 
 			case "Relatório Pedidos por Nome":
 				System.out.println("Relatório Pedidos por Nome");
-				relatorioPedidoPorNome();
+				String nome = JOptionPane.showInputDialog("Insira o nome do cliente: ");
+				relatorioPedidoPorNome(nome);
 				break;
 
 			case "Relatório Pedidos Opção de Pagamento":
 				System.out.println("Relatório Pedidos Opção de Pagamento");
+				
 				relatorioPedidoOpcaoPagamento();
 				break;
 			}
@@ -410,10 +422,12 @@ public class frmPrincipal extends JFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Opção não pode estar vazia!");
 		}
+		return null;
 	}
 
 	public frmPrincipal() {
 		setTitle("PDV - XMarket");
+		setResizable(false);
 		projetoGui();
 	}
 
@@ -479,7 +493,6 @@ public class frmPrincipal extends JFrame {
 					break;
 
 				case "Dinheiro":
-
 					listaDePedidos = pedidodao.listarPedidoPorCondicaoPagamento(opcao);
 					trata = true;
 					break;
@@ -488,10 +501,12 @@ public class frmPrincipal extends JFrame {
 					listaDePedidos = pedidodao.listarPedidoPorCondicaoPagamento(opcao);
 					trata = true;
 					break;
+					
 				case "Débito":
 					listaDePedidos = pedidodao.listarPedidoPorCondicaoPagamento(opcao);
 					trata = true;
 					break;
+					
 				case "Credito":
 					listaDePedidos = pedidodao.listarPedidoPorCondicaoPagamento(opcao);
 					trata = true;
@@ -523,7 +538,7 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 
-	void relatorioPedidoPorNome() {
+	void relatorioPedidoPorNome(String nome) {
 		RelatorioPedidos relatorio = new RelatorioPedidos();
 
 		try {
@@ -531,8 +546,6 @@ public class frmPrincipal extends JFrame {
 			List<ListaPedido> listaDePedidos = new ArrayList<>();
 
 			ArrayList<ListaPedido> arraypedido = new ArrayList<>();
-
-			String nome = JOptionPane.showInputDialog("Insira o nome do cliente: ");
 
 			arraypedido = pedidodao.listarPedidoPorNomeCliente(nome);
 
@@ -560,7 +573,7 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 	
-	void relatorioPedidoPorCodigo() {
+	void relatorioPedidoPorCodigo(Integer codigo) {
 		RelatorioPedidos relatorio = new RelatorioPedidos();
 
 		try {
@@ -569,7 +582,7 @@ public class frmPrincipal extends JFrame {
 
 			ArrayList<ListaPedido> arraypedido = new ArrayList<>();
 
-			Integer codigo = Integer.valueOf(JOptionPane.showInputDialog("Insira o código do pedido: "));
+			
 
 			arraypedido = pedidodao.listarPedidoPorCodigo(codigo);
 
@@ -598,7 +611,7 @@ public class frmPrincipal extends JFrame {
 	}
 
 
-	void relatorioPedidoPorCpf() {
+	void relatorioPedidoPorCpf(String cpf) {
 
 		RelatorioPedidos relatorio = new RelatorioPedidos();
 
@@ -607,8 +620,6 @@ public class frmPrincipal extends JFrame {
 			List<ListaPedido> listaDePedidos = new ArrayList<>();
 
 			ArrayList<ListaPedido> arraypedido = new ArrayList<>();
-
-			String cpf = JOptionPane.showInputDialog("Insira o cpf do cliente: ");
 
 			arraypedido = pedidodao.listarPedidoPorCpfCliente(cpf);
 
@@ -636,7 +647,7 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 
-	void relatorioPedidoEntreDatas() {
+	void relatorioPedidoEntreDatas(String data1, String data2) {
 		RelatorioPedidos relatorio = new RelatorioPedidos();
 
 		try {
@@ -645,10 +656,7 @@ public class frmPrincipal extends JFrame {
 
 			ArrayList<ListaPedido> arraypedido = new ArrayList<>();
 
-			String data = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'AAAA-MM-DD':");
-			String data2 = JOptionPane.showInputDialog("Insira a segunda data no seguinte formato 'AAAA-MM-DD':");
-
-			arraypedido = pedidodao.listarPedidoEntreDatas(data, data2);
+			arraypedido = pedidodao.listarPedidoEntreDatas(data1, data2);
 
 			for (ListaPedido contador : arraypedido) {
 				ListaPedido pedido = new ListaPedido();
@@ -674,7 +682,7 @@ public class frmPrincipal extends JFrame {
 		}
 	}
 
-	void relatorioPedidoPorData() {
+	void relatorioPedidoPorData(String data) {
 		RelatorioPedidos relatorio = new RelatorioPedidos();
 
 		try {
@@ -682,8 +690,6 @@ public class frmPrincipal extends JFrame {
 			List<ListaPedido> listaDePedidos = new ArrayList<>();
 
 			ArrayList<ListaPedido> arraypedido = new ArrayList<>();
-
-			String data = JOptionPane.showInputDialog("Insira a primeira data no seguinte formato 'AAAA-MM-DD':");
 
 			arraypedido = pedidodao.listarPedidoPorData(data);
 
