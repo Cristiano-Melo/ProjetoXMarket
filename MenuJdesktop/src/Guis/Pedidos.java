@@ -302,11 +302,12 @@ public class Pedidos extends JInternalFrame {
 				}
 
 				pedidodao.inserirPedido(pedido, listaItensPedido);
-				
-				String codPedido=pedidodao.buscaCodigoUltimoPedido();
-				
-				if(pedido.getTipo_pedido().equals("O")) {
-					JOptionPane.showInternalMessageDialog(null, "Orçamento ["+codPedido+"] cadastrado/alterado com sucesso!");
+
+				String codPedido = pedidodao.buscaCodigoUltimoPedido();
+
+				if (pedido.getTipo_pedido().equals("O")) {
+					JOptionPane.showInternalMessageDialog(null,
+							"Orçamento [" + codPedido + "] cadastrado/alterado com sucesso!");
 				}
 
 				// Deleta orçamento
@@ -316,7 +317,7 @@ public class Pedidos extends JInternalFrame {
 					pedidodao.alteraOrcamentoItens(codigoOrcamentoBase, ultimoPedido);
 					pedido.setCod_pedido(ultimoPedido);
 					pedidodao.alteraOrcamentoPedido(pedido, codigoOrcamentoBase);
-											
+
 					if (mdlProdutosVda.getRowCount() == 0) {
 						pedidodao.excluirOrcamento(codigoOrcamentoBase);
 						JOptionPane.showInternalMessageDialog(null,
@@ -433,7 +434,7 @@ public class Pedidos extends JInternalFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
-				System.out.println("Tipo do pedido: "+pedido.getTipo_pedido());
+				System.out.println("Tipo do pedido: " + pedido.getTipo_pedido());
 
 				String itemSelecionado = textSelCodProduto.getText();
 				String qtdeSelecionada = textSelQtdItem.getText();
@@ -485,7 +486,7 @@ public class Pedidos extends JInternalFrame {
 
 				int qtdItem = Integer.parseInt(textSelQtdItem.getText());
 				// Double valorVenda = Double.parseDouble(textSelValorVenda.getText());
-				// ProdutoDao produtodao = new ProdutoDao();
+				ProdutoDao produtodao = new ProdutoDao();
 				Double valorVenda = Double.parseDouble(produtodao.buscaPrecoVenda(textSelCodProduto.getText()));
 				Double valorTotalItem = (qtdItem * valorVenda);
 
@@ -537,11 +538,13 @@ public class Pedidos extends JInternalFrame {
 					return;
 				}
 
+				int qtdItem = Integer.parseInt(textSelQtdItem.getText());
+				Double valorVenda = Double.parseDouble(produtodao.buscaPrecoVenda(textSelCodProduto.getText()));
 				for (int i = 0; i < nrolinhas; i++) {
 					if ((mdlProdutosVda.getValueAt(i, 0).toString()).equals(itemSelecionado)) {
-						Double vlrVenda = pedidodao.buscaPrecoVendaItens(cmbBoxOrcamento.getSelectedItem().toString(),
-								itemSelecionado);
-						valorTotalPedido -= vlrVenda;
+						valorTotalPedido -= valorVenda * qtdItem;
+						textValorTotal.setText(FormataDecimal.duasCasas(String.valueOf(valorTotalPedido)));
+						System.out.println(valorTotalPedido);
 						mdlProdutosVda.removeRow(i);
 						break;
 					}

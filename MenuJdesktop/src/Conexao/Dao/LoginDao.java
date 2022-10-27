@@ -9,7 +9,7 @@ public class LoginDao {
 
 	private ConectaBancoDao conectabancodao = new ConectaBancoDao();
 
-	public void logar(Login login) {
+	public Boolean logar(Login login) {
 
 		String query = "select * from login where usuario = '" + login.getUsuario() + "' and senha = '"
 				+ login.getSenha() + "'"; // Query para conectar no banco de dados e trazer o usuário e senha caso encontre no banco
@@ -23,10 +23,12 @@ public class LoginDao {
 				JOptionPane.showMessageDialog(null,"Seja Bem vindo");
 				frmPrincipal principal = new frmPrincipal();
 				principal.setVisible(true);
+				return false;
 
 			} else { // caso falso retorna erro de usuário ou senha inválido
 
 				JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos");
+
 			}
 
 		} catch (Exception e) {
@@ -34,7 +36,7 @@ public class LoginDao {
 			JOptionPane.showMessageDialog(null, e);
 
 		}
-
+		return true;
 	}
 
 }

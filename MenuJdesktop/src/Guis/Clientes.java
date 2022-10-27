@@ -266,8 +266,9 @@ public class Clientes extends JInternalFrame {
 
 					clienteDao.inserirCliente(cliente);
 					
+					
 					ArrayList<Cliente> listaDeClientes = new ArrayList<>();
-					listaDeClientes = clientedao.listarTodosClientes();
+					listaDeClientes = clienteDao.listarClientePorNome(cliente.getNome_cliente());
 					limpaCamposGrid();
 					montaGrid(listaDeClientes);
 
@@ -354,7 +355,7 @@ public class Clientes extends JInternalFrame {
                     return;
                 }
 
-				ClienteDao clientedao = new ClienteDao();
+				ClienteDao clienteDao = new ClienteDao();
 				Cliente cliente = new Cliente();
 				cliente.setCod_cliente(textFieldCodCliente.getText());
 				cliente.setNome_cliente(textFieldNome.getText());
@@ -370,9 +371,9 @@ public class Clientes extends JInternalFrame {
 
 				if (JOptionPane.showConfirmDialog(null, "Confirma atualização do cadastro?",
 						"SIM", JOptionPane.YES_NO_OPTION) == 0) {
-					clientedao.alterarClientePorId(cliente);
+					clienteDao.alterarClientePorId(cliente);
 					ArrayList<Cliente> listaDeClientes = new ArrayList<>();
-					listaDeClientes = clientedao.listarTodosClientes();
+					listaDeClientes = clienteDao.listarClientePorNome(cliente.getNome_cliente());
 					limpaCamposGrid();
 					montaGrid(listaDeClientes);
 				}

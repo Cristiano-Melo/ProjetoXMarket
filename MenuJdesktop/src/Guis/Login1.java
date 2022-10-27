@@ -88,14 +88,18 @@ public class Login1 extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+
 				LoginDao loginDao = new LoginDao();
 				Login login = new Login();
 				login.setUsuario(textFieldCampoUsuario.getText());
 				login.setSenha(passwordField.getText());
 				
-				loginDao.logar(login);
+				Boolean fechaTela = loginDao.logar(login);
 				
-
+				if(!fechaTela) {
+				 dispose();
+				}
+				
 			}
 		});
 		btnNewButton.setFont(new Font("Arial", btnNewButton.getFont().getStyle(), btnNewButton.getFont().getSize() + 2));
