@@ -206,7 +206,7 @@ public class Pedidos extends JInternalFrame {
 				}
 				tipoPedido = "P";
 				pedido.setTipo_pedido(tipoPedido);
-				tipoPedido = "";
+//				tipoPedido = "";
 			}
 		});
 
@@ -224,7 +224,7 @@ public class Pedidos extends JInternalFrame {
 				}
 				tipoPedido = "O";
 				pedido.setTipo_pedido(tipoPedido);
-				tipoPedido = "";
+//				tipoPedido = "";
 			}
 		});
 
@@ -406,7 +406,7 @@ public class Pedidos extends JInternalFrame {
 		textCodCliente.setBounds(608, 41, 46, 20);
 		panel.add(textCodCliente);
 
-		JButton btnPesquisaCliente = new JButton("...");
+		JButton btnPesquisaCliente = new JButton("");
 		btnPesquisaCliente.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnPesquisaCliente.setIcon(
 				new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Icones\\lupa.png"));
@@ -426,7 +426,7 @@ public class Pedidos extends JInternalFrame {
 				}
 			}
 		});
-		btnPesquisaCliente.setBounds(672, 41, 44, 20);
+		btnPesquisaCliente.setBounds(672, 41, 31, 30);
 		panel.add(btnPesquisaCliente);
 
 		JButton btnInserir = new JButton("+");
