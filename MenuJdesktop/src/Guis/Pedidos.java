@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.beans.PropertyVetoException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -26,13 +25,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import Conexao.Dao.ClienteDao;
-import Conexao.Dao.MarcaDao;
 import Conexao.Dao.PedidoDao;
 import Conexao.Dao.ProdutoDao;
 import Models.Cliente;
 import Models.ItemPedido;
 import Models.ListaPedido;
-import Models.Marca;
 import Models.Pedido;
 import Models.Produto;
 
@@ -206,7 +203,7 @@ public class Pedidos extends JInternalFrame {
 				}
 				tipoPedido = "P";
 				pedido.setTipo_pedido(tipoPedido);
-//				tipoPedido = "";
+				tipoPedido = "";
 			}
 		});
 
@@ -224,7 +221,7 @@ public class Pedidos extends JInternalFrame {
 				}
 				tipoPedido = "O";
 				pedido.setTipo_pedido(tipoPedido);
-//				tipoPedido = "";
+				tipoPedido = "";
 			}
 		});
 
