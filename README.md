@@ -170,11 +170,6 @@ Opção para geração de consulta impressa. São diversas opções para atender
 
 Desenvolvido por: <br>
 
-- [x] André Augusto Xavier de Miranda
-- [x] Agnaldo Machado
-- [x] Cristiano Daniel Nascimento de Melo 
-- [x] Weslley J. Leles
-
 🔹 André Augusto Xavier de Miranda 👋 [Get in touch](https://github.com/MIR4NDINH4)<br>
 🔹 Agnaldo Machado 👋 [Get in touch](https://github.com/AgnaldoMachado)<br>
 🔹 Cristiano Daniel Nascimento de Melo 👋 [Get in touch](https://github.com/Cristiano-Melo)<br>
