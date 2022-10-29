@@ -1,6 +1,6 @@
 <div>
   <img src="https://user-images.githubusercontent.com/90655270/161388302-145d58d6-723a-4dc1-97e7-80133dfa4c3a.png" width="100px">
-  <img src=["https://drive.google.com/file/d/1fdJ7YgEwnUTicbgYwQj08-ZO8nlX4Ft8/view?usp=sharing"](https://imgcloud.com.br/share/itx5knNeKvwePM9k) width="100px">
+  <img src="https://drive.google.com/file/d/1fdJ7YgEwnUTicbgYwQj08-ZO8nlX4Ft8/view?usp=sharing">
 </div>
 
 <h1 align="center">Xmarket</h1>
