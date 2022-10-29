@@ -1,69 +1,51 @@
 <div>
   <img src="https://user-images.githubusercontent.com/90655270/161388302-145d58d6-723a-4dc1-97e7-80133dfa4c3a.png" width="100px">
-  <img src="https://ginastico.com.br/wp-content/uploads/2022/09/patrocinadores_ARAUJO-768x768.png" width="100px">
+  <img src="https://drive.google.com/file/d/1fdJ7YgEwnUTicbgYwQj08-ZO8nlX4Ft8/view?usp=sharing" width="100px">
 </div>
 
 <h1 align="center">Xmarket</h1>
 
 <p align="center">
-This project provides a API for exchanging books and experiences.
-</p>
-<p align="center"><a href="https://insomnia.rest/run/?label=RodaApi&uri=https%3A%2F%2Fraw.githubusercontent.com%2FNeryVictor%2FNeryVictor%2Fmain%2FRodaInsomniaButton%3Ftoken%3DGHSAT0AAAAAABWLGETIQRERM3IFI3VEMGDIY2J77LA" target="_blank"><img src="https://insomnia.rest/images/run.svg" alt="Run in Insomnia"></a>
-</p>
 
-✨ Client
+A empresa XMarket lançou um novo serviço de vendas online de produtos e deseja gerar relatórios de testes de unidade relacionados a parte de cadastro de Clientes.
+O desafio consiste em construir na linguagem Java a parte operacional da aplicação . Após isso, a equipe deverá executar, no mínimo, dois testes estruturais demonstrando a estabilidade, segurança e confiabilidade desse cadastro.
+
+✨ Sistema
 ===============
 
-An API that allows users to register, exchange and review books.<br>
-And also the creation of groups to exchange literary experiences.
+O sistema foi desenvolvido em Java e seus componentes gráficos criados através do GUI WindowBuilder, um banco de dados relacional foi criado através do MySQL. Os relatórios foram todos desenvolvidos através do Jasper Reports.
 
-🏗️ Back-end authors
+🏗️ Desenvolvedores
 =================
 
-- [x] Cristiano Daniel Nascimento 
-- [x] Daniel Antunes Pereira 
-- [x] Giovana Paula Donzella 
-- [x] Leonardo Maia Prado  
-- [x] Reygis Azevedo
-- [x] Victor César Nery 
+- [x] André Augusto Xavier de Miranda
+- [x] Agnaldo Machado
+- [x] Cristiano Daniel Nascimento de Melo 
+- [x] Weslley J. Leles
 
-🏗️ Front-end authors
-=================
+Manual do Usuário: 
+https://drive.google.com/file/d/1Do23JUCu7TydSuCpNaSqobHPlCttbyfi/view?usp=sharing
 
-- [x] Andrei Alcantara
-
-Deploy:  https://roda-lovat.vercel.app<br>
-Repository: https://github.com/dreialcantara/Roda-Front
-
-🏗️ Product Designers authors
-=================
-
-- [x] Laíza Mariano
-- [x] Mariane Souza
-- [x] Weslley Pinheiro
-
-Documentation: 
-https://available-dugout-b61.notion.site/Roda-Plataforma-Social-de-Leitura-c0efc9bc1300455991555f81286de6a8
-
-📝 Features Created
+📝 Features
 =====================
-* Login (JWT Authentication)
-* Users CRUD
-* Book CRUD
-* Review CRUD
-* Group CRUD
-* Deploy API Heroku
+* Login
+* Clientes CRUD
+* Produtos CRUD
+* Marcas CRUD
+* Pedidos CRUD
+* Integração com API dos correios para autopreenchimento do CEP.
+* Validação de CPF.
 
-🚀 Techs
+🚀 Tecnologias
 =================
 
 <table>
 <tr>
-<td>mysql2</td>
-<td>node</td>
-<td>express</td>
-<td>typeorm</td>
-<td>typeorm-extension</td>
+<td>Java 17</td>
+<td>Eclipse IDE</td>
+<td>Window Builder</td>
+<td>MySQL Server</td>
+<td>Jasper Reports</td>
 <td>bcrypt</td>
 <td>jsonwebtoken</td>
 <td>class-validator</td>
@@ -71,44 +53,32 @@ https://available-dugout-b61.notion.site/Roda-Plataforma-Social-de-Leitura-c0efc
 </tr>
 </table>
 
-## Local Project
+## Projeto Local
 
-To run this project locally, you'll need Git, Node and MySQL installed on your computer. 
+Para executar o projeto localmente, você precisará do Git, Eclipse ( ou outra IDE compatível) e o MySQL instalado em seu computador.
 
-After cloning project, remember to insert your local database credentials into /.env.
+Acesse seu MySQL e crie um database com o seguinte Script:
+
+https://drive.google.com/file/d/1G-kym_S7yMAz70DYHaDiwgAL2w_uupC7/view?usp=sharing
+
+Depois de clonar o projeto, será necessário editar o arquivo de conexão com o banco de dados, no caminho ../MenuJdesktop/src/Conexao/Dao/ConectaBancoDao.java e inserir os dados de conexão ( caminho do servidor na linha 19, usuário na linha 20 e senha na linha 21)
 
 ```bash
-# Clone this repository
-$ git clone https://github.com/Reygis/Roda-api
+# Clone este repositório
+$ https://github.com/Cristiano-Melo/ProjetoXMarket
 
-# Go into the repository
-$ cd Roda-api
 
-# Install dependencies
-$ npm install
-
-# Create database
-$ npm db:create
-
-# Run migrations
-$ npm migration:run
-
-# Add seeds
-$ npm seed
-
-# Run server
-$ npm run dev
-
-# running on port 3030
-```
-
-📇 API documentation
+📇 Manual do Usuário
 =================
 
-#### Create User
+#### Acesso ao Sistema
 
 ```http
-  POST http://roda-api.herokuapp.com/user
+  O acesso ao sistema
+
+
+Ao executar o atalho para acesso ao sistema, será apresentada a tela, conforme imagem acima. Para acesso é necessário ter um usuário e senha previamente registrados no sistema. 
+
 ```
 
 Json example:
