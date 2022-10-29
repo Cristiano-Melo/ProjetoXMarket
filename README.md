@@ -74,9 +74,8 @@ $ https://github.com/Cristiano-Melo/ProjetoXMarket
 #### Acesso ao Sistema
 
 ```http
-  O acesso ao sistema
-
-
+O acesso ao sistema <br>
+  <img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/e2857cec8366803c5fb991814ea01ce1985d695e/Imagens/Login.png">
 Ao executar o atalho para acesso ao sistema, será apresentada a tela, conforme imagem acima. Para acesso é necessário ter um usuário e senha previamente registrados no sistema. 
 
 ```
