@@ -68,171 +68,114 @@ $ https://github.com/Cristiano-Melo/ProjetoXMarket
 📇 Manual do Usuário
 =================
 
-#### Acesso ao Sistema
-
-```O acesso ao sistema
-  <img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/e2857cec8366803c5fb991814ea01ce1985d695e/Imagens/Login.png">
-Ao executar o atalho para acesso ao sistema, será apresentada a tela, conforme imagem acima. Para acesso é necessário ter um usuário e senha previamente registrados no sistema. 
-
-```
-
-Json example:
-
-```
-{
-    "name":"User Test", 
-    "email": "testuser@roda.com.br",
-    "password": "123456", 
-    "bio": "Hi Im User!", 
-    "imgurl": "https://urlimg.com.br" 
-}  
-```
-
 #### Login
 
-```http
-  POST http://roda-api.herokuapp.com/login
-```
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/e2857cec8366803c5fb991814ea01ce1985d695e/Imagens/Login.png">
+Ao executar o atalho para acesso ao sistema, será apresentada a tela, conforme imagem acima. Para acesso é necessário ter um usuário e senha previamente registrados no sistema. <br><br>
 
-Json example:
+#### Etapas do Sistema
 
-```
-{
-  "email": "testuser@roda.com.br",
-  "password": "123456"
-}  
-```
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/57839bf4f9b2d3c9e147e347b88103f2d0bc8cf0/Imagens/TelaInicial.png">
 
-#### Logged user profile 
+Assim que usuário e senha forem validados será apresentada esta tela com todas as opções disponíveis no sistema. Basta selecionar a opção e executar cada uma das operações conforme relatado a seguir.
 
-```http
-  GET http://roda-api.herokuapp.com/login/profile
-```
+#### Marcas
 
-#### Edit logged user
+Menu: Processsos, Marca
 
-```http
-  PUT http://roda-api.herokuapp.com/user/edit
-```
+Esta opção faz manutenção no cadastro das Marcas. Ter uma Marca cadastrada é pré requisto para fazer o cadastro de um produto no sistema. 
 
-Json example:
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/57839bf4f9b2d3c9e147e347b88103f2d0bc8cf0/Imagens/Marca.jpeg">
 
-```
-{
-  "name":"Test User Edit",
-  "email": "testuseredit@roda.com.br",
-  "bio": "Hi Im User Edited!",
-  "imgurl": "https://urlimgedited.com.br"
-}
-```
+#### Clientes
 
-#### List all users 
+Opção destinada à manutenção na base de clientes utilizada nas rotinas do sistema. O cadastro de clientes é básico para o processo de venda, assim como para emissão do relatório de clientes e de vendas.
 
-```http
-  GET http://roda-api.herokuapp.com/user/alluser
-```
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/57839bf4f9b2d3c9e147e347b88103f2d0bc8cf0/Imagens/Clientes.png">
 
-#### Search users by name
 
-```http
-  GET http://roda-api.herokuapp.com/user/:name
+<b>Funcionalidade dos botões</b>
 
-| Parameter | Type       | Descrição                                   |
-| `name`    | `string`   | Put user name to search |
-```
+<b>Gravar: </b> o acionamento deste botão faz a validação dos dados inseridos nos campos existentes na tela, e estando de acordo com os critérios definidos o cliente é inserido na base de dados. Após esta inserção o novo cadastro é apresentado no grid da tela, demonstrando a inclusão do mesmo no sistema.
 
-#### Create Book
+<b> Alterar: </b> realiza a alteração no cadastro do cliente. É necessário selecionar o cliente a ser alterado no grid da tela, para então realizar as alterações no cadastro. As mesmas validações realizadas para o cadastro são realizadas para a alteração. Após confirmação da alteração o registro é apresentado no grid da tela apresentando as alterações realizadas.
 
-```http
-  POST http://roda-api.herokuapp.com/book/create
-```
+<b> Deletar: </b> realiza a exclusão do cadastro da base de dados do sistema. É necessário selecionar o cliente a ser excluído no grid da tela, para então realizar a exclusão do mesmo.
 
-Json example:
+<b> Limpar: </b> faz a limpeza de todas as informações apresentadas na tela. 
 
-```
-{  
-	"isbnstring":"8532511015"
-}
+<b> Lupa Pesquisa: </b> ao clicar na Lupa será aberta uma tela para seleção do tipo de consulta, se todos os clientes ou pesquisa por Nome, CPF ou se Todos os clientes. com algum trecho do nome a pesquisa é realizada. Em todos os casos os registros são apresentados no grid da tela.
 
-```
 
-#### List all books
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/d4b06e9b4c298c15caebe0c1386519d3dd506c6d/Imagens/Clientes%20Table.png">
 
-```http
-  GET http://roda-api.herokuapp.com/book/allbooks
-```
 
-#### Search books by name
+#### Produtos
 
-```http
-  GET http://roda-api.herokuapp.com/user/:name
+Opção destinada à manutenção do cadastro de produtos controlados pelo sistema. O cadastro dos produtos é básico para emissão do comprovante de vendas e relatórios de estoque e vendas.
 
-| Parameter | Type       | Descrição                                   |
-| `name`    | `string`   | Put book name to search |
-```
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/d4b06e9b4c298c15caebe0c1386519d3dd506c6d/Imagens/Produto.jpeg">
 
-#### List users books
+<b>Funcionalidade dos botões</b>
 
-```http
-  GET http://roda-api.herokuapp.com/book/mybooks
-```
+<b>Gravar:</b> o acionamento deste botão faz a validação dos dados inseridos nos campos existentes na tela, e estando de acordo com os critérios definidos o produto é inserido na base de dados. Após esta inserção o novo cadastro é apresentado no grid da tela, demonstrando a inclusão do mesmo no sistema.
 
-#### Create Book Review
+<b>Alterar:</b> realiza a alteração no cadastro do produto. É necessário selecionar o cliente a ser alterado no grid da tela, para então realizar as alterações no cadastro. As mesmas validações realizadas para o cadastro são realizadas para a alteração. Após confirmação da alteração o registro é apresentado no grid da tela apresentando as alterações realizadas.
 
-```http
-  POST http://roda-api.herokuapp.com/review/create/:idbook
-```
+<b>Deletar:</b>  realiza a exclusão do cadastro da base de dados do sistema. É necessário selecionar o produto a ser excluído no grid da tela, para então realizar a exclusão do mesmo.
 
-Json example:
+<b>Limpar:</b> faz a limpeza de todas as informações apresentadas na tela.
 
-```
-{
-    "content": "This book is very...",
-    "rating": "4",
-    "tags": "Fantasy"
-}  
-```
+<b>Lupa Pesquisa:</b> ao clicar na Lupa será aberta uma tela para seleção do tipo de consulta, se todos os produtos ou pesquisa por Nome, com algum trecho do nome a pesquisa é realizada. Em ambos os casos os registros são apresentados no grid da tela.
 
-#### Create Group
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/07786985195c3502afa2e5d69cc8bc7d41ce0412/Imagens/Produtos%20Table.png">
 
-```http
-  POST http://roda-api.herokuapp.com/group/create
-```
+#### Pedidos
 
-Json example:
+Opção para confecção de orçamentos e pedidos de venda. É possível gerar um Orçamento ou um Pedido. Sendo que:  o orçamento pode ser gerado como uma “pesquisa” para posteriormente ser transformado em Pedido. Enquanto Orçamento este pode sofrer manutenção em qualquer informação passível de manutenção, como por exemplo: confição de pagamento, cliente, produtos, etc. Para efetuar esta manutenção é necessário selecionar a opção Orçamento e então será apresentao um Combo Box com os orçamentos existentes, basta selecionar um deles para manutenção e/ou transforma-lo em um pedido, gerando assim a venda.
 
-```
-{
-    "name": "Test Group",
-    "about": "4",
-    "discussion": "Fantasy",
-    "books": "Name Book Test"
-}  
-```
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/07786985195c3502afa2e5d69cc8bc7d41ce0412/Imagens/Pedido.jpeg">
 
-#### List all groups
+<b>Funcionalidade dos botões</b>
 
-```http
-    GET http://roda-api.herokuapp.com/group/allgroups
-```
+<b>Excluir Orçamento:</b> este botão só estará visível na tela quando a opção de Orçamento estiver selecionada e existir orçamento 'em aberto'. Dai ao ser acionado o orçamento apresentado é excluído da base de dados.
 
-#### List all groups by logged user
+“...”: através deste botão é feita a seleção do cliente para o Orçamento/Pedido
 
-```http
-    GET http://roda-api.herokuapp.com/group/mygroups
-```
+<b>Pesquisar Produtos:</b> realiza a pesquisa dos produtos por qualquer parte do nome. Os produtos que atendem aos critérios da pesquisa são apresentados no grid superior da tela para que então possam ser selecionados para a composição do orçamento/pedido.
 
-Made by <br>
+<b>“+”:</b> Ao clicar em determinado produto no grid, na parte superior da tela, o produto é selecionado; dai basta informar a quantidade desejada no campo “Quantidade”, e o acionamento deste botão inclui o produto no grid na parte inferior da tela.
 
-🔹 Cristiano Daniel Nascimento 👋 [Get in touch](https://github.com/Cristiano-Melo)<br>
-🔹 Daniel Antunes Pereira Junior 👋 [Get in touch](https://github.com/DanielAntunes-dev)<br>
-🔹 Giovana Paula Donzella 👋 [Get in touch](https://github.com/ale11011971)<br>
-🔹 Leonardo Maia Garcia 👋 [Get in touch](https://github.com/LeoMPG)<br>
-🔹 Reygis Azevedo 👋 [Get in touch](https://github.com/Reygis)<br>
-🔹 Victor Nery 👋 [Get in touch](https://github.com/NeryVictor)<br>
+<b>“-”:</b> Ao posicionar em determinado produto no grid, na parte inferior da tela, o produto é selecionado; dai basta acionar este  que o produto será excluído do grid da parte inferior da tela.
 
-🔸 Andrei Alcantara 👋 [Get in touch](https://github.com/dreialcantara)<br>
+<b>Gravar:</b> faz o registro no sistema do orçamento/pedido que foi montado na tela.
 
-🔹 Laíza Mariano 👋 [Get in touch](https://www.linkedin.com/in/la%C3%ADzamariano/)<br>
-🔹 Mariane Souza 👋 [Get in touch](https://www.linkedin.com/in/mariane-souza-42576b65/)<br>
-🔹 Weslley Pinheiro 👋 [Get in touch](https://www.linkedin.com/in/weslley-pinheiro-8751251a6/)
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/0f04410e4b90b9a4e5e706e2317fb481ee0f5ffe/Imagens/Pedidos%20Table.png">
+
+<b>Limpar:</b> faz a limpeza de todas as informações apresentadas na tela.
+
+#### Consultas
+
+Opção para consultas em telas dos temas,  conforme imagem abaixo, onde apresenta as consultas disponíveis. Elas possuem filtro atendendo à condição de cada uma.
+
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/a655465be6ce207a2f5346552551d39c8ed93f3c/Imagens/Tela%20Consultas.png">
+
+
+#### Relatórios
+
+Opção para geração de consulta impressa. São diversas opções para atender a cada necessidade de forma específica.Todas elas possuem filtros que atendem às diversas necessidades.
+
+<img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/a655465be6ce207a2f5346552551d39c8ed93f3c/Imagens/Tela%20Relatorios.png">
+
+
+Desenvolvido por: <br>
+
+- [x] André Augusto Xavier de Miranda
+- [x] Agnaldo Machado
+- [x] Cristiano Daniel Nascimento de Melo 
+- [x] Weslley J. Leles
+
+🔹 André Augusto Xavier de Miranda 👋 [Get in touch](https://github.com/MIR4NDINH4)<br>
+🔹 Agnaldo Machado 👋 [Get in touch](https://github.com/AgnaldoMachado)<br>
+🔹 Cristiano Daniel Nascimento de Melo 👋 [Get in touch](https://github.com/Cristiano-Melo)<br>
+🔹 Weslley J. Leles 👋 [Get in touch](https://github.com/weslleyjleles)<br>
