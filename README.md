@@ -1,9 +1,9 @@
 <div>
   <img src="https://user-images.githubusercontent.com/90655270/161388302-145d58d6-723a-4dc1-97e7-80133dfa4c3a.png" width="100px">
-  <img alt="Stack Hacker" src="https://img.shields.io/static/v1?label=stack&message=hacker&color=success&labelColor=grey">
+  <img src="https://ginastico.com.br/wp-content/uploads/2022/09/patrocinadores_ARAUJO-768x768.png" width="100px">
 </div>
 
-<h1 align="center">Roda</h1>
+<h1 align="center">Xmarket</h1>
 
 <p align="center">
 This project provides a API for exchanging books and experiences.
