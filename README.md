@@ -1,5 +1,5 @@
 <div>
-  <img src="https://user-images.githubusercontent.com/90655270/161388302-145d58d6-723a-4dc1-97e7-80133dfa4c3a.png" width="100px">
+  <img src="https://user-images.githubusercontent.com/90655270/161388302-145d58d6-723a-4dc1-97e7-80133dfa4c3a.png" width="100px"> <br>
   <img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/3136b8804702be3dd38a70b81eded0c661dd5a91/Imagens/araujo.png" width="100px">
 </div>
 
