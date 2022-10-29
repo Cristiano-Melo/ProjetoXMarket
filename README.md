@@ -1,6 +1,6 @@
 <div>
-  <img src="https://user-images.githubusercontent.com/90655270/161388302-145d58d6-723a-4dc1-97e7-80133dfa4c3a.png" width="100px">
-  <img src="https://drive.google.com/file/d/1fdJ7YgEwnUTicbgYwQj08-ZO8nlX4Ft8/view?usp=sharing">
+  <img src="https://user-images.githubusercontent.com/90655270/161388302-145d58d6-723a-4dc1-97e7-80133dfa4c3a.png" width="100px"> <br>
+  <img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/3136b8804702be3dd38a70b81eded0c661dd5a91/Imagens/araujo.png" width="100px">
 </div>
 
 <h1 align="center">Xmarket</h1>
@@ -46,10 +46,6 @@ https://drive.google.com/file/d/1Do23JUCu7TydSuCpNaSqobHPlCttbyfi/view?usp=shari
 <td>Window Builder</td>
 <td>MySQL Server</td>
 <td>Jasper Reports</td>
-<td>bcrypt</td>
-<td>jsonwebtoken</td>
-<td>class-validator</td>
-<td>reflect-metadata</td>
 </tr>
 </table>
 
@@ -66,6 +62,7 @@ Depois de clonar o projeto, será necessário editar o arquivo de conexão com o
 ```bash
 # Clone este repositório
 $ https://github.com/Cristiano-Melo/ProjetoXMarket
+```
 
 
 📇 Manual do Usuário
@@ -73,10 +70,8 @@ $ https://github.com/Cristiano-Melo/ProjetoXMarket
 
 #### Acesso ao Sistema
 
-```http
-  O acesso ao sistema
-
-
+```O acesso ao sistema
+  <img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/e2857cec8366803c5fb991814ea01ce1985d695e/Imagens/Login.png">
 Ao executar o atalho para acesso ao sistema, será apresentada a tela, conforme imagem acima. Para acesso é necessário ter um usuário e senha previamente registrados no sistema. 
 
 ```
