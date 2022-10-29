@@ -1,6 +1,6 @@
 <div>
   <img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/3136b8804702be3dd38a70b81eded0c661dd5a91/Imagens/araujo.png" width="100px"> 
-  <img src="https://user-images.githubusercontent.com/90655270/161388302-145d58d6-723a-4dc1-97e7-80133dfa4c3a.png" width="100px" align=right>
+  <img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/dfe26a62f0d311397f2d359aca91c5cfa08b29c4/Imagens/Gama.png" width="100px" align=right>
 </div>
 
 <h1 align="center"><font color="#0000FF">X</font><font color="#000099">Market</font></h1>
