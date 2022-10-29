@@ -66,6 +66,7 @@ Depois de clonar o projeto, será necessário editar o arquivo de conexão com o
 ```bash
 # Clone este repositório
 $ https://github.com/Cristiano-Melo/ProjetoXMarket
+```
 
 
 📇 Manual do Usuário
