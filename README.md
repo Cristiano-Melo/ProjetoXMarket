@@ -3,7 +3,7 @@
   <img src="https://github.com/Cristiano-Melo/ProjetoXMarket/blob/3136b8804702be3dd38a70b81eded0c661dd5a91/Imagens/araujo.png" width="100px">
 </div>
 
-<h1 align="center">Xmarket</h1>
+<h1 align="center"><font color="#0000FF">X</font><font color="#000099">Market</font></h1>
 
 <p align="center">
 
