@@ -307,7 +307,9 @@ public class frmPrincipal extends JFrame {
 		ImageIcon icon = new ImageIcon("src/icones/lupa.png");
 		String n = (String) JOptionPane.showInputDialog(null, "Selecione Opção Desejada", "Consultas",
 				JOptionPane.QUESTION_MESSAGE, icon, options, options[3]);
-		System.out.println(n);
+		if(n==null) {
+			return;
+		}
 
 		String opcao = n;
 		switch (opcao) {
@@ -420,7 +422,7 @@ public class frmPrincipal extends JFrame {
 			}
 
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Opção não pode estar vazia!");
+			JOptionPane.showMessageDialog(null, "Operação cancelada!");
 		}
 		return null;
 	}

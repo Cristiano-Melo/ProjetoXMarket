@@ -406,7 +406,7 @@ public class Pedidos extends JInternalFrame {
 		JButton btnPesquisaCliente = new JButton("");
 		btnPesquisaCliente.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnPesquisaCliente.setIcon(
-				new ImageIcon("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Icones\\lupa.png"));
+				new ImageIcon(Pedidos.class.getResource("/Icones/lupa.png")));
 		btnPesquisaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 

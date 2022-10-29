@@ -82,7 +82,7 @@ public class Clientes extends JInternalFrame {
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Clientes");
-		lblNewLabel.setForeground(SystemColor.textHighlight);
+		lblNewLabel.setForeground(Color.RED);
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 24));
 		lblNewLabel.setBounds(318, 0, 132, 51);
 		getContentPane().add(lblNewLabel);
