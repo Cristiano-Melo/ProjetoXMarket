@@ -23,9 +23,6 @@ O sistema foi desenvolvido em Java e seus componentes gráficos criados através
 - [x] Cristiano Daniel Nascimento de Melo 
 - [x] Weslley J. Leles
 
-Manual do Usuário: 
-https://drive.google.com/file/d/1Do23JUCu7TydSuCpNaSqobHPlCttbyfi/view?usp=sharing
-
 📝 Features
 =====================
 * Login
@@ -67,6 +64,8 @@ $ https://github.com/Cristiano-Melo/ProjetoXMarket
 
 📇 Manual do Usuário
 =================
+
+https://drive.google.com/file/d/1Do23JUCu7TydSuCpNaSqobHPlCttbyfi/view?usp=sharing
 
 #### Login
 
