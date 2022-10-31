@@ -1,6 +1,7 @@
 package Guis;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -9,6 +10,7 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -294,6 +296,19 @@ public class frmPrincipal extends JFrame {
 		toolBar.add(btnContatos);
 
 		JButton btnAjuda = new JButton("Ajuda");
+		btnAjuda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				File pdf = new File("C:\\Users\\00787663\\Desktop\\ProjetoXMarket\\MenuJdesktop\\src\\Docs\\ManualDeApoio.pdf");
+				try {
+				  Desktop.getDesktop().open(pdf);
+				} catch(Exception ex) {
+				  ex.printStackTrace();
+				  JOptionPane.showMessageDialog(null, "Erro no Desktop: " + ex);
+				}
+				
+			}
+		});
 		btnAjuda.setBackground(new Color(255, 255, 255));
 		btnAjuda.setIcon(new ImageIcon(frmPrincipal.class.getResource("/Icones/chamada-de-ajuda.png")));
 		btnAjuda.setFont(new Font("Tahoma", Font.BOLD, 14));
