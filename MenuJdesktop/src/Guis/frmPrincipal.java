@@ -754,7 +754,8 @@ public class frmPrincipal extends JFrame {
 				produto.setValor_compra_produto(contador.getValor_compra_produto());
 				produto.setValor_venda_produto(contador.getValor_venda_produto());
 				produto.setDescricao_produto(contador.getDescricao_produto());
-				produto.setCod_marca_produto(contador.getCod_marca_produto());
+				produto.setCod_marca(contador.getCod_marca());
+				produto.setNome_marca(contador.getNome_marca());
 
 				System.out.println(produto.getCod_produto());
 				System.out.println(produto.getNome_produto());

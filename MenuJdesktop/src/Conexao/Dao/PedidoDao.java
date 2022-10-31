@@ -317,8 +317,6 @@ public class PedidoDao {
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
 				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
 						.parse(conectabancodao.getResultSet().getString("data_pedido")));
-				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
-						.parse(conectabancodao.getResultSet().getString("data_pedido")));
 				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
 				pedidos.setCondicao_pagamento_pedido(
 						conectabancodao.getResultSet().getString("condicao_pagamento_pedido"));
@@ -358,7 +356,6 @@ public class PedidoDao {
 				ListaPedido pedidos = new ListaPedido();
 				pedidos.setCod_pedido(conectabancodao.getResultSet().getString("cod_pedido"));
 				pedidos.setCod_cliente(conectabancodao.getResultSet().getString("cod_cliente"));
-				;
 				pedidos.setCpf_cliente(conectabancodao.getResultSet().getString("cpf_cliente"));
 				pedidos.setNome_cliente(conectabancodao.getResultSet().getString("nome_cliente"));
 				pedidos.setEndereco_cliente(conectabancodao.getResultSet().getString("endereco_cliente"));
@@ -377,6 +374,10 @@ public class PedidoDao {
 				pedidos.setCod_produto(conectabancodao.getResultSet().getString("cod_produto"));
 				pedidos.setCod_marca(conectabancodao.getResultSet().getString("cod_marca"));
 				pedidos.setDescricao_marca(conectabancodao.getResultSet().getString("nome_marca"));
+				pedidos.setData_pedido(new SimpleDateFormat("yyyy-MM-dd")
+						.parse(conectabancodao.getResultSet().getString("data_pedido")));
+				pedidos.setTipo_pedido(conectabancodao.getResultSet().getString("tipo_pedido"));
+				pedidos.setClientes_cod_cliente(conectabancodao.getResultSet().getString("clientes_cod_cliente"));
 
 				listaDePedidos.add(pedidos);
 

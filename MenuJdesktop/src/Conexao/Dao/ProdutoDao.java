@@ -34,7 +34,7 @@ public class ProdutoDao {
 		ArrayList<Produto> listaDeProdutos = new ArrayList<>();
 
 		try {
-			String query = "select * from produtos;";
+			String query = "select * from produtos join marcas where cod_marca_produto = cod_marca;";
 
 			conectabancodao.setResultset(conectabancodao.getStatement().executeQuery(query));
 
@@ -46,13 +46,10 @@ public class ProdutoDao {
 				produto.setNome_produto(conectabancodao.getResultSet().getString("nome_produto"));
 				produto.setQuantidade_produto(conectabancodao.getResultSet().getString("quantidade_produto"));
 				produto.setValor_compra_produto(conectabancodao.getResultSet().getString("valor_compra_produto"));
-//				String valorCompra= FormataDecimal.duasCasas(conectabancodao.getResultSet().getString("valor_compra_produto"));
-//				produto.setValor_compra_produto(valorCompra);
-//				String valorVenda = FormataDecimal.duasCasas(conectabancodao.getResultSet().getString("valor_venda_produto"));
-//				produto.setValor_venda_produto(valorVenda);
 				produto.setValor_venda_produto(conectabancodao.getResultSet().getString("valor_venda_produto"));
 				produto.setDescricao_produto(conectabancodao.getResultSet().getString("descricao_produto"));
-				produto.setCod_marca_produto(conectabancodao.getResultSet().getString("cod_marca_produto"));
+				produto.setCod_marca(conectabancodao.getResultSet().getString("cod_marca"));
+				produto.setNome_marca(conectabancodao.getResultSet().getString("nome_marca"));
 
 				listaDeProdutos.add(produto);
 			}
